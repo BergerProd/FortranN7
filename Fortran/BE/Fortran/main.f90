@@ -39,19 +39,19 @@ END SELECT
 
 CALL solution_analytique()
 CALL affichage_sortie()
-!formater affichage à l'écran
-! est ce qu'on ferait pas uniquement si on utilise la chute libre on affiche les solutions_analytiques ?
-! centraliser l'affichage_sortie pour afficher tout dans cette subroutine ?
-!revoir les variables globales puisque certaines ne doivent pas être utilisées ?
-! est ce qu'on ne ferait pas paramétrisation alpha comme une subroutine pour l'appeler à part ?
-! afficher parmetrisation alpha uniquement lorsque Chute_Libre !Parametrisation_Alpha ********* mettre pour méthode 2 aussi ?
-! faire sortir v_x et v_z ?
-! faire la conversion d'alpha ailleurs que dans sortie ?
-! subroutine initialisation avec :
+!TODO formater affichage à l'écran
+!TODO est ce qu'on ferait pas uniquement si on utilise la chute libre on affiche les solutions_analytiques ?
+!TODO  centraliser l'affichage_sortie pour afficher tout dans cette subroutine ?
+!TODO revoir les variables globales puisque certaines ne doivent pas être utilisées ?
+!TODO  est ce qu'on ne ferait pas paramétrisation alpha comme une subroutine pour l'appeler à part ?
+!TODO afficher parmetrisation alpha uniquement lorsque Chute_Libre !Parametrisation_Alpha ********* mettre pour méthode 2 aussi ?
+!TODO faire sortir v_x et v_z ?
+!TODO faire la conversion d'alpha ailleurs que dans sortie ?
+!TODO subroutine initialisation avec :
 !y(1,1) = 0.d0 !x(1)
 !y(2,1) = alt_init !z(1)
 !f_zero = 0.7d0*masse*g !calcul de la force
 !alpha = (4.d0*datan(1.d0)/180)*alpha ! conversion de alpha en radian
-
+!TODO faire paramétrisation alpha pour cas propulse
 DEALLOCATE(t,x_analt,z_analt,y,portee,tl,alpha_grad)
 END PROGRAM main
