@@ -1,0 +1,12 @@
+PROGRAM MonPremier
+IMPLICIT NONE
+
+REAL			    :: Pi=3.1415927
+CHARACTER(LEN=40) 	:: titre="Voici le nombre Pi     : "
+
+
+PRINT*,titre,Pi
+PRINT*,"ou bien Pi  = ",Pi
+
+PRINT*,"Fin normale du programme / Normal end of execution"
+END PROGRAM MonPremier

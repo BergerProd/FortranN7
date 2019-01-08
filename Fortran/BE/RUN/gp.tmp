@@ -1,0 +1,2 @@
+plot 'BE_Euler_Propulsé_npt_10000.out' using 3:4 with lines
+pause -1 "return to quit"

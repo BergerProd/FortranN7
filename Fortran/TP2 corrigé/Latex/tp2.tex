@@ -1,0 +1,146 @@
+\documentclass[12pt]{article}
+\usepackage[french]{babel}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{graphics}
+
+\newcommand{\dsp}{\displaystyle}
+ 
+
+\hoffset=-20mm
+\voffset=-4cm
+\topmargin=10mm
+\headheight=10mm
+\headsep=15mm
+\textheight=240mm
+\oddsidemargin=15mm
+\evensidemargin=15mm
+\textwidth=170mm
+\pagestyle{plain}
+
+
+
+ 
+ 
+%   DEFINITIONS
+
+\newcommand{\ins}[1]{\texttt{#1}}
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%                    DEBUT DU DOCUMENT
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{center}
+ {\bf TP d'informatique\\
+ Première année apprentissage, mécanique des fluides
+ }
+ 
+{ \Large Makefile, utilisations de modules et de librairie  }
+
+\end{center} 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+Il s'agit d'écrire un programme en utilisant différentes méthodes pour gérer les procédures (sous-programme) 
+et fonctions, en passant les paramètres comme argument ou en utitlisant des variables globales ou 
+en créant une librairie.
+
+Pour les 1h45, tout ne sera pas accompli, il faudra donc apprendre par l'exemple,  téléchargeant la correction
+et en l'étudiant.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tâches du programme}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Le programme doit faire les tâches suivantes, dans l'ordre, mais avec un menu composé de 4 items :
+
+\begin{enumerate}
+	\item Ecrire un sous-programme qui génére un fichier \ins{entree.txt} de m lignes et n colonnes 
+		de nombres aléatoires entre 0 et 1.
+		
+	\item Ecrire un sous-programme qui génére un fichier, la première colonne est $x\in[0,4 \pi]$,
+		la seconde colonne est $\cos(x)$, la troisième $\sin(x)$, la quatrième $\exp(x)$. 
+		On prendra par exemple $npt=201$ points (paramétrable).
+
+		Utiliser un format de sortie
+
+	\item Ecrire un sous-programme qui lit un fichier \ins{entree.txt} contenant $m$ lignes et $n$ colonnes
+	\item Ecrire un sous-programme qui écrit un fichier de sortie  binaire contenant 
+		la première colonne, et la somme des colonnes de 2 à n.
+
+\end{enumerate}
+
+Des sorties se font à l'écran, d'autres dans des fichiers. 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Les quatre méthodes à implémenter}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Charger sur moodle, le fichier TP2.tar et faire tar -xvf TP2.tar.
+Vous venez de créer un dossier TP2 contenant 4 dossiers :
+\ins{Simple},\ins{Subs},\ins{Module} et \ins{Lib} dans lesquels il faut implémenter
+les quatre méthodes.
+
+A la base on utilise un programme principal, très court (autour de 40 lignes) qui ne contient 
+quasiment que des appels à des procédures, qui elles mêmes feront appel
+éventuellement à d'autres procédures ou fonctions. Dans le dossier \ins{Simple} vous trouverez celui
+correspondant à la méthode la plus simple envisagée ici.
+
+
+Dans la suite, à chaque item il faut travailler dans un dossier différent :
+\begin{enumerate}
+	\item Dans \ins{Simple}, le fichier fortran contient le programme principal, 
+		ainsi qu'une façon très simple de le 
+		compiler (\ins{make}) avec quelques unes des procédures implémenter
+		A vous de compléter pour effectuer les tâches demandées dans la section précédente.
+
+		Quand le programme fonctionne correctement, passer à la partie visualisation. Une fois
+		fait, vous continuez cette partie.
+
+	\item Dans \ins{Subs}, on génère un fichier fortran par procédure plus celui du programme principal. 
+		On regarde comment est écrit le fichier \ins{Makefile} qui sert à la compilation par l'instruction \ins{make}
+	\item Dans \ins{Module}, on complètera  un fichier module \ins{module\_exo8.f90} qui contient
+		toutes les procédures et fonctions (il y a volontairement des erreurs dedans) .
+		Dans le module, se trouve déjà un interface qu'on modifiera ou pas.
+
+		Le programme principal utilise le module, comme on peut le vérifier. 
+	\item Dans \ins{Lib}, on copie les procédures et fonctions dans un dossier \ins{Librairie} 
+		et on crée une archive dans ce dossier via la commande \ins{make} (toujours regarder le fichier \ins{Makefile}.
+		
+		Dans le Makefile servant à compiler le programme principal, on vérifie que 
+		l'appel à la librairie est inclus.
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Visualisation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+Tracer les courbes sinus et cosinus à partir du fichier \ins{exo8.out}:
+\begin{enumerate}
+	\item en utilisant gnuplot et ses options de commande en ligne.
+\begin{verbatim}
+> gnuplot 
+>> plot 'exo8.out' u 1:2 w l 
+\end{verbatim}
+
+\item en utilisant le script shell \ins{gp} :
+\begin{verbatim}
+> gp l fichier.dat 1 2
+\end{verbatim}
+\end{enumerate}
+
+\end{document}

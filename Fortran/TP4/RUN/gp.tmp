@@ -1,0 +1,4 @@
+plot 'tp4_NACA_23112_npt_00150.out' using 2:4 with lines, \
+'tp4_NACA_23112_npt_00150.out' using 2:6 with lines, \
+'tp4_NACA_23112_npt_00150.out' using 2:8 with lines
+pause -1 "return to quit"

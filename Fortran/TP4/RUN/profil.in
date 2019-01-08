@@ -1,0 +1,10 @@
+# entrées du TP4 Profil d'aile NACA version 4 ou 5 chiffres
+5              # option prend les valeurs 4 ou 5 en référence à NACA 4 chiffres ou 5 chiffres
+2              # a
+3              # b
+1              # c
+1              # d
+2              # e si NACA 4, cette valeur ne sera pas utilisée, seul abcd seront utilisés
+0.              # x1  première borne de l'intervalle
+1.              # x2  seconde borne de l'intervalle
+150             # nombre de points

@@ -1,0 +1,2 @@
+plot 'test.out' using 3:4 with lines
+pause -1 "return to quit"

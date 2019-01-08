@@ -1,0 +1,315 @@
+\documentclass[10pt]{article}
+\usepackage[french]{babel}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{graphicx,amssymb,amsmath}
+
+\newcommand{\dsp}{\displaystyle}
+ 
+
+\hoffset=-20mm
+\voffset=-4cm
+\topmargin=10mm
+\headheight=10mm
+\headsep=15mm
+\textheight=240mm
+\oddsidemargin=15mm
+\evensidemargin=15mm
+\textwidth=170mm
+\pagestyle{plain}
+
+ 
+ 
+%   DEFINITIONS
+
+\newcommand{\ins}[1]{\texttt{#1}}
+
+ 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%                    DEBUT DU DOCUMENT
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{center}
+ {\bf TP d'informatique\\
+ Première année apprentissage, mécanique des fluides
+ }
+ 
+{ \Large Ecrire un programme de A à Z : les profils NACA }
+
+2 séances.
+
+\end{center} 
+
+
+ C'est un TP bilan avant d'attaquer le Bureau d'Etude.
+ Il s'agit d'écrire un programme, qui en fonction des demandes de l'utilisateur va sauvegarder, avec
+ une définition choisie, les coordonnées d'un profil NACA de la série à 4 et 5 chiffres.
+
+
+C'est l'occasion de mettre en oeuvre les techniques et les instructions vues dans les TP précédents.
+On pourra par exemple, mais ce n'est pas obligatoire, ni exclusif, utiliser les allocations dynamiques, les notions de structures (type) et la notion de module.
+
+
+ 
+
+
+%*******************************
+\section{Données et équations}
+%*******************************
+
+%**************************************
+\subsection{Généralités sur un profil}
+%**************************************
+
+
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[scale=0.15]{./notations.pdf}
+	\caption{Notations générales d'un profil d'aile}
+\end{center}
+\end{figure}
+  
+  Un profil d'aile est une courbe fermée, définie entre deux positions extrêmes suivant l'axe $x$, le bord d'attaque en $x_1=0$
+  et le bord de fuite en $x_2=\ell$.
+
+La distance $\ell$ s'appelle la corde. La partie supérieure du profil est appelée l'extrados d'équation $y_e(x)$, et la partie inférieure, l'intrados d'équation $y_i(x)$.
+
+La demi épaisseur du profil est notée $g(x)$ et la cambrure (la courbure ou squelette) est notée $f(x)$. Ces deux courbes sont données par les relations :
+$$
+f(x)=\dfrac{y_e(x)+y_i(x)}{2}, \qquad g(x)=\dfrac{y_e(x)-y_i(x)}{2}
+$$ 
+
+On en déduit si on connaît la demi-épaisseur et la cambrure les équations de l'extrados et de l'intrados :
+$$
+y_e(x)=f(x)+g(x),\qquad y_i(x)=f(x)-g(x)
+$$
+ 
+ 
+%**************************************
+\subsection{Profil NACA à 4 chiffres}
+%**************************************
+
+La dénomination d'un profil NACA à 4 chiffres est du type NACA$abcd$, $a$, $b$, $c$ et $d$ sont 4 nombres entiers. Par exemple :
+NACA$0012$ ou NACA$4412$. Dans la dénomination anglo-saxonne on note $m=a/100$, $p=b/10$ et $t=10 c+d$.
+
+\begin{itemize}
+
+    \item[$\bullet$] Lorsque les deux premiers entiers sont nuls ($a=b=0$), le profil est symétrique par rapport à l'axe $(O,x)$ et donc on a :
+$h(x)=0$ et $y_i(x)=-y_e(x)$
+
+Les deux derniers entiers $c$ et $d$ indique en pourcents l'épaisseur maximale  du profil relative à la corde $2 \max g(x)/\ell$ qu'on nomme $t/\ell$ en anglais 
+pour "thickness". Par exemple pour la NACA$0012$, le profil a une épaisseur maximale de 12\% de la corde soit  
+$2 \max g(x)/\ell=0.12=t/\ell$.
+
+La loi de demi-épaisseur est donnée par l'équation :
+$$
+\dfrac{g(x)}{\ell}=\dfrac{t}{0.2}\left[ 
+0.2969\sqrt\eta-0.1260 \eta -0.3516\eta^2+0.2843 \eta^3-0.1015 \eta^4
+\right], \qquad \eta=\dfrac{x}{\ell}
+$$
+
+$\eta$ varie entre 0 et 1.
+
+\item[$\bullet$] Le profil est cambré lorsque $a$ et $b$ sont non tous nuls. La cambrure maximale  (appelée flèche, notée $f_{\max}=h_{\max}$) est donnée en pourcentage par $a$ avec $f_{\max}/\ell = 100 a$. Le point où la cambrure est maximale est donné par $100 x_c/\ell=10 b$. 
+
+Son épaisseur est définie par la relation donnée pour le profil symmétrique. La loi de cambrure est décomposée ainsi :
+
+$$
+\begin{array}{lll}
+h(x)&=& m \dfrac{x}{p^2} \left( 2 p - \eta\right), 
+\qquad 0\leqslant \eta < p\vspace{0.4cm}\\
+h(x)&=& m \dfrac{\ell-x}{(1-p)^2} \left(1 +\eta -2 p  \right),
+\qquad p\leqslant \eta \leqslant 1
+\end{array}
+$$
+
+$m=a/100$, $p=b/10$ et $t=(10 c+d)/100$
+
+Comme l'épaisseur s'applique à la perpendiculaire de la ligne moyenne les lois d'extrados et d'intrados s'écrivent sous la forme $y_e(x_e)$ et $y_i(x_i)$ avec
+$$\begin{array}{ll}
+x_e=x-g(x) \sin \theta, \qquad &\qquad y_e=h(x)+g(x) \cos\theta \\
+x_i=x+g(x) \sin \theta, \qquad&\qquad y_i=h(x)-g(x) \cos\theta
+\end{array}$$
+
+ avec $\theta =\arctan \dfrac{df}{dx}$ où 
+$$
+\begin{array}{lll}
+\dfrac{df}{dx}&=&\dfrac{2 m}{p^2} \left( p - \eta\right), 
+\qquad 0\leqslant \eta < p\vspace{0.4cm}\\
+\dfrac{df}{dx}&=& \dfrac{2 m}{(1-p)^2} \left(p -\eta  \right),
+\qquad p\leqslant \eta \leqslant 1
+\end{array}
+$$
+
+
+\end{itemize}
+
+
+
+%**************************************
+\subsection{Profil NACA à 5 chiffres}
+%**************************************
+Le calcul du profil est très bien présenté sur la page wikipédia. On pourra donc s'y référer et bâtir ainsi l'algorithme et la procédure
+qui permet d'obtenir ce profil, sur la base de ce qui a été fait dans la partie précédente.
+
+La dénomination général est du type NACA$abcde$. Dans la littérature anglo saxonne on note $l=a$,$p=b$, $q=c$ et $t=10 c+d$.
+
+\begin{itemize}
+\item Les deux derniers chiffres ont le même sens que pour la série 4, à savoir ils indiquent l'épaisseur relative du profil.
+\item Le troisième chiffre $c$ indique si le profil est à cambrure simple($c=0$) ou à cambrure double ($c=1$)
+\item Le deuxième chiffre $b$ indique l'abscisse du point de cambrure maximale par rapport au bord d'attaque et en poucentage de corde par la relation $x_c/\ell (\%) = b/20$.
+\item Le premier chiffre indique le coefficient de portance maximal du profil divisé par 0.15 : $C_{L_{\max}}=0.15 \ a$
+\end{itemize}
+
+
+L'équation de la cambrure est découpée en deux partie, à la position $x/c=m \%$. 
+$m$  est fixé afin que  la cambrure maximale est positionnée en $x/c=p$. Pour une cambrure de 230, $p=0.3/2=0.15$ et 
+$m=0.2025$.  Le paramètre $k_1$ permet d'obtenir le coefficient de portance souhaité. 
+Pour un profil de cambrure 230 (les 3 premiers numéros de la série à 5 chiffres), $k_1=15.957$.
+
+L'emplacement sur la corde $x$ et l'ordonnée $y$ ont été normalisées par rapport à la corde.
+
+
+Deux cambrures existent :
+\begin{enumerate}
+\item Profil avec une cambrure simple.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{l|lll}
+Ligne de cambrure du profil & $\dsp p$ & $m$ & $k_1$ \\
+\hline \hline
+210 &0.05    &0.0580  &361.40 \\
+220 &0.10    &0.126   &51.640 \\
+230 &0.15    &0.2025  &15.957 \\
+240 &0.20    &0.290   &6.643 \\
+250 &0.25    &0.391   &3.230 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+$$
+\dsp  \dfrac{f}{\ell} = 
+\begin{cases}
+\dfrac {k_1}{6}
+\left[ \eta^3 -3 m \ \eta^2+m^2(3-m) \ \eta \right], & 0 \leq \eta <m \vspace{0.4cm}\\
+\dfrac {k_1 m^3}{6} (1-\eta),             & m \leq \eta \leq 1
+\end{cases}
+$$
+
+
+$$
+\dfrac{df}{dx} = 
+\begin{cases}
+\dfrac{k_1}{6} \left[3 \eta^2-6 m \eta+m^2 (3-m)\right], & 0 \leq \eta <m \vspace{0.4cm}\\
+\dfrac {- k_1 m^3}{6} ,             & m \leq \eta \leq 1
+\end{cases}
+$$
+
+ 
+
+\item Profil avec une cambrure double.
+
+$$
+ \dfrac{f}{\ell} = 
+\begin{cases}
+ \dfrac {k_1}{6} \left[ (\eta-m )^3 - \dfrac {k_2}{k_1}  (1-m)^3 \eta-m^3 \eta +m^3\right]
+ , & 0 \leq \eta < m \vspace{0.4cm}\\
+ \dfrac {k_1} {6}   \left[
+ \dfrac {k_2}{k_1} (\eta -m )^3 - \dfrac {k_2}{k_1} (1-m)^3 \eta -m^3 \eta + m^3 \right] 
+ ,             & m \leq \eta \leq 1
+\end{cases}
+$$
+
+
+$$
+ \dfrac{df}{dx} = 
+\begin{cases}
+  \dfrac {k_1}{6} \left[3 ( \eta-m)^2- \dfrac{k_2}{k_1} (1-m)^3-m^3\right]
+ , & 0 \leq \eta < m \vspace{0.4cm}\\
+ \dfrac {k_1} {6}   \left[
+ 3 \dfrac {k_2}{k_1} ( \eta -m )^2 - \dfrac {k_2}{k_1} (1-m)^3  -m^3 \right] 
+ ,             & m \leq \eta \leq 1
+\end{cases}
+$$
+
+
+ 
+
+Le tableau suivant présente différents coefficients de lignes de cambrure:
+
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{l|llll}
+Ligne de cambrure du profil & $\dsp p$ & $m$ & $k_1$ & $k_2/k_1$\\
+\hline \hline
+221 &0.10    &0.130   &51.990  &0.000764 \\
+231 &0.15    &0.217   &15.793  &0.00677  \\
+241 &0.20    &0.318   &6.520   &0.0303   \\
+251 &0.25    &0.441   &3.191   &0.1355\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+
+\end{enumerate}   
+
+
+
+
+%*************************
+\section{Travail à mener}
+%*************************
+
+\begin{enumerate}
+\item Réfléchir à la façon de procéder, faire un algorithme simple.
+\item Ecrire un fichier d'entrée contenant les paramètres principaux :
+    dénomination du profil, nombre de points pour discrétiser le profil
+
+    Il s'appellera \ins{profil.in}.
+
+    On se basera sur le TP précédent.
+
+\item Ecrire le programme principal et les fonctions, modules, subroutines pour définir
+    la géométrie du NACA 0012 ou NACA 4412
+\item On validera en comparant aux données du site \textbf{airfoiltools.com}, sur 
+    une figure.
+\item Implémenter et valider de façon similaire le profil NACA 5 digits, par exemple le 
+    NACA 23012.
+\item Ecrire un petit rapport de 4 pages au format pdf montrant notamment la validation
+    (ce rapport sera fait à la maison).
+
+\item Envoyer l'ensemble du travail dans une archive à christophe.airiau@imft.fr
+\end{enumerate}
+
+
+%*************************
+\section{Evaluation}
+%*************************
+L'évaluation sera individuelle. Elle se fera sur les points suivants
+\begin{itemize}
+    \item Le travail effectif fait en TP
+    \item Le fonctionnement du programme
+    \item Les sorties : format et contenu des fichiers de sortie
+    \item Le contenu du programme, le style, la grammaire, les fonctionnalités du fortran employée
+    \item La rédaction du petit rapport (pas plus de 2 h de travail), en latex de préférence (il suffit de modifier le latex de l'énoncé). 
+    \item L'originalité du travail\footnote{Copier les uns sur les autres entraînera une forte pénalité.}
+\end{itemize}
+
+
+
+
+ \end{document}
+
+ 
+  
