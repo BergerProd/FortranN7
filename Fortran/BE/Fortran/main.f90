@@ -13,6 +13,8 @@ CASE(1)
       CASE(1)
        ! chute libre
        CALL chute_libre_euler()
+       CALL solution_analytique()
+       CALL parametrisation_alpha_chute_libre()
       CASE(2)
        ! propulsé
        CALL propulse_euler()
@@ -25,6 +27,8 @@ CASE(2)
          CASE(1)
            ! chute libre
            CALL chute_libre_rk4()
+           CALL solution_analytique()
+           CALL parametrisation_alpha_chute_libre()
          CASE(2)
            ! propulsé
            CALL propulse_rk4()
@@ -37,7 +41,7 @@ CASE(2)
 END SELECT
 
 
-CALL solution_analytique()
+
 CALL affichage_sortie()
 
 !TODO formater affichage à l'écran

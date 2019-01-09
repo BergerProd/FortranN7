@@ -6,7 +6,6 @@ USE mod_balistique
 IMPLICIT NONE
 LOGICAL     :: file_exists
 
-
 INQUIRE(FILE='balistique.in',exist=file_exists)
 
 IF (file_exists) THEN
@@ -77,7 +76,7 @@ USE mod_balistique
 IMPLICIT NONE
 
 REAL(KIND=8) :: portee_max,t_l !variables locales pour affichage de la portée avec simulation
-INTEGER :: j
+
 
 y(1,1) = 0.d0 !x(1)
 y(2,1) = alt_init !z(1)
@@ -97,8 +96,18 @@ t_l = portee_max /(vit_init * DCOS(alpha))
 WRITE(*,*) "la portée maximum L = " ,portee_max !formater affichage
 WRITE(*,*) "le temps associé à la portée maximale est tl = ",t_l
 
+END SUBROUTINE chute_libre_euler
+
+
+!*****************************
+SUBROUTINE parametrisation_alpha_chute_libre
+!*******************************
 ! Parametrisation_Alpha
 ! calcul de la portée et du temps selon les solutions solutions_analytiques
+USE mod_balistique
+IMPLICIT NONE
+INTEGER :: j
+
 j=1 !indice j pour les différents alpha
 DO i=25,75,5 ! de 25 à 75 ° par pas de 5°
 
@@ -112,7 +121,7 @@ END DO
 
 alpha_grad = (/25,30,35,40,45,50,55,60,65,70,75/) ! on affichera alpha en degrés en sortie
 
-END SUBROUTINE chute_libre_euler
+END SUBROUTINE parametrisation_alpha_chute_libre
 
 !*****************************
 SUBROUTINE propulse_euler
@@ -294,36 +303,49 @@ PRINT*, 'Regardez dans le fichier ',nom
 
 OPEN(1,FORM='FORMATTED',FILE=TRIM(nom))
 
-WRITE(1,100)
-100 FORMAT('#',2x,'i',2x,'t',15x,'x',15x,'z',15x,'x_ana',15x,'z_ana')
+IF (modele==1) THEN !modèle chute libre-on fait sortir les solutions analytiques
+
+  WRITE(1,100)
+  100 FORMAT('#',2x,'i',2x,'t',15x,'x',15x,'z',15x,'x_ana',15x,'z_ana')
  !les 15x correspondent aux espaces entre chaque colonnes pour aligner le nom avec les valeurs dans la colonnes
 
-DO i=1,npt
-    WRITE(1,200)i,t(i),y(1,i),y(2,i),x_analt(i),z_analt(i) !on peut mettre les analytiques avec chute libre uniquement ?
-END DO
+ DO i=1,npt
+      WRITE(1,200)i,t(i),y(1,i),y(2,i),x_analt(i),z_analt(i) !on peut mettre les analytiques avec chute libre uniquement ?
+  END DO
 
-200 FORMAT(i5,8(e13.6,3x)) !formattage pour les valeurs dans les colonnes
+  200 FORMAT(i5,5(e13.6,3x)) !formattage pour les valeurs dans les colonnes
+
+ELSEIF(modele==2)THEN !modèle propulse, on ne fait pas sortir les solutions analytiques
+    WRITE(1,300)
+    300 FORMAT('#',2x,'i',2x,'t',15x,'x',15x,'z',15x,'v_x',15x,'v_z')
+   !les 15x correspondent aux espaces entre chaque colonnes pour aligner le nom avec les valeurs dans la colonnes
+
+   DO i=1,npt
+        WRITE(1,400)i,t(i),y(1,i),y(2,i),y(3,i),y(4,i) !on peut mettre les analytiques avec chute libre uniquement ?
+    END DO
+
+    400 FORMAT(i5,5(e13.6,3x)) !formattage pour les valeurs dans les colonnes
+END IF
+
 CLOSE(1)
 
 !TODO Parametrisation_Alpha ********* mettre pour méthode 2 aussi ?
-IF ((modele==1) .AND. (methode==1)) THEN ! si on fait chute libre avec méthode d'euler alors on fait Parametrisation_Alpha
+IF (modele==1) THEN ! si on fait chute libre avec méthode d'euler alors on fait Parametrisation_Alpha
+  nom = "Paramétrisation_Alpha"
+  PRINT*, "Regardez dans le fichier ", nom
 
-nom = "Paramétrisation_Alpha"
+  OPEN(1,FORM='FORMATTED',FILE=TRIM(nom))
 
-PRINT*, "Regardez dans le fichier ", nom
+  WRITE(1,500)
+  500 FORMAT('#',2x,'i',2x,"alpha (°)",15x,"Portee (m)",15x,"Temps L (s)")
 
-OPEN(1,FORM='FORMATTED',FILE=TRIM(nom))
+  DO i=1,11
+    WRITE(1,600) i, alpha_grad(i),portee(i),tl(i)
+  END DO
 
-WRITE(1,300)
-300 FORMAT('#',2x,'i',2x,"alpha (°)",15x,"Portee (m)",15x,"Temps L (s)")
+  600 FORMAT(i5,3(e13.6,3x))
 
-DO i=1,11
-  WRITE(1,400) i, alpha_grad(i),portee(i),tl(i)
-END DO
-
-400 FORMAT(i5,3(e13.6,3x))
-
-CLOSE(1)
+  CLOSE(1)
 
 END IF
 
