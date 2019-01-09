@@ -299,13 +299,13 @@ WRITE(1,100)
  !les 15x correspondent aux espaces entre chaque colonnes pour aligner le nom avec les valeurs dans la colonnes
 
 DO i=1,npt
-    WRITE(1,200)i,t(i),y(1,i),y(2,i),x_analt(i),z_analt(i) !on peut mettre les analytiques avec chute libre uniquement ? 
+    WRITE(1,200)i,t(i),y(1,i),y(2,i),x_analt(i),z_analt(i) !on peut mettre les analytiques avec chute libre uniquement ?
 END DO
 
 200 FORMAT(i5,8(e13.6,3x)) !formattage pour les valeurs dans les colonnes
 CLOSE(1)
 
-!Parametrisation_Alpha ********* mettre pour méthode 2 aussi ?
+!TODO Parametrisation_Alpha ********* mettre pour méthode 2 aussi ?
 IF ((modele==1) .AND. (methode==1)) THEN ! si on fait chute libre avec méthode d'euler alors on fait Parametrisation_Alpha
 
 nom = "Paramétrisation_Alpha"
@@ -314,4 +314,17 @@ PRINT*, "Regardez dans le fichier ", nom
 
 OPEN(1,FORM='FORMATTED',FILE=TRIM(nom))
 
-WRITE(1,300
+WRITE(1,300)
+300 FORMAT('#',2x,'i',2x,"alpha (°)",15x,"Portee (m)",15x,"Temps L (s)")
+
+DO i=1,11
+  WRITE(1,400) i, alpha_grad(i),portee(i),tl(i)
+END DO
+
+400 FORMAT(i5,3(e13.6,3x))
+
+CLOSE(1)
+
+END IF
+
+END SUBROUTINE affichage_sortie

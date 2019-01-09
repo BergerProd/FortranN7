@@ -39,6 +39,7 @@ END SELECT
 
 CALL solution_analytique()
 CALL affichage_sortie()
+
 !TODO formater affichage à l'écran
 !TODO est ce qu'on ferait pas uniquement si on utilise la chute libre on affiche les solutions_analytiques ?
 !TODO  centraliser l'affichage_sortie pour afficher tout dans cette subroutine ?
