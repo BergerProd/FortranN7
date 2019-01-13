@@ -1,0 +1,15 @@
+# Fichier d'entrée pour trajectoire d'un corps dans un champ de pesanteur
+###################### Simulation #############################
+2          # Méthode 1 pour Euler, 2 pour RK4
+1          # Modèle 1 : Chute libre, Modèle 2 : Propulsé
+500      # nombre de points
+9.d0      # Temps                   (s) Pour chute libre 7.3, Pour propulse 9
+################# Paramètres Numériques ##################
+1          # Section de l'objet en (m²)
+30         # Vitesse initiale (m/s)
+45         # Alpha (°)
+100        # Altitude initiale (m)
+200        # Masse du missile  (kg)
+1.3        # Masse volumique de l'air (kg/m3)
+0.3d0          # CL  0.3
+0.1d0       # CD  0.1

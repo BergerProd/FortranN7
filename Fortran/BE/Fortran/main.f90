@@ -14,7 +14,7 @@ CASE(1)
        ! chute libre
        CALL chute_libre_euler()
        CALL solution_analytique()
-       CALL parametrisation_alpha_chute_libre()
+       !CALL parametrisation_alpha
       CASE(2)
        ! propulsé
        CALL propulse_euler()
@@ -26,9 +26,9 @@ CASE(2)
         SELECT CASE (modele)
          CASE(1)
            ! chute libre
-           CALL chute_libre_rk4()
+            CALL chute_libre_rk4()
            CALL solution_analytique()
-           CALL parametrisation_alpha_chute_libre()
+           !CALL parametrisation_alpha
          CASE(2)
            ! propulsé
            CALL propulse_rk4()
@@ -40,8 +40,6 @@ CASE(2)
           WRITE(*,*) " Méthode doit prendre comme argument 1 ou 2, Erreur dans fichier d'entrée ligne 3"
 END SELECT
 
-
-
 CALL affichage_sortie()
 
 !TODO formater affichage à l'écran
@@ -52,11 +50,13 @@ CALL affichage_sortie()
 !TODO afficher parmetrisation alpha uniquement lorsque Chute_Libre !Parametrisation_Alpha ********* mettre pour méthode 2 aussi ?
 !TODO faire sortir v_x et v_z ?
 !TODO faire la conversion d'alpha ailleurs que dans sortie ?
+!TODO faire sortit write juste une fois dans le main
 !TODO subroutine initialisation avec :
 !y(1,1) = 0.d0 !x(1)
 !y(2,1) = alt_init !z(1)
 !f_zero = 0.7d0*masse*g !calcul de la force
 !alpha = (4.d0*datan(1.d0)/180)*alpha ! conversion de alpha en radian
 !TODO faire paramétrisation alpha pour cas propulse
+
 DEALLOCATE(t,x_analt,z_analt,y,portee,tl,alpha_grad)
 END PROGRAM main
