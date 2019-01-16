@@ -3,9 +3,9 @@
 1          # Méthode 1 pour Euler, 2 pour RK4
 2          # Modèle 1 : Chute libre, Modèle 2 : Propulsé
 10000      # Nombre de points             Pour chute libre 10000
-9.d0      # Temps                    (s) Pour chute libre 7.3, Pour propulse 9
+15.d0      # Temps                    (s) Pour chute libre 7.3, Pour propulse 9
 ################# Paramètres Numériques ##################
-1          # Section de l'objet en    (m²)
+0.03          # Section de l'objet en    (m²)
 30         # Vitesse initiale         (m/s)
 45         # Alpha                     (°)
 100        # Altitude initiale         (m)

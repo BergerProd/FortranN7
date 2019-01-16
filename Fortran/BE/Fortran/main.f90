@@ -32,6 +32,7 @@ CASE(2)
          CASE(2)
            ! propulsé
            CALL propulse_rk4()
+           
          CASE DEFAULT
           WRITE(*,*) " Modèle doit prendre comme argument 1 ou 2, Erreur dans fichier d'entrée ligne 4"
 
@@ -43,7 +44,7 @@ END SELECT
 CALL affichage_sortie()
 
 !TODO formater affichage à l'écran
-!TODO est ce qu'on ferait pas uniquement si on utilise la chute libre on affiche les solutions_analytiques ?
+
 !TODO  centraliser l'affichage_sortie pour afficher tout dans cette subroutine ?
 !TODO revoir les variables globales puisque certaines ne doivent pas être utilisées ?
 !TODO  est ce qu'on ne ferait pas paramétrisation alpha comme une subroutine pour l'appeler à part ?

@@ -128,26 +128,24 @@ REAL(KIND=8) :: theta,f_zero,v,l,d
 
 !initialisation
 j=1
-f_zero = 0.7d0*masse*g !calcul de la force
 y(1,1) = 0.d0 !x(1)
 y(2,1) = alt_init !z(1)
 y(3,1) = vit_init*dcos(alpha)!v_x initiale
 y(4,1) = vit_init*dsin(alpha)!v_z initiale
-!theta = alpha !première valeur de theta est alpha
 
-DO i=1,npt-1!npt-1
-  v = ((y(3,i)**2)+(y(4,i)**2))**0.5
+
+DO i=1,npt-1
+
+  v = sqrt(y(3,i)**2+y(4,i)**2)
   theta = datan(y(4,i)/y(3,i))
-! indice i-1 puisqu'on doit utiliser vitesses de l'itération d'avant puisque les actuelles ne sont pas encore calculées
+
   l = cl*0.5d0*rho_air*section*(v**2)
   d = cd*0.5d0*rho_air*section*(v**2)
 
-!avec le mode propulsé la valeur des forces change
-
-  y(1,i+1) = y(1,i) + dt*y(3,i)
-  y(2,i+1) = y(2,i) + dt*y(4,i)
-  y(3,i+1) = y(3,i) + dt*((f_zero*dcos(theta)-l*dsin(theta)-d*dcos(theta))/masse)
-  y(4,i+1) = y(4,i) + dt*((-g*masse + f_zero *dsin(theta)+ l*dcos(theta) - d*dsin(theta))/masse)
+  y(1,i+1) = y(1,i)  + dt*y(3,i)
+  y(2,i+1) = y(2,i)  + dt*y(4,i)
+  y(3,i+1) = y(3,i) + dt*(0.7d0*g*dcos(theta) + (-l*dsin(theta)-d*dcos(theta))/masse)
+  y(4,i+1) = y(4,i) + dt*(-g + 0.7d0*g*dsin(theta) + (l*dcos(theta) - d*dsin(theta))/masse)
 
 !Calcul de la portée
     IF( (y(2,i) .LE. 0.d0) .AND. (j==1)) THEN ! ruse pour obtenir l'indice ou z <= 0
@@ -233,48 +231,57 @@ SUBROUTINE propulse_rk4
 USE mod_balistique
 IMPLICIT NONE
 
-REAL(KIND=8) :: k1,k2,k3,k4,theta,f_zero,v,l,d
+REAL(KIND=8) :: theta,f_zero,v,l,d
+REAL(KIND=8) :: k31,k32,k33,k34,k41,k42,k43,k44,k21,k22,k23,k24,k11,k12,k13,k14
+
 
 !initialisation
 j=1
-f_zero = 0.7d0*masse*g
 y(1,1) = 0.d0 !x(1)
 y(2,1) = alt_init !z(1)
-y(3,1) = vit_init*dcos(alpha)!v_x(1)
-y(4,1) = vit_init*dsin(alpha)!v_z(1)
-theta = alpha !theta prend pour première valeur alpha
+y(3,1) = vit_init*dcos(alpha)
+y(4,1) = vit_init*dsin(alpha)
 
-DO i=2,npt!on commence à 2 comme propulse_euler
-  !calcul de norme de vitesse et theta selon itération d'avant
-  v = sqrt(y(3,i-1)**2+y(4,i-1)**2)
-  theta = datan(y(4,i-1)/y(3,i-1))
-  !calcul de l et d dépendant de la norme de la vitesse
-  l = cl*0.5d0*rho_air*section*(v**2)
-  d = cd*0.5d0*rho_air*section*(v**2)
-  !on calcul d'abord la valeur de v_x à chaque itération et ensuite on utilse la méthode RK4 sur vitesse
-  y(3,i) = vit_init*dcos(alpha) + t(i)*(f_zero*dcos(theta)-l*dsin(theta)-l*dcos(theta))/masse
+DO i=1,npt-1
 
-  k1 = y(3,i)!x
-  k2 = y(3,i) + (dt/2.d0) * k1
-  k3 = y(3,i) + (dt/2.d0) * k2
-  k4 = y(3,i) + dt * k3
-  !calcul de x selon RK4
-  y(1,i)= y(1,i-1)+ (dt/6.d0)*(k1+2.d0*k2+2.d0*k3+k4)
-  !pareil pour v_z et Z
-  y(4,i) = vit_init*dsin(alpha) + t(i)*(-g*masse + f_zero *dsin(theta)+ l*dcos(theta) - d*dsin(theta))/masse
+    v = sqrt(y(3,i)**2+y(4,i)**2)
+    theta = datan(y(4,i)/y(3,i))
 
-  k1 = y(4,i)!x
-  k2 = y(4,i) + (dt/2.d0) * k1
-  k3 = y(4,i) + (dt/2.d0) * k2
-  k4 = y(4,i) + dt * k3
+    l = cl*0.5d0*rho_air*section*(v**2)
+    d = cd*0.5d0*rho_air*section*(v**2)
 
-  y(2,i)= y(2,i-1)+ (dt/6.d0)*(k1+2.d0*k2+2.d0*k3+k4)
+    !v_x avec le RK4
+    k31 = (0.7d0*g*dcos(theta) + (-l*dsin(theta)-d*dcos(theta))/masse)
+    k32 = (0.7d0*g*dcos(theta) + (-l*dsin(theta)-d*dcos(theta))/masse) + (dt/2.d0) * k31
+    k33 = (0.7d0*g*dcos(theta) + (-l*dsin(theta)-d*dcos(theta))/masse) + (dt/2.d0) * k32
+    k34 = (0.7d0*g*dcos(theta) + (-l*dsin(theta)-d*dcos(theta))/masse) + dt * k33
+    y(3,i+1) = y(3,i) + (dt/6.d0)*(k31+2.d0*k32+2.d0*k33+k34)
+
+    !v_z avec RK4
+    k41 = (-g + 0.7d0*g*dsin(theta) + (l*dcos(theta) - d*dsin(theta))/masse)
+    k42 = (-g + 0.7d0*g*dsin(theta) + (l*dcos(theta) - d*dsin(theta))/masse) + (dt/2.d0) * k41
+    k43 = (-g + 0.7d0*g*dsin(theta) + (l*dcos(theta) - d*dsin(theta))/masse) + (dt/2.d0) * k42
+    k44 = (-g + 0.7d0*g*dsin(theta) + (l*dcos(theta) - d*dsin(theta))/masse) +  dt * k43
+    y(4,i+1) = y(4,i) + (dt/6.d0)*(k41+2.d0*k42+2.d0*k43+k44)
+
+    k21 = y(4,i)
+    k22 = y(4,i) + (dt/2.d0) * k21
+    k23 = y(4,i) + (dt/2.d0) * k22
+    k24 = y(4,i) + dt * k23
+    y(2,i+1) = y(2,i) + (dt/6.d0)*(k21+2.d0*k22+2.d0*k23+k24)
+
+    k11 = y(3,i)
+    k12 = y(3,i) + (dt/2.d0) * k11
+    k13 = y(3,i) + (dt/2.d0) * k12
+    k14 = y(3,i) + dt * k13
+    y(1,i+1) = y(1,i) + (dt/6.d0)*(k11+2.d0*k12+2.d0*k13+k14)
 
 !on releve le premier indice où on a z<=0
   IF( (y(2,i) .LE. 0.d0) .AND.(j==1)) THEN ! ruse pour obtenir l'indice ou z <= 0
       j = i
     END IF
 END DO
+
 !on affiche cet indice là avec x pour obtenir portée et temps
   WRITE(*,*) "la portée maximum L = " , y(1,j) !formater affichage
   WRITE(*,*) "le temps associé à la portée maximale est tl = ", t(j)
@@ -292,6 +299,8 @@ INTEGER :: k
 DO k=25,75,5
   alpha = k*(4.d0*datan(1.d0)/180) ! conversion de alpha (°) en (rad)
   CALL chute_libre_euler()
+  CALL chute_libre_rk4()
+
 END DO
 
 END SUBROUTINE parametrisation_alpha

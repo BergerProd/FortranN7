@@ -13,3 +13,5 @@ set title "Validation Chute Libre Euler 10000 points";  plot "BE_Euler_Chute_Lib
 set title "Validation Chute Libre RK4 10000 points";  plot "BE_RK4_Chute_Libre_npt_10000.out" using 3:4 title "Méthode RK4" with lines lt rgb "violet", "BE_RK4_Chute_Libre_npt_10000.out" using 5:6 title "Méthode Analytique" with lines
 
 set title "Comparaison Chute Libre Euler RK4 10000 points";  plot "BE_Euler_Chute_Libre_npt_10000.out" using 3:4 title "Methode Euler" with lines lt rgb "violet", "BE_RK4_Chute_Libre_npt_10000.out" using 3:4 title "Methode RK4" with lines
+
+set xrange [0:400]; set yrange [0:150]; set title "Comparaison Propulse Euler RK4 10000 points";  plot "BE_Euler_Propulsé_npt_10000.out" using 3:4 title "Methode Euler" with lines lt rgb "violet", "BE_RK4_Propulsé_npt_10000.out" using 3:4 title "Methode RK4" with lines
