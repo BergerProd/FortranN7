@@ -1,8 +1,8 @@
-FC= gfortran
-#FFLAGS= -fdefault-real-8 -Wsurprising  -ffree-line-length-none -O3 -Wall
-FFLAGS=  -Wsurprising  -ffree-line-length-none -O3 -Wall -g
+FC= gfortran #compilateur
+#FFLAGS= -fdefault-real-8 -Wsurprising  -ffree-line-length-none -O3 -Wall -g
+FFLAGS=  -Wsurprising  -ffree-line-length-none -O3 -Wall -g #Options de compilations
 
-EXENAME=../RUN/main.bin			# nom du programme, dans le dossier au-dessus
+EXENAME=../RUN/main.bin		# nom du programme, dans le dossier au-dessus
 
 # Déclaration des objets
 OBJS =  \
@@ -14,7 +14,7 @@ ALL: $(EXENAME)
 
 .SUFFIXES: .o .f90
 
-.f90.o: mod_balistique.o			# ajouter les modules supplémentaires sur cette ligne
+.f90.o: mod_balistique.o	# ajouter les modules supplémentaires sur cette ligne
 	$(FC)  -c $(FFLAGS)  $<
 
 $(EXENAME):   $(OBJS)

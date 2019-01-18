@@ -1,2 +1,0 @@
-plot 'BE_RK4_Chute_Libre_npt_10000.out' using 2:3
-pause -1 "return to quit"

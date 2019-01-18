@@ -1,2 +1,2 @@
-plot 'BE_Euler_Propulsé_npt_10000.out' using 3:4 with lines
+plot 'Paramétrisation_Alpha_Euler_Chute_Libre.out' using 2:3 with lines
 pause -1 "return to quit"

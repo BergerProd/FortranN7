@@ -1,9 +1,9 @@
 MODULE mod_balistique
 REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:)  :: y
-REAL(KIND=8),ALLOCATABLE,DIMENSION(:)    :: t,x_analt,z_analt,portee,tl,alpha_grad
-REAL(KIND=8)                             :: temps,section,vit_init,alt_init,masse,cl,cd,rho_air,alpha,dt
+REAL(KIND=8),ALLOCATABLE,DIMENSION(:)    :: t,x_analt,z_analt,portee_grad_analy,tl_grad_analy,alpha_grad_analy,portee_grad,tl_grad,alpha_grad !grad pour normal, analy=analytique
+REAL(KIND=8)                             :: temps,section,vit_init,alt_init,masse,cl,cd,rho_air,alpha,dt !pour données d'entrée
 REAL(KIND=8),PARAMETER                   :: g=9.81d0
-INTEGER                                  :: i,j,npt,methode,modele
+INTEGER                                  :: i,j,npt,methode,modele,indice_le_zero
 
 CONTAINS
 
