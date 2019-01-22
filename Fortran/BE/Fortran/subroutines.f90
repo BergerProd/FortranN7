@@ -108,10 +108,10 @@ IMPLICIT NONE
 
 DO i=1,npt-1
 
-  y(3,i+1) = y(3,i)                !x(i+1)
-  y(4,i+1) = y(4,i)  - dt*g        !z(i+1)
-  y(1,i+1) = y(1,i)  + dt*y(3,i)   !vx(i+1)
-  y(2,i+1) = y(2,i)  + dt*y(4,i)   !vz(i+1)
+  y(3,i+1) = y(3,i)                !vx(i+1)
+  y(4,i+1) = y(4,i)  - dt*g        !vz(i+1)
+  y(1,i+1) = y(1,i)  + dt*y(3,i)   !x(i+1)
+  y(2,i+1) = y(2,i)  + dt*y(4,i)   !z(i+1)
 
   !Pour affichage de la portée
   IF( (y(2,i) .LE. 0.d0) .AND. (indice_le_zero==1)) THEN ! ruse pour obtenir l'indice ou z <= 0
@@ -184,10 +184,10 @@ USE mod_balistique
 IMPLICIT NONE
 DO i=1,npt-1
   !on appelle la subroutine rk4 pour chaque vecteur
-  CALL rk4(0.d0,3)   !x(i+1)
-  CALL rk4(-g,4)     !z(i+1)
-  CALL rk4(y(4,i),2) !vx(i+1)
-  CALL rk4(y(3,i),1) !vz(i+1)
+  CALL rk4(0.d0,3)   !vx(i+1)
+  CALL rk4(-g,4)     !vz(i+1)
+  CALL rk4(y(4,i),2) !x(i+1)
+  CALL rk4(y(3,i),1) !z(i+1)
 
   !Pour affichage de la portée
   IF( (y(2,i) .LE. 0.d0) .AND. (indice_le_zero==1)) THEN ! ruse pour obtenir l'indice ou z <= 0
@@ -216,10 +216,10 @@ DO i=1,npt-1
   l = cl*0.5d0*rho_air*section*(v**2) !calcul de la force de portance
   d = cd*0.5d0*rho_air*section*(v**2) !calcul de la force de trainée
 
-  CALL rk4(0.7d0*g*dcos(theta) + (-l*dsin(theta)-d*dcos(theta))/masse,3) !x(i+1)
-  CALL rk4(-g + 0.7d0*g*dsin(theta) + (l*dcos(theta) - d*dsin(theta))/masse,4)!z(i+1)
-  CALL rk4(y(4,i),2) !vz(i+1)
-  CALL rk4(y(3,i),1) !vx(i+1)
+  CALL rk4(0.7d0*g*dcos(theta) + (-l*dsin(theta)-d*dcos(theta))/masse,3) !vx(i+1)
+  CALL rk4(-g + 0.7d0*g*dsin(theta) + (l*dcos(theta) - d*dsin(theta))/masse,4)!vz(i+1)
+  CALL rk4(y(4,i),2) !z(i+1)
+  CALL rk4(y(3,i),1) !x(i+1)
 
   !Pour affichage de la portée
   IF( (y(2,i) .LE. 0.d0) .AND.(indice_le_zero==1)) THEN ! ruse pour obtenir l'indice ou z <= 0
