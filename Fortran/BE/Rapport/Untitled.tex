@@ -1,10 +1,11 @@
 \documentclass[a4paper,oneside]{article}
+%Compilé avec MacTex
 \usepackage[french]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref} % références dans pdf
 \usepackage[tt]{titlepic}
 \usepackage{graphicx} % pour images
-\usepackage{rotating} % pour
+\usepackage{rotating} % pour rotatebox
 \usepackage{lmodern}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -12,14 +13,13 @@
 \usepackage{sistyle}
 \usepackage{chngpage}
 \usepackage{epstopdf}
-\usepackage{gnuplottex}% pour faire du gnuplot directement dans le latex, finalement pas utilisé, résultats pas assez beaux
+\usepackage{gnuplottex}% pour faire du gnuplot directement dans le latex
 \usepackage[nottoc, notlof, notlot]{tocbibind} % pour que bibliographie soit comprise comme un chapitre ou section
 \usepackage{appendix} % pour les annexes
 \pagestyle{headings} % pour en têtes
 \usepackage{mathenv}
-
+\DeclareTextSymbol{\degre}{OT1}{23} %pour le symbole degré
 \makeatletter % pour /bigcenter qui permet de s'affranchir des marges pour les images
-
 \newskip\@bigflushglue \@bigflushglue = -100pt plus 1fil
 
 \def\bigcenter{\trivlist \bigcentering\item\relax}
@@ -27,8 +27,8 @@
 \leftskip\@bigflushglue
 \parindent\z@\parfillskip\z@skip}
 \def\endbigcenter{\endtrivlist}
-
 \makeatother
+
 
 \begin{document}
 
@@ -96,17 +96,15 @@
 	\vspace{0.3\baselineskip} % Whitespace under the publisher logo
 
 Fevrier 2019 % Publication year
-
-
-
 \end{titlepage}
 \newpage
 
+%Table des Matières
 \tableofcontents
 \newpage
 
 %*******************************************************
-% DEBUT RAPPORT
+% 						DEBUT RAPPORT
 %********************************************************
 
 
@@ -114,11 +112,15 @@ Fevrier 2019 % Publication year
 Il est question ici de créer un programme pour effectuer le calcul de trajectoire d'un objet en chute libre et propulsé selon l'enoncé proposé.
 Dans ce rapport nous aborderons tout d'abord la modélisation du problème, puis nous nous focaliserons sur l'architecture du programme pour enfin aborder la validation.
 
+\section{Résumé}
+\subsection{Résumé en Anglais}
+\subsection{Résumé en Français}
+
 \section{Modélisation}
 
 \subsection{Chute Libre}
 
-Si on effectue le bilan des forces sur un objet de masse $m$ possédant une vitesse initiale $v_0$ formant un angle $\alpha$ avec l'axe des abscisses à une altitude initiale $h$ :
+Si on effectue le bilan des forces sur un objet de masse $m$ possédant une vitesse initiale $v_0$ formant un angle $\alpha$ avec l'axe des abscisses à une altitude initiale $h$ uniquement soumis à la gravité :
 
 \begin{equation*}
 \Sigma \vec{F} = m \times \vec{a}
@@ -150,20 +152,13 @@ Le schéma d'Euler d'ordre 1 s'écrit :
 \begin{equation*}
 y_{k+1} = y_{k}+ \Delta t \frac{df}{dt}(t_{k},y_{k})
 \end{equation*}
-On utilise un tableau de 4 colonnes noté $y$ :
+On utilise un tableau de 4 colonnes noté $y$ qui répertorie les positions et les vitesses comme suit, on obtient alors les équations régissant la dynamique de l'objet en chute libre :
 
+
+%2 Systèmes d'équations avec équivalence et avec accolade
 \begin{equation*}
-\begin{cases} 
-y(1,i) = x(i)\\ 
-y(2,i) = z(i)\\
-y(3,i) = v_{x}(i)\\
-y(4,i) = v_{z}(i)
-\end{cases}
-\end{equation*}
-
-\[
 \left\{
- \begin{array}{@{}r@{}}
+ \begin{array}{c c c}
   y(1,i) =  x(i)\\
   y(2,i) = z(i)\\
   y(3,i) = v_{x}(i)\\ 
@@ -172,15 +167,15 @@ y(4,i) = v_{z}(i)
 \qquad
 \Longleftrightarrow
 \left\{
-\begin{array}{@{}r@{}}
+\begin{array}{c c c}
 \frac{dx}{dt} = v_{x}\\
 \frac{dz}{dt} = v_{z}\\
 \frac{dv_{x}}{dt} = 0\\
 \frac{dv_{z}}{dt} = -g\\  
 \end{array}
-\]
+\end{equation*}
 
-Ainsi on peut modéliser notre trajectoire de chute libre par un système du type : \label{1}
+On peut alors modéliser notre trajectoire de chute libre par un système du type \label{syst_chute_libre}: 
 
 \begin{equation*}
 \begin{cases} 
@@ -191,10 +186,17 @@ Ainsi on peut modéliser notre trajectoire de chute libre par un système du typ
 \end{cases}
 \end{equation*}
 
-A chaque pas de temps , on recalcule les vitesses et la position en $x$ et en $z$ à partir du système précédent.
+Avec $dt$ le pas de temps utilisé définit comme :
+
+\begin{equation*}
+	dt = \frac{nombredepoints}{tempssimulation} 
+\end{equation*}
+
+
+A chaque itération, on recalcule les vitesses $v_x$ et $v_z$, ainsi que les positions en $x$ et en $z$ à partir du système précédent.
   
 \subsubsection{Modélisation Runge-Kutta d'ordre 4}
-Le schéma de Runge-Kutta d'ordre 4 : \label{2}
+Le schéma de Runge-Kutta d'ordre 4 est construit comme ceci : \label{2}
 \[
 y_{k+1} = y_k + \frac{\Delta t}{6} ( k_1 + 2 k_2 + 2 k_3 + k4)
 \]
@@ -208,38 +210,40 @@ k_4 = \frac{dy_k}{dt} + \Delta t \times k_3\\
 \end{cases}
 \end{equation*}
 
-On utilise les dérivées de chute libre de la méthode Euler \ref{1} en appliquant la méthode Runge-Kutta à l'ordre 4 (\ref{2}). 
+On utilisera les dérivées de la modélisation chute libre de la méthode d'Euler \ref{syst_chute_libre} en appliquant la méthode Runge-Kutta à l'ordre 4.
 
 
 \subsection{Objet Portant Propulsé}
 
-Maintenant notre masse est propulsé avec une force aérodynamique et on prend en compte la portance et la traînée dans nos calculs. 
+On étudiera ici notre objet de masse $m$ possédant une vitesse initiale $v_0$ formant un angle $\alpha$ avec l'axe des abscisses à une altitude initiale $h$, sera soumis à une force de propulsion $F_0$, une force de portance $L$ et une force de trainée $D$.
 
 \subsubsection{Méthode Euler}
-On reprend le même schéma d'Euler à l'ordre 1 (\ref{1}) que pour la trajectoire en chute libre mais en intégrant les forces de portance $L$, de traînée $D$ et d'aérodynamique $F_0$
+On reprend le même schéma d'Euler à l'ordre 1 (cf. \ref{syst_chute_libre}) en prenant en compte les forces de portance $L$, de traînée $D$ et de propulsion $F_0$ :
 \label{3}
-\[
-\frac{dx}{dt} = v_{x}
-\]
-\[
-\frac{dz}{dt} = v_{z}
-\]
-\[
-\frac{dv_{x}}{dt} = \frac{  F_0 \cos(\theta) -L\sin(\theta) - D \cos(\theta) }{m}
-\]
-\[
-\frac{dv_{z}}{dt} = \frac{ -g + F_0 \sin(\theta) +L\cos(\theta) - D \sin(\theta) }{m}
-\]
+
+\begin{equation*}
+\begin{cases} 
+\frac{dx}{dt} = v_{x}\\
+\frac{dz}{dt} = v_{z}\\
+\frac{dv_{x}}{dt} = \frac{  F_0 \cos(\theta) -L\sin(\theta) - D \cos(\theta) }{m}\\
+\frac{dv_{z}}{dt} = \frac{ -g + F_0 \sin(\theta) +L\cos(\theta) - D \sin(\theta) }{m}\\
+\end{cases}
+\end{equation*}
+
  Avec $\theta $ l'angle entre entre les vecteurs vitesses  $v_x$ et $v_z$ : 
- \[
- \theta = \arctan(\frac{v_z}{v_x})
- \]
+ \begin{equation*}
+ 	 \theta = \arctan(\frac{v_z}{v_x})
+ \end{equation*}
+
  \subsubsection{Méthode Runge-Kutta d'ordre 4}
- On reprend le schéma Runge-Kutta d'ordre 4 (\ref{2}) en modélisant les nouvelles dérivées vu en \ref{3}.
  
+ On reprend le schéma Runge-Kutta d'ordre 4 (cf \ref{2}) en modélisant les nouvelles dérivées vues en \ref{3}.
  
+%******************** 
 \section{Architecture}
-Cette partie va détailler l'architecture du programme. 
+%********************
+
+Nous détaillerons ici le contenu de l'archive ainsi que l'algorithme du programme.
 
 \subsection{Contenu}
 
@@ -265,51 +269,60 @@ Dans le dossier \verb?Validation? sont compris :
 	\item les graphiques de résultats\\
 \end{itemize}
 
-Le dossier \verb?Rapport? comprend les ressources pour le rapport \LaTeX  ainsi que le rapport en lui-même.
+Le dossier \verb?Rapport? comprend les ressources pour le rapport \LaTeX ainsi que le rapport en lui-même.
 
 \subsection{Algorithmie}
-%algorithme du code à faire ou à mettre en annexe
-Voici un algorigramme général présnetant le fonctionnement du programme :
+
+Voici l'algorigramme général présentant le fonctionnement du programme.
+
 \begin{figure}[h!]
 \bigcenter
-
 \centering
 \includegraphics[scale=0.7] {algorigramme}
-\caption{Algorigramme}	
+\caption{Algorigramme général du programme}	
 \end{figure}
 
-On détaille la procédure pour RK4 : 
-\\
+\subsubsection{Procédure RK4}
+Détaillons la procédure pour Runge-Kutta d'ordre 4.\\
 
-On a créer une subroutine nommée \verb?RK4? qui a pour paramètres d'entrées : 
+On a créé une subroutine nommée \verb?rk4? qui a pour paramètres d'entrées : 
 \begin{itemize}
-	\item dérivée de la fonction 
-	\item n : numéro du vecteur qu'on veut calculer
+	\item \verb?derivee? : dérivée de la fonction 
+	\item \verb?n? : numéro du vecteur que l'on veut calculer
 \end{itemize}
 Elle calcule la valeur du vecteur $y_{k+1}$ selon le schéma vu en \ref{2}. 
 \\
 
-Ensuite on appelle cette subroutine dans les 2 cas ( Chute libre ou Runge-Katta d'ordre 4 ) et selon les différentes forces qui s'appliquent, calcule les vecteurs positions et vitesses en x et en z. \\
+On appelle cette subroutine dans les 2 cas pour calculer les positions et les vitesses en $x$ et en $z$ : 
+\begin{itemize}
+\item Chute Libre
+\item Propulsé	
+\end{itemize}
 
-Pour la variation de l'angle $\alpha$, la subroutine \verb?parametrisation_alpha? fait varier l'angle alpha de 25 $\degre$ jusqu'à 75 $\degre$ par pas de 5 $\degre$.\\
-Ensuite cette subroutine reprend l'architecture du programme principal \verb?main.f90? pour calculer les trajectoires de chaque angle $alpha$.\\  
+\subsubsection{Paramétrisation d'Angle}
+Pour la variation de l'angle $\alpha$, Dans la subroutine \verb?parametrisation_alpha?, on modifie la variable globale de l'angle $\alpha$ de 25 \degre jusqu'à 75 \degre par pas de 5 \degre.
+On appelera alors les différentes subroutines présentes dans dans \verb?main.f90? en reprenant l'architecture du programme pour calculer les trajectoires de chaque angle $\alpha$.
 On affiche ensuite la portée et le temps de chute pour tous les angles. 
 
 
-
-
+%********************
 \section{Validation}
+%********************
 
 On effectue la validation selon la solution analytique pour le cas de la chute libre pour les deux méthodes.
+Les graphiques sont réalisés dans le \LaTeX à l'aide de gnuplot.
 
+\subsection{Trajectoires}
+
+\subsubsection{Modèle Chute Libre}
 Tout d'abord selon la méthode d'Euler.
 
 \begin{figure}[h]
 \centering
 \begin{gnuplot}[terminal=latex]
-set size 1,1; set title "Validation Chute Libre Euler";set xrange [0:180]; set yrange [0:140]; plot "BE_Euler_Chute_Libre_npt_10000.out" using 3:4 title "Méthode Euler" with lines, "BE_Euler_Chute_Libre_npt_10000.out" using 5:6 title "Méthode Analytique" with lines
+set size 1,1; set title "Validation Chute Libre Euler";set xrange [0:180]; set yrange [0:140];set ylabel "z (m)" ; set xlabel "x (m)"; plot "BE_Euler_Chute_Libre_npt_10000.out" using 3:4 title "Méthode Euler" with lines, "BE_Euler_Chute_Libre_npt_10000.out" using 5:6 title "Méthode Analytique" with lines
 \end{gnuplot}
-\caption{Validation de la Chute Libre selon la méthode d'Euler avec la méthode Analytique}
+\caption{Validation de la trajectoire en Chute Libre selon la méthode d'Euler avec la méthode Analytique}
 \end{figure}
 
 On observe la parfaite superposition entre les deux courbes, ainsi on peut valider nos résultats avec la résolution de la méthode d'Euler.
@@ -317,17 +330,80 @@ On observe la parfaite superposition entre les deux courbes, ainsi on peut valid
 \begin{figure}[h!]
 \centering
 \begin{gnuplot}[terminal=latex]
-set size 1,1; set title "Validation Chute Libre RK4";set xrange [0:180]; set yrange [0:140]; plot "BE_RK4_Chute_Libre_npt_10000.out" using 3:4 title "Méthode RK4" with lines, "BE_RK4_Chute_Libre_npt_10000.out" using 5:6 title "Méthode Analytique" with lines
+set size 1,1; set title "Validation Chute Libre RK4";set xrange [0:180]; set yrange [0:140];set ylabel "z (m)" ; set xlabel "x (m)" ; plot "BE_RK4_Chute_Libre_npt_10000.out" using 3:4 title "Méthode RK4" with lines, "BE_RK4_Chute_Libre_npt_10000.out" using 5:6 title "Méthode Analytique" with lines
 \end{gnuplot}
-\caption{Validation de la Chute Libre selon la méthode RK4 avec la méthode Analytique}
+\caption{Validation de la trajectoire en Chute Libre selon la méthode RK4 avec la méthode Analytique}
+\end{figure}
+
+\subsubsection{Modèle Propulsé}
+
+\begin{figure}[h!]
+\centering
+\begin{gnuplot}[terminal=latex]
+set size 1,1; set title "Validation Propulsé RK4 Euler";set xrange [0:370]; set yrange [0:140];set ylabel "z (m)" ; set xlabel "x (m)"; plot "BE_RK4_Propulsé_npt_10000.out" using 3:4 title "Méthode RK4" with lines, "BE_Euler_Propulsé_npt_10000.out" using 3:4 title "Méthode Euler" with lines
+\end{gnuplot}
+\caption{Validation du modèle Propulsé selon la méthode RK4 et la méthode Euler}
+\end{figure}
+
+
+\subsection{Paramétrisation d'Angle}
+\subsubsection{Modèle Chute Libre}
+
+\begin{figure}[h!]
+\centering
+%on utilise un offset puisque que le rotate ne marche pas dans cette configuration
+\begin{gnuplot}[terminal=latex]
+set size 1,1; set title "Portée en fonction de l'Angle Initial";set xrange [20:80]; set yrange [60:180];set ylabel "portée (m)" offset 2,9; set xlabel "$\alpha$ (degrés)"; plot "Paramétrisation_Alpha_Euler_Chute_Libre.out" using 2:3 title "Méthode Analytique" with lines, "Paramétrisation_Alpha_Euler_Chute_Libre.out" using 2:5 title "Méthode Euler" with lines
+\end{gnuplot}
+\caption{Validation paramétrisation d'alpha avec la portée en Chute Libre selon la méthode Euler avec la méthode Analytique}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \begin{gnuplot}[terminal=latex]
-set size 1,1; set title "Validation Propulsé RK4 Euler";set xrange [0:370]; set yrange [0:140]; plot "BE_RK4_Propulsé_npt_10000.out" using 3:4 title "Méthode RK4" with lines, "BE_Euler_Propulsé_npt_10000.out" using 3:4 title "Méthode Euler" with lines
+set size 1,1; set title "Portée en fonction de l'Angle Initial";set xrange [20:80]; set yrange [60:180];set ylabel "portée (m)" offset 2,9 ; set xlabel "$\alpha$ (degrés)"; plot "Paramétrisation_Alpha_Euler_Chute_Libre.out" using 2:3 title "Méthode Analytique" with lines, "Paramétrisation_Alpha_RK4_Chute_Libre.out" using 2:5 title "Méthode RK4" with lines
 \end{gnuplot}
-\caption{Validation du modèle Propulsé selon la méthode RK4 et la méthode Euler}
+\caption{Validation paramétrisation d'alpha avec la portée en Chute Libre selon la méthode RK4 avec la méthode Analytique}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\begin{gnuplot}[terminal=latex]
+set size 1,1; set title "Temps en fonction de l'Angle Initial";set xrange [20:80]; set yrange [4:10];set ylabel "t(s)" ; set xlabel "$\alpha$ (degrés)"; plot "Paramétrisation_Alpha_Euler_Chute_Libre.out" using 2:4 title "Méthode Analytique" with lines, "Paramétrisation_Alpha_Euler_Chute_Libre.out" using 2:6 title "Méthode Euler" with lines
+\end{gnuplot}
+\caption{Validation paramétrisation d'alpha avec le temps en Chute Libre selon la méthode Euler avec la méthode Analytique}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\begin{gnuplot}[terminal=latex]
+set size 1,1; set title "Temps en fonction l'Angle Initial";set xrange [20:80]; set yrange [4:10];set ylabel "t(s)" ; set xlabel "$\alpha$ (degrés)"; plot "Paramétrisation_Alpha_Euler_Chute_Libre.out" using 2:4 title "Méthode Analytique" with lines, "Paramétrisation_Alpha_RK4_Chute_Libre.out" using 2:6 title "Méthode RK4" with lines
+\end{gnuplot}
+\caption{Validation paramétrisation d'alpha avec le temps en Chute Libre selon la méthode RK4 avec la méthode Analytique}
+\end{figure}
+
+\subsubsection{Modèle Propulsé}
+Passons maintenant au modèle Propulsé.
+
+\begin{figure}[h!]
+\centering
+
+\begin{gnuplot}[terminal=latex]
+set size 1,1; set title "Portée en fonction de l'Angle Initial";set xrange [20:80]; set yrange [250:450];set ylabel "portée (m)" offset 2,9 ; set xlabel "$\alpha$ (degrés)"; plot "Paramétrisation_Alpha_Euler_Propulsé.out" using 2:3 title "Méthode Euler" with lines, "Paramétrisation_Alpha_RK4_Propulsé.out" using 2:3 title "Méthode RK4" with lines
+\end{gnuplot}
+\caption{Validation paramétrisation d'alpha avec la portée en Propulsé selon la méthode Euler avec la méthode Analytique}
+\end{figure}
+
+
+
+
+\begin{figure}[h!]
+\centering
+\begin{gnuplot}[terminal=latex]
+set size 1,1; set title "Temps en fonction l'Angle Initial";set xrange [20:80]; set yrange [4:10];set ylabel "t(s)" ; set xlabel "$\alpha$ (degrés)"; plot "Paramétrisation_Alpha_Euler_Propulsé.out" using 2:4 title "Méthode Euler" with lines, "Paramétrisation_Alpha_RK4_Propulsé.out" using 2:4 title "Méthode RK4" with lines
+\end{gnuplot}
+\caption{Validation paramétrisation d'alpha avec le temps en Propulsé selon la méthode RK4 avec la méthode Analytique}
 \end{figure}
 
 \newpage
