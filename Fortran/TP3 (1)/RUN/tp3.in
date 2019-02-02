@@ -1,5 +1,0 @@
-# entrées du programme du TP3
-1               # option : 3 fonctions, option de 1 à 3 (cf TD)
-0.              # x1     première borne de l'intervalle
-4.              # x2     seconde borne de l'intervalle
-101             # nombre de points, nombre de points de l'intervalle, de préférence impair

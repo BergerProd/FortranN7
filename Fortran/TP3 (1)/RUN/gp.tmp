@@ -1,3 +1,0 @@
-plot 'tp3_cas_1_npt_00101.out' using 2:3 with lines lw 2 , \
-'tp3_cas_1_npt_00101.out' using 2:5 with lines lw 2
-pause -1 "return to quit"
