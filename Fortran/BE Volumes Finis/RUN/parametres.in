@@ -1,0 +1,12 @@
+#Fichier d'entrée du Bureau d'Etudes Volumes Finis
+#Données Numériques#
+0.1d0	#pas de temps (s)
+10.d0	#temps final
+100		#nb point x
+100		#nb point y
+#Données Physiques#
+0.005d0 	#Longueur domaine
+0.05d0 		#Paramètre A
+0.00002d0	#Coefficient diffusivité Thermique A
+0.00002d0	#Coefficient diffusivité Thermique B
+
