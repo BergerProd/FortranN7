@@ -4,6 +4,7 @@ PROGRAM main
 !TODO centre, noeuds, faces
 
 USE module_reacteur_chimique
+IMPLICIT NONE
 
 pi = 4.d0*DATAN(1.d0)
 
@@ -15,4 +16,4 @@ CALL affichage_sortie()
 
 DEALLOCATE(x,y,ux,uy)
 
-END PROGRAM
+END PROGRAM main

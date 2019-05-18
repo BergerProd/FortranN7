@@ -3,7 +3,7 @@ MODULE module_reacteur_chimique
 IMPLICIT NONE
 
 INTEGER                                 :: nptx, npty
-REAL(KIND=8)                            :: dt, tfinal, L, A, alpha_A, alpha_B,pi
+REAL(KIND=8)                            :: dt, tfinal, l, a, alpha_a, alpha_b,pi
 REAL(KIND=8),ALLOCATABLE,DIMENSION(:)   :: x, y, ux, uy
 
 CONTAINS

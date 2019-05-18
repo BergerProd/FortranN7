@@ -13,13 +13,13 @@ IF (file_exists) THEN
     OPEN(1,FORM='FORMATTED',file='parametres.in')
     READ(1,*)
     READ(1,*)
-    READ(1,*)dt
-    READ(1,*)tfinal
-    READ(1,*)nptx
-    READ(1,*)npty
+    READ(1,*)dt !pas de temps
+    READ(1,*)tfinal !temps final
+    READ(1,*)nptx !nombre de points en x
+    READ(1,*)npty !nombre de points en y
     READ(1,*)
-    READ(1,*)L
-    READ(1,*)A
+    READ(1,*)l !longueur du domaine
+    READ(1,*)a !paramètre A amplitude 
     READ(1,*)alpha_a
     READ(1,*)alpha_b
     CLOSE(1)
