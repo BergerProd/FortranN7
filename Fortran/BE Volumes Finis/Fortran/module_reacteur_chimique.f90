@@ -4,7 +4,7 @@ IMPLICIT NONE
 
 INTEGER                                 :: nptx, npty
 REAL(KIND=8)                            :: dt, tfinal, l, a, alpha_a, alpha_b,pi
-REAL(KIND=8),ALLOCATABLE,DIMENSION(:)   :: x, y, ux, uy
+REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:)   :: xnoeuds, ynoeuds, ux, uy, u, xcentre_vol,ycentre_vol
 
 CONTAINS
 
