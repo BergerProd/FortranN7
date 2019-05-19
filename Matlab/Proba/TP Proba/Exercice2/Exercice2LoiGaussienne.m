@@ -22,7 +22,7 @@ X=randn(1,N); %Initialisation selon loi normale
 % Xsort=sort(X);
 % ddpX=hist(Xsort,Nc)/(N*dx);
 
-[ddpX,xbins,dx]=ddpxbins(N,Nc,X);% %Méthode histogramme des fréquences normalisées
+[ddpX,xbins,dx]=ddpxbins(N,Nc,X);% appel de fonction pour Méthode histogramme des fréquences normalisées
 
 
 %Pour Générateurs
@@ -66,8 +66,8 @@ Y1 = sqrt(-2*log(U)).*sin(2*pi*V); %on n'utilise pas Y finalement
 dx1 =(max(X1)-min(X1))/(Nc); %Discrétisation
 x1bins = min(X1)+dx1/2:dx1:max(X1)-dx1/2; %Construction du vecteur xbins
 
-mx1 = mean(X1);
-sx1 = std(X1); 
+mx1 = mean(X1); %moyenne 
+sx1 = std(X1); 	%ecart-type
 
 for i = 1:length(x1bins) %on pourrait aussi le faire sans une boucle mais avec *.
     ddpx1(i) = (1/(sx1*sqrt(2*pi)))*exp(-((x1bins(i)-mx1)^2)/(2*sx1^2));

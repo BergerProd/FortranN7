@@ -15,7 +15,7 @@ U=rand(1,N);
 
 %Méthode histogramme des fréquences normalisées
 
-X=-log(1-U)/lambda;
+X=-log(1-U)/lambda; %Remplissage du vecteur
 
 
 % dx = (max(X)-min(X))/Nc;
@@ -37,6 +37,7 @@ ylabel('Densité de probabilité de f(x)');
 hold off;
 
 %% DDP loi expo 
+
 % Loi exponentielle
 for i =1:length(xbins)
     loiexp(i)=lambda*exp(-lambda*xbins(i));

@@ -56,6 +56,8 @@ DO j=2,npty
 END DO
 
 !Centre des Volumes
+!Donc dx/2 en partant de chaque noeud en x et y
+!npt-1 sur les 2
 DO i=1,nptx-1
     xcentre_vol(i,1) = xnoeuds(i,1) + dx/2.d0
 END DO
@@ -63,6 +65,22 @@ END DO
 DO j=1,npty-1
     ycentre_vol(1,j) = ynoeuds(1,j) + dx/2.d0
 END DO
+
+!Faces
+!On veut le centre des faces
+
+!Faces horizontales
+!egales aux noeuds en x + dx/2 i.e. abcisse des centre des faces ->npt-1
+!meme coordonnées en y que les noeuds -> npt
+xcentre_faces_horiz(:,1)=xcentre_vol(:,1)
+ycentre_faces_horiz(1,:)=ynoeuds(1,:)
+
+!Faces Verticales
+!egales aux noeuds pour les abcisses -> npt
+!egales ordonnées des centres ->npt-1
+xcentre_faces_vertic(:,1)=xnoeuds(:,1)
+ycentre_faces_vertic(1,:)=ycentre_vol(1,:)
+
 
 END SUBROUTINE maillage
 
@@ -75,12 +93,11 @@ USE module_reacteur_chimique
 IMPLICIT NONE
 INTEGER     :: i
 
-!DO i=1,nptx
-!    ux(i) =  A*DCOS(pi*(x(i,1)/L-0.5d0))*DSIN(pi*(y(1,i)/L-0.5d0))
-!    uy(i) = -A*DSIN(pi*(x(i,1)/L-0.5d0))*DCOS(pi*(y(1,i)/L-0.5d0))
-!END DO
+DO i=1,nptx
+    U(i,1) =  a*DCOS(pi*((xnoeuds(i,1)/L) -0.5d0))*DSIN(pi*((ynoeuds(1,i)/L) -0.5d0)) !Ux
+    U(1,i) = -a*DSIN(pi*((xnoeuds(i,1)/L) -0.5d0))*DCOS(pi*((ynoeuds(1,i)/L) -0.5d0)) !Uy
 
-
+END DO
 
 END SUBROUTINE champ_vitesse
 
@@ -106,13 +123,13 @@ nom='reacteur.out'
 
 OPEN(1,FORM='FORMATTED',FILE=TRIM(nom))
 WRITE(1,100)
-100 FORMAT(3x,'i',3x,'x',15x,'y',14x,'Ux',14x,'Uy')
+100 FORMAT(3x,'i',3x,'x noeuds',7x,'y noeuds',7x,'x centre Vol',7x,'y centre Vol',4x,'Vitesse x',7x,'Vitesse y',4x,'x ctr faces horiz',4x,'y ctr faces horiz')
 
 DO i=1,nptx
-    WRITE(1,200)i,xnoeuds(i,1),ynoeuds(1,i),xcentre_vol(i,1),ycentre_vol(1,i)
+    WRITE(1,200)i,xnoeuds(i,1),ynoeuds(1,i),xcentre_vol(i,1),ycentre_vol(1,i),U(i,1),U(1,i),xcentre_faces_horiz(i,1),ycentre_faces_horiz(1,i)
 END DO
 
-200 FORMAT(i4,2x,4(e13.6,3x))
+200 FORMAT(i4,2x,10(e13.6,3x))
 CLOSE(1)
 
 END SUBROUTINE affichage_sortie

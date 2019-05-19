@@ -29,7 +29,7 @@ U=(Ni/M);
 
 %% Question 2
 %Méthode histogramme des fréquences normalisées
-%On peut le faire directemnt ici ou on fait appel à une fonction
+%On peut le faire directement ici ou on fait appel à une fonction
 
 % dx=(max(U)-min(U))/(Nc); %Discrétisation
 % xbins = min(U)+dx/2:dx:max(U)-dx/2; %Construction du vecteur xbins
@@ -40,8 +40,8 @@ U=(Ni/M);
 [ddpU,xbins,dx]=ddpxbins(N,Nc,U);% appel de la fonction
 
 %% Générateur Matlab rand
-Um=rand(1,N);
-Umsort=sort(Um);
+Um=rand(1,N); %génération
+Umsort=sort(Um); %tri par ordre croissant
 ddpUm=hist(Umsort,Nc)/(N*dx);
 
 %% Tracé de la comparaison
