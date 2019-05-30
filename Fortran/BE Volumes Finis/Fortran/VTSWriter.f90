@@ -12,7 +12,7 @@ subroutine VTSWriter(Time,Step,nx,ny,x,y,T,U,V,opt)
 !  y       : Tableau reel (de taille nx,ny) des ordonnees des noeuds          #
 !            des  volumes                                                     #
 !  T,U,V   : Tableaux reel (de taille nx-1 par ny-1) des valeurs a tracer     #
-!            (valeurs au centre des volumes de controle                       #
+!            (valeurs au centre des volumes de controle)                       #
 !  opt     : Variable de type chaine des characteres qui doit prendre         #
 !            l'une des valeurs suivantes :                                    #
 !              - 'ini' pour le premier appel a VTSWriter                      #

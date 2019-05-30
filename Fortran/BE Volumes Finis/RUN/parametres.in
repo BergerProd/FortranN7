@@ -1,11 +1,11 @@
 #Fichier d'entrée du Bureau d'Etudes Volumes Finis
 #Données Numériques#
-0.1d0	#pas de temps (s)
-10.d0	#temps final
-100		#nb point x
-100		#nb point y
+0.1	#pas de temps (s)
+10.	#temps final
+1000		#nb point x
+1000		#nb point y
 #Données Physiques#
-0.005d0 	#Longueur domaine
-0.05d0 		#Paramètre A caractéristique de la vitesse des Gaz
-0.00002d0	#Coefficient diffusivité Thermique A
-0.00002d0	#Coefficient diffusivité Thermique B
+0.005   #Longueur domaine
+0.05  	#Paramètre A caractéristique de la vitesse des Gaz
+0.00002 	#Coefficient diffusivité Thermique A
+0.00002 	#Coefficient diffusivité Thermique B

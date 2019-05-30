@@ -1,6 +1,6 @@
 FC= gfortran
-#FFLAGS= -fdefault-real-8 -Wsurprising  -ffree-line-length-none -O3 -Wall 
-FFLAGS=  -Wsurprising  -ffree-line-length-none -O3 -Wall 
+#FFLAGS= -fdefault-real-8 -Wsurprising  -ffree-line-length-none -O3 -Wall
+FFLAGS=  -Wsurprising  -ffree-line-length-none -O3 -Wall
 
 EXENAME=../RUN/main.bin			# nom du programme, dans le dossier au-dessus
 
@@ -18,13 +18,12 @@ ALL: $(EXENAME)
 	$(FC)  -c $(FFLAGS)  $<
 
 $(EXENAME):   $(OBJS)
-	$(FC) $(FFLAGS) -o $@ $(OBJS) 
+	$(FC) $(FFLAGS) -o $@ $(OBJS)
 
 # lignes à écrire uniquement pour chacun des modules
-module.o: 					
+module.o:
 	$(FC) $(FFLAGS) -c module_reacteur_chimique.f90
 
 # pour compiler à nouveau
 clean:
-	/bin/rm *.o *.mod *.f90~  Makefile~  $(EXENAME)
-
+	/bin/rm *.o *.mod *.f90~  Makefile~  $(EXENAME) $(OBJS)
