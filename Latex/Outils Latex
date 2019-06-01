@@ -144,6 +144,15 @@ Juin 2019 % Publication year
 \end{figure}
 
 %************************************************************************
+%							Mettre une figure de cote
+%************************************************************************
+\begin{sidewaysfigure}
+\centering
+\includegraphics[scale=0.6]{gantlaser.JPG}
+\caption{Diagramme de Gantt}
+\end{sidewaysfigure}
+
+%************************************************************************
 %							Mettre une légende à un tableau
 %************************************************************************
 
@@ -160,15 +169,74 @@ Juin 2019 % Publication year
 \captionof{table}{Coût de fonctionnement journalier des différentes solutions (en euros)}
  \end{center}
 
- %************************************************************************
- %							Mettre une figure de cote
- %************************************************************************
- \begin{sidewaysfigure}
- \centering
- \includegraphics[scale=0.6]{gantlaser.JPG}
- \caption{Diagramme de Gantt}
- \end{sidewaysfigure}
 
+ %************************************************************************
+ %							 Texte Brut
+ %************************************************************************
+
+\verb?Rapport?
+
+%************************************************************************
+%							Equations
+%************************************************************************
+\begin{align*}
+x(t) &= v_0\cos(\alpha)t \\
+z(t) &= v_0\sin(\alpha)t - \frac{gt^2}{2} + h\\
+\end{align*}
+
+OU
+
+\begin{equation*}
+portee = \frac{v_0}{g} \cos(\alpha) \sqrt{v_0 \sin(\alpha) +(v_0\sin(\alpha))^2 + 2gh}
+\end{equation*}
+
+%************************************************************************
+%							Système d'Equations = à un autre
+%************************************************************************
+
+\begin{equation*}
+\left\{
+ \begin{array}{c c c}
+  y(1,i) =  x(i)\\
+  y(2,i) = z(i)\\
+  y(3,i) = v_{x}(i)\\
+  y(4,i) = v_{z}(i)\\
+  \end{array}
+\qquad
+\Longleftrightarrow
+\left\{
+\begin{array}{c c c}
+\frac{dx}{dt} = v_{x}\\
+\frac{dz}{dt} = v_{z}\\
+\frac{dv_{x}}{dt} = 0\\
+\frac{dv_{z}}{dt} = -g\\
+\end{array}
+\end{equation*}
+
+%************************************************************************
+%							Système d'Equations
+%************************************************************************
+
+
+
+\begin{equation*}
+\begin{cases}
+ y(3,i+1) = y(3,i)\\
+ y(4,i+1) = y(4,i)  - dt\times g  \\
+ y(1,i+1) = y(1,i)  + dt \times y(3,i)\\
+ y(2,i+1) = y(2,i)  + dt \times y(4,i)\\
+\end{cases}
+\end{equation*}
+
+%************************************************************************
+%							Outils pour Equations
+%************************************************************************
+\left( et \right)
+%************************************************************************
+%							Faire référence à un objet
+%************************************************************************
+
+\label{2} et \ref{2}
  %************************************************************************
  %							Insérer une bibliographie
  %************************************************************************
