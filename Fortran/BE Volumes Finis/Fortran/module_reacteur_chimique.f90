@@ -3,8 +3,8 @@ MODULE module_reacteur_chimique
 IMPLICIT NONE
 
 INTEGER                         :: nptx, npty
-REAL                            :: dt, tfinal, l, a, alpha_a, alpha_b,pi,dx,dy
-REAL,ALLOCATABLE,DIMENSION(:,:) :: xnoeuds, ynoeuds, xcentre_vol,ycentre_vol,&
+REAL(KIND=8)                            :: dt, tfinal, l, a, alpha_a, alpha_b,pi,dx,dy
+REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: xnoeuds, ynoeuds, xcentre_vol,ycentre_vol,&
 xcentre_faces_horiz,ycentre_faces_horiz,xcentre_faces_vertic,ycentre_faces_vertic, &
 ux_centres_vol,uy_centres_vol,temperature, &
 flux_adv_haut, flux_adv_bas, flux_adv_gauche,flux_adv_droit,ux_centres_faces,uy_centres_faces,flux_tot

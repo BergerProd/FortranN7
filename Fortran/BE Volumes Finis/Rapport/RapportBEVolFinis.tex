@@ -1,0 +1,131 @@
+\documentclass[a4paper,oneside]{article}
+%Compilé avec MacTex
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref} % références dans pdf
+\usepackage[tt]{titlepic}
+\usepackage{graphicx} % pour images
+\usepackage{rotating} % pour rotatebox
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{sistyle}
+\usepackage{chngpage}
+\usepackage{caption}
+\usepackage{epstopdf}
+\usepackage{gnuplottex}% pour faire du gnuplot directement dans le latex
+\usepackage[nottoc, notlof, notlot]{tocbibind} % pour que bibliographie soit comprise comme un chapitre ou section
+\usepackage{appendix} % pour les annexes
+\pagestyle{headings} % pour en têtes
+\usepackage{mathenv}
+  %\usepackage{SIunitx}
+%\usepackage{siunitx}%pour les unités SI
+\DeclareTextSymbol{\degre}{OT1}{23} %pour le symbole degré
+\makeatletter % pour /bigcenter qui permet de s'affranchir des marges pour les images
+\newskip\@bigflushglue \@bigflushglue = -100pt plus 1fil
+
+\def\bigcenter{\trivlist \bigcentering\item\relax}
+\def\bigcentering{\let\\\@centercr\rightskip\@bigflushglue%
+\leftskip\@bigflushglue
+\parindent\z@\parfillskip\z@skip}
+\def\endbigcenter{\endtrivlist}
+\makeatother
+
+
+\begin{document}
+
+%************************************************************************
+%									TITRE
+%************************************************************************
+
+
+\begin{titlepage} % Suppresses headers and footers on the title page
+
+	\centering % Centre everything on the title page
+
+	\scshape % Use small caps for all text on the title page
+
+	\vspace*{\baselineskip} % White space at the top of the page
+
+
+	\rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt}
+	 % Thick horizontal rule
+	\rule{\textwidth}{0.4pt} % Thin horizontal rule
+
+	\vspace{0.75\baselineskip} % Whitespace above the title
+
+	{\LARGE Bureau d'\'Etudes :\\
+	\vspace{0.75\baselineskip}
+	Alimentation en Eau Potable du village d'Uzemain \\
+	} % Title
+
+	\vspace{1\baselineskip} % Whitespace below the title
+	\rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace*{3.2pt}
+	 % Thin horizontal rule
+	\rule{\textwidth}{1.6pt} % Thick horizontal rule
+	\vspace{2\baselineskip} % Whitespace after the title block
+
+	%------------------------------------------------
+	%	Subtitle
+	%------------------------------------------------
+
+	% Subtitle or further description
+	Hydraulique en Charge
+
+	\vspace*{3\baselineskip} % Whitespace under the subtitle
+
+	%------------------------------------------------
+	%	Editor(s)
+	%------------------------------------------------
+
+
+	\vspace{0.5\baselineskip} % Whitespace before the editors
+
+	{\scshape\Large Quentin Bergé \\ Adrien Autellet\\} % Editor list
+
+	\vspace{0.5\baselineskip} % Whitespace below the editor list
+
+	\textit{ENSEEIHT} % Editor affiliation
+
+	\vfill % Whitespace between editor names and publisher logo
+
+	%------------------------------------------------
+	%	Publisher
+	%------------------------------------------------
+
+	\includegraphics[scale=0.8]{logoN7.png} % changer logo
+
+	\vspace{0.3\baselineskip} % Whitespace under the publisher logo
+
+Juin 2019 % Publication year
+\end{titlepage}
+\newpage
+
+%Table des Matières
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\section{Description du Problème}
+
+\subsection{Architecture}
+???
+
+
+\section{Discrétisation}
+
+
+
+\section{Validation}
+
+
+\section{Exploitation}
+
+
+\section{Conclusion}
+
+
+
+\end{document}

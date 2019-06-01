@@ -3,12 +3,13 @@ PROGRAM main
 !TODO normalement on devrait allouer xcentre_vol,ycentre_vol,xcentre_faces_horiz,ycentre_faces_horiz en taille n-1*n-1
 !Comment afficher tout ça sans avoir d'erreur ?
 !TODO Calcul du pas de temps
+!TODO repasser en double precision pour tout y compris fonctions et tout ça
 
 
 USE module_reacteur_chimique
 IMPLICIT NONE
 
-pi = 4.*ATAN(1.)
+pi = 4.d0*DATAN(1.d0)
 
 CALL read_data()
 !Normalement xcentre_vol et ycentre_vol sont de taille n-1, mais on les allocate à n pour ne pas se faire jeter quand on affiche tout en sortie

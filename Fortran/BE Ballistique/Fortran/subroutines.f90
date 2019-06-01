@@ -108,10 +108,10 @@ IMPLICIT NONE
 
 DO i=1,npt-1
 
-  y(3,i+1) = y(3,i)                !vx(i+1)
-  y(4,i+1) = y(4,i)  - dt*g        !vz(i+1)
-  y(1,i+1) = y(1,i)  + dt*y(3,i)   !x(i+1)
-  y(2,i+1) = y(2,i)  + dt*y(4,i)   !z(i+1)
+  y(3,i+1) = y(3,i)                !x(i+1)
+  y(4,i+1) = y(4,i)  - dt*g        !z(i+1)
+  y(1,i+1) = y(1,i)  + dt*y(3,i)   !vx(i+1)
+  y(2,i+1) = y(2,i)  + dt*y(4,i)   !vz(i+1)
 
   !Pour affichage de la portée
   IF( (y(2,i) .LE. 0.d0) .AND. (indice_le_zero==1)) THEN ! ruse pour obtenir l'indice ou z <= 0
@@ -233,6 +233,10 @@ END SUBROUTINE propulse_rk4
 !*******************************
 SUBROUTINE parametrisation_alpha
 !*******************************
+!Paramétrisation d'alpha, obtention des portées et des temps de vol pour le modèle et la méthode selectionnée
+!on fait tourner le cas correspondant à notre simulation en modifiant la valeur d'alpha en tant que variable globale
+!On récupère alors portee et tl que l'on stocke dans 2 tableaux que l'on affichera avec la subroutine affichage_parametrisation_alpha
+
 USE mod_balistique
 IMPLICIT  NONE
 INTEGER :: k,l
@@ -347,6 +351,18 @@ IMPLICIT NONE
 CHARACTER(LEN=50)            :: nom
 CHARACTER(LEN=11)            :: tmp1,tmp2
 
+
+IF (methode==1) THEN
+  tmp1 = "Euler"
+ELSE
+  tmp1 = "RK4"
+ENDIF
+
+IF(modele==1) THEN
+  tmp2 = "Chute_Libre"
+ELSE
+  tmp2 = "Propulsé"
+ENDIF
 
 nom = 'Paramétrisation_Alpha_'//trim(tmp1)//'_'//trim(tmp2)//'.out'
 PRINT*, 'Regardez dans le fichier ', nom

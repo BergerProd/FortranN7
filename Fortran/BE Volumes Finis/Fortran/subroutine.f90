@@ -44,11 +44,11 @@ INTEGER         :: i, j
 dx = L/real(nptx-1)
 dy = L/real(npty-1)
 !initialisation des noeuds
-xnoeuds(1,:) = -L/2.
-ynoeuds(:,1) = -L/2.
+xnoeuds(1,:) = -L/2.d0
+ynoeuds(:,1) = -L/2.d0
 
 !Noeuds
-!TODO rassembler les boucles pour noeuds & centres
+
 DO i=2,npty
     xnoeuds(i,:) = xnoeuds(1,1)+dx*(i-1)
     ynoeuds(:,i) = ynoeuds(1,1)+dy*(i-1)
@@ -57,8 +57,8 @@ END DO
 !Centre des Volumes
 !Donc dx/2 en partant de chaque noeud en x et y
 !npt-1 sur les 2
-xcentre_vol(1,:) = -L/2. + dx/2.
-ycentre_vol(:,1) = -L/2. + dx/2.
+xcentre_vol(1,:) = -L/2.d0 + dx/2.d0
+ycentre_vol(:,1) = -L/2.d0 + dx/2.d0
 DO i=2,npty-1
     xcentre_vol(i,:) = xcentre_vol(1,1) + dx*(i-1)
     ycentre_vol(:,i) = ycentre_vol(1,1) + dx*(i-1)
@@ -96,8 +96,8 @@ INTEGER     :: i, j
 
 DO i=1,nptx-1
     DO j=1,npty-1
-    ux_centres_vol(i,j) =  a*COS(pi*((xcentre_vol(i,j)/L) -0.5))*SIN(pi*((ycentre_vol(i,j)/L) -0.5)) !Ux
-    uy_centres_vol(i,j) =  -a*SIN(pi*((xcentre_vol(i,j)/L) -0.5))*COS(pi*((ycentre_vol(i,j)/L) -0.5)) !Uy
+    ux_centres_vol(i,j) =  a*DCOS(pi*((xcentre_vol(i,j)/L) -0.5d0))*DSIN(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Ux
+    uy_centres_vol(i,j) =  -a*DSIN(pi*((xcentre_vol(i,j)/L) -0.5d0))*DCOS(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Uy
     END DO
 END DO
 
@@ -117,21 +117,21 @@ USE module_reacteur_chimique
 
 IMPLICIT NONE
 INTEGER     :: i, j
-REAL        :: sigmaA,sigmaB,Ta,T0,Tb
+REAL(KIND=8)        :: sigmaA,sigmaB,Ta,T0,Tb
 
-T0=293. ! tout le domaine à 293 K
-Ta=800. !imposer sur face AC 800 K
-Tb=800.
+T0=293.d0 ! tout le domaine à 293 K
+Ta=800.d0 !imposer sur face AC 800 K
+Tb=800.d0
 
-temperature(:,:) =293.
+temperature(:,:) =293.d0
 
-sigmaA=L/20.
-sigmaB=L/20.
+sigmaA=L/20.d0
+sigmaB=L/20.d0
 
 ! Cas profil gaussien
 DO j=1,npty-1
-  temperature(1,j)=(Ta-T0)*exp((-ycentre_vol(1,j)**2)/(2*sigmaA**2))+T0 !Ta
-  temperature(nptx-1,j)=(Tb-T0)*exp((-ycentre_vol(nptx-1,j)**2)/(2*sigmaB**2))+T0 !Tb
+  temperature(1,j)=(Ta-T0)*exp((-ycentre_vol(1,j)**2)/(2.d0*sigmaA**2))+T0 !Ta
+  temperature(nptx-1,j)=(Tb-T0)*exp((-ycentre_vol(nptx-1,j)**2)/(2.d0*sigmaB**2))+T0 !Tb
 END DO
 
 
@@ -160,6 +160,21 @@ END DO
 
 flux_tot(:,:)=flux_adv_bas(:,:)+flux_adv_haut(:,:)+flux_adv_droit(:,:)+flux_adv_gauche(:,:)
 
+!Attention selon cours pour flux advectif
+!il faut prendre Ui Ti si Ui.N<0
+!et Ui+1 Ti+1 si Ui.N
+
+!Flux convectif sur x
+!DO i=2,nx DO j=1,ny
+!fcx(i,j)=(c(i-1,j,1)*u(i-1,j)-c(i,j,1)*u(i,j))*(y(j+1)-y(j))
+!ENDDO
+!ENDDO
+!!Flux convectif sur y DO i=2,nx
+!DO j=2,ny-1
+!  IF (v(i,j)>=0) THEN fcy(i,j)=(c(i,j-1,1)*v(i,j-1)-c(i,j,1)*v(i,j))*(x(i+1)-x(i))
+!ELSE
+!fcy(i,j)=(c(i,j+1,1)*v(i,j+1)-c(i,j,1)*v(i,j))*(x(i+1)-x(i))
+!ENDIF
 
 END SUBROUTINE calcul_flux_advectif
 
@@ -237,8 +252,8 @@ subroutine VTSWriter(Time,Step,nx,ny,x,y,T,U,V,opt)
 !-----------------------------------------------------------------------------#
   implicit none
   integer :: Step, i, j, nx, ny
-  real :: T(nx-1,ny-1),U(nx-1,ny-1),V(nx-1,ny-1),Time
-  real :: x(nx,ny), y(nx,ny)
+  real(KIND=8) :: T(nx-1,ny-1),U(nx-1,ny-1),V(nx-1,ny-1),Time
+  real(KIND=8) :: x(nx,ny), y(nx,ny)
   character(100) :: num2char
   character(200) :: FileName, formatperso
   character(3) :: opt

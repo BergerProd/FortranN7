@@ -109,10 +109,12 @@ Fevrier 2019 % Publication year
 
 
 \section{Introduction}
-Il est question ici de créer un programme pour effectuer le calcul de trajectoire d'un objet en chute libre et propulsé selon l'énoncé proposé.
+Il est question ici de créer un programme pour effectuer le calcul de trajectoire d'un objet en chute libre et propulsé selon l'enoncé proposé.
 Dans ce rapport nous aborderons tout d'abord la modélisation du problème, puis nous nous focaliserons sur l'architecture du programme pour enfin aborder la validation.
-Ce document a été compilé en utilisant la suite MacTex.
 
+\section{Résumé}
+\subsection{Résumé en Anglais}
+\subsection{Résumé en Français}
 
 \section{Modélisation}
 
@@ -208,37 +210,7 @@ k_4 = \frac{dy_k}{dt} + \Delta t \times k_3\\
 \end{cases}
 \end{equation*}
 
-On utilisera les dérivées de la modélisation chute libre de la méthode d'Euler \ref{syst_chute_libre} en appliquant la méthode Runge-Kutta à l'ordre 4.\\
-
-%Calcul de $y_3$ :
-
-%\begin{equation*}
-%\left\{
-% \begin{array}{c c c}
-%  k_1 = \dfrac{dy_1}{dt}\\
-%  k_2 = \dfrac{d(y_1 + k_1\Delta t/2)}{dt}\\
-%  k_3 = \dfrac{d(y_1 + k_2\Delta t/2)}{dt}\\ 
-%  k_4 = \dfrac{d(y_1 + k_3\Delta t)}{dt}\\
-%  \end{array}
-%\qquad
-%\Longleftrightarrow
-%\left\{
-%\begin{array}{c c c}
-%k_1 = y_3\\
-%\dfrac{dy_1}{dt} + \dfrac{\Delta t}{2} \dfrac{dk_1}{dt} \\
-%\dfrac{dy_1}{dt} + \dfrac{\Delta t}{2} \dfrac{dk_2}{dt}  \\
-%\dfrac{dy_1}{dt} + \Delta t \dfrac{dk_3}{dt} \\  
-%\end{array}
-%\qquad
-%\Longleftrightarrow
-%\left\{
-%\begin{array}{c c c}
-%y_3\\
-%y_3\\
-%y_3\\
-%y_3\\
-%\end{array}
-%\end{equation*}
+On utilisera les dérivées de la modélisation chute libre de la méthode d'Euler \ref{syst_chute_libre} en appliquant la méthode Runge-Kutta à l'ordre 4.
 
 
 \subsection{Objet Portant Propulsé}
@@ -337,7 +309,7 @@ On affiche ensuite la portée et le temps de chute pour tous les angles.
 \section{Validation}
 %********************
 
-On effectue la validation selon la solution analytique pour le cas de la chute libre pour les deux méthodes. Nous avons pris ici 10000 points pour modéliser notre trajectoire.
+On effectue la validation selon la solution analytique pour le cas de la chute libre pour les deux méthodes.
 Les graphiques sont réalisés dans le \LaTeX à l'aide de gnuplot.
 
 \subsection{Trajectoires}
@@ -353,10 +325,7 @@ set size 1,1; set title "Validation Chute Libre Euler";set xrange [0:180]; set y
 \caption{Validation de la trajectoire en Chute Libre selon la méthode d'Euler avec la méthode Analytique}
 \end{figure}
 
-On observe la parfaite superposition entre les deux courbes, ainsi on peut valider nos résultats de trajectoires avec la résolution de la méthode d'Euler.
-
-
-\newpage
+On observe la parfaite superposition entre les deux courbes, ainsi on peut valider nos résultats avec la résolution de la méthode d'Euler.
 
 \begin{figure}[h!]
 \centering
@@ -365,9 +334,6 @@ set size 1,1; set title "Validation Chute Libre RK4";set xrange [0:180]; set yra
 \end{gnuplot}
 \caption{Validation de la trajectoire en Chute Libre selon la méthode RK4 avec la méthode Analytique}
 \end{figure}
-
-On observe la parfaite superposition entre les deux courbes, ainsi on peut valider nos résultats de trajectoires avec la résolution de la méthode RK4.
-
 
 \subsubsection{Modèle Propulsé}
 
@@ -379,9 +345,7 @@ set size 1,1; set title "Validation Propulsé RK4 Euler";set xrange [0:370]; set
 \caption{Validation du modèle Propulsé selon la méthode RK4 et la méthode Euler}
 \end{figure}
 
-On observe la parfaite superposition entre les deux courbes, ainsi on peut valider nos résultats de trajectoires avec Euler et RK4.
 
-\newpage
 \subsection{Paramétrisation d'Angle}
 \subsubsection{Modèle Chute Libre}
 
@@ -394,7 +358,6 @@ set size 1,1; set title "Portée en fonction de l'Angle Initial";set xrange [20:
 \caption{Validation paramétrisation d'alpha avec la portée en Chute Libre selon la méthode Euler avec la méthode Analytique}
 \end{figure}
 
-
 \begin{figure}[h!]
 \centering
 \begin{gnuplot}[terminal=latex]
@@ -402,7 +365,6 @@ set size 1,1; set title "Portée en fonction de l'Angle Initial";set xrange [20:
 \end{gnuplot}
 \caption{Validation paramétrisation d'alpha avec la portée en Chute Libre selon la méthode RK4 avec la méthode Analytique}
 \end{figure}
-
 
 \begin{figure}[h!]
 \centering
@@ -421,10 +383,6 @@ set size 1,1; set title "Temps en fonction l'Angle Initial";set xrange [20:80]; 
 \caption{Validation paramétrisation d'alpha avec le temps en Chute Libre selon la méthode RK4 avec la méthode Analytique}
 \end{figure}
 
-On observe la parfaite superposition entre les différentes courbes de temps et de portée.
-
-
-
 \subsubsection{Modèle Propulsé}
 Passons maintenant au modèle Propulsé.
 
@@ -438,43 +396,19 @@ set size 1,1; set title "Portée en fonction de l'Angle Initial";set xrange [20:
 \end{figure}
 
 
+
+
 \begin{figure}[h!]
 \centering
 \begin{gnuplot}[terminal=latex]
-set size 1,1; set title "Temps en fonction l'Angle Initial";set xrange [20:80]; set yrange [4:14];set ylabel "t(s)" ; set xlabel "$\alpha$ (degrés)"; plot "Paramétrisation_Alpha_Euler_Propulsé.out" using 2:4 title "Méthode Euler" with lines, "Paramétrisation_Alpha_RK4_Propulsé.out" using 2:4 title "Méthode RK4" with lines
+set size 1,1; set title "Temps en fonction l'Angle Initial";set xrange [20:80]; set yrange [4:10];set ylabel "t(s)" ; set xlabel "$\alpha$ (degrés)"; plot "Paramétrisation_Alpha_Euler_Propulsé.out" using 2:4 title "Méthode Euler" with lines, "Paramétrisation_Alpha_RK4_Propulsé.out" using 2:4 title "Méthode RK4" with lines
 \end{gnuplot}
 \caption{Validation paramétrisation d'alpha avec le temps en Propulsé selon la méthode RK4 avec la méthode Analytique}
 \end{figure}
 
-
 \newpage
 
 \section{Conclusion}
-Les courbes montrent bien que le programme fonctionne correctement malgré que l’utilisation de la méthode de Runge-Kutta d’ordre 4 ne soit pas correcte.
-Ceci est sans doute du au fait que le dt choisit est assez important. 
-Pour améliorer ce programme on pourrait calculer d’autres trajectoires plus complexes avec plus de paramètres (comme un objet motorisé)
-
-\section{Résumés}
-\subsection{Abstract}
-This program performs a trajectory calculation using either the Eulerian method or the Runge-Kutta method of order 4 according to the user's choice. 
-It can calculate 2 types of trajectory of an object :
-\begin{itemize}
-\item a free fall trajectory
-\item a propelled trajectory by taking into account the forces of lift, drag and propulsion
-\end{itemize}
-The input and output data of these trajectories are contained in text files.
-These output data can be used to represent the trajectory on graphics.
-
-\subsection{Résumé}
-Ce programme réalise un calcul de trajectoire en utilisant soit la méthode Eulérienne soit la méthode de Runge-Kutta d‘ordre 4 selon le choix de l’utilisateur. 
-Il peut calculer 2 types de trajectoire :
-\begin{itemize}
-	\item une chute libre d’un objet
-	\item une trajectoire propulsée en prenant en compte les forces de portance, de traînée et de propulsion
-\end{itemize}
-Les données d’entrées et de sorties de ces trajectoires sont contenus dans des fichiers textes.
-Ces données de sorties peuvent être utilisées pour représenter la trajectoire sur des graphiques. 
-
 
 
 \end{document}

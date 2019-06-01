@@ -56,7 +56,9 @@ END IF
 WRITE(*,'(a,e14.5)') "la portée maximum L = " , y(1,indice_le_zero)
 WRITE(*,'(a,e14.5)') "le temps associé à la portée maximale est tl = ", t(indice_le_zero)
 
-CALL affichage_sortie()
+CALL affichage_sortie() ! affichage des trajectoires
+!étant donné que parametrisation_alpha utilise nos calculs avec les différentes méthodes, on doit d'abord faire sortir nos résultats pour la méthode et le modèle entrés
+!Ensuite on appelle paramétrisation_alpha qui nous sort les résultats que l'on affichera dans une fichier de sortie à part
 CALL parametrisation_alpha()
 CALL affichage_parametrisation_alpha()
 

@@ -1,0 +1,13 @@
+5e-3		!L longueur du domaine [m]
+0.05		!Paramètre A de l'équation
+2e-5		!Coeff de diffusivité thermique a [m2/s]
+2e-5		!Coeff de diffusivité thermique b [m2/s]
+100		!Nombre de noeuds Y
+100		!Nombre de noeuds X
+1		!Nombre de courant F.L
+0.5		!Nombre de Fourier
+298.15		!To [K]: Température initiale (condition aux limites)
+315		!Ta [K]
+315		!Tb [K]
+1		!Vitesse uniforme de départ
+0.005		!Temps final Tf
