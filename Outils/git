@@ -1,0 +1,7 @@
+Commandes Utiles Git
+
+%Remonter au commit avant push
+git reset HEAD^
+
+%Savoir ou on en est
+git status
