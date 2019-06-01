@@ -18,6 +18,7 @@
 \usepackage{mathrsfs}
 \usepackage{sistyle}
 \usepackage{chngpage}
+\usepackage{caption}
 \usepackage{epstopdf}
 \usepackage{gnuplottex}% pour faire du gnuplot directement dans le latex
 \usepackage[nottoc, notlof, notlot]{tocbibind} % pour que bibliographie soit comprise comme un chapitre ou section
@@ -141,3 +142,97 @@ Juin 2019 % Publication year
 \includegraphics[scale=0.8]{../Permanent/Vitesseinf.PNG}
 \caption{Tuyaux dont les vitesses sont supérieures à 0,1 $m/s$}
 \end{figure}
+
+%************************************************************************
+%							Mettre une légende à un tableau
+%************************************************************************
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+
+ \hline
+ Solution 1 & Solution 2 & Solution 3\\
+ \hline
+ 1207.2 & 1421.48 & 1107.5 \\
+
+ \hline
+\end{tabular}
+\captionof{table}{Coût de fonctionnement journalier des différentes solutions (en euros)}
+ \end{center}
+
+ %************************************************************************
+ %							Mettre une figure de cote
+ %************************************************************************
+ \begin{sidewaysfigure}
+ \centering
+ \includegraphics[scale=0.6]{gantlaser.JPG}
+ \caption{Diagramme de Gantt}
+ \end{sidewaysfigure}
+
+ %************************************************************************
+ %							Insérer une bibliographie
+ %************************************************************************
+ \newpage
+\def\refname{Références Bibliographiques}
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{stage.bib}
+\newpage
+
+
+%************************************************************************
+%							Exemple d'une bibliographie
+%************************************************************************
+\newpage
+\usepackage{hyperref}
+
+@report{ref1,
+	title = {Chaudières à {Tubes} de {Fumée} - {Essais} de {Réception}},
+	author = {AFNOR},
+	month = {Mars},
+	year = {2004},
+	note = {NF EN 12953-11}
+}
+
+@book{cagnac_lasers_2002,
+	edition = {{CNRS}},
+	title = {Lasers, Interaction Lumière-Atomes},
+	series = {{EDP} Sciences},
+	author = {Cagnac, Bernard and Faroux, Jean-Pierre},
+	date = {2002}
+}
+
+
+@online{balembois_introduction_????,
+	title = {Introduction Aux Lasers},
+	note ={Consulté en Oct. 2017, En ligne},
+	howpublished = {Disponible sur \url{http://paristech.institutoptique.fr/site.php?id=572&fileid=7771}},
+	url = {http://paristech.institutoptique.fr/site.php?id=572&fileid=7771},
+	type = {Cours},
+	howpublished = {Cours},
+	author = {{BALEMBOIS}, François},
+	urldate = {2017-12-10},
+	file = {site.pdf:/Users/bergerprod/Zotero/storage/F3Q5CB23/site.pdf:application/pdf}
+}
+
+%************************************************************************
+%							Inserer des Annexes
+%************************************************************************
+
+\def\appendixtocname{Annexes}
+\def\appendixpagename{Annexes}
+\appendix
+\appendixpage
+\addappheadtotoc
+
+\section{La Feuille Excel}
+\label{feuilleexcel}
+
+\includegraphics[angle=90, scale=0.7]{groupechauffetubeseaupechiney.PNG}
+\newpage
+\includegraphics[angle=90, scale=0.7]{groupechauffe2tubeseausolidesliquidespechiney.PNG}
+\newpage
+\includegraphics[angle=90, scale=0.7]{entreetubeseausolidesfiouls.PNG}
+\newpage
+\centering
+\includegraphics[scale=1]{calculstubeseausolidesfiouls.PNG}
