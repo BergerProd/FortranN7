@@ -111,7 +111,7 @@ END DO
 END SUBROUTINE champ_vitesse
 
 !***************************
-SUBROUTINE champ_temperature
+SUBROUTINE champ_temp
 !***************************
 USE module_reacteur_chimique
 
@@ -123,21 +123,21 @@ T0=293.d0 ! tout le domaine à 293 K
 Ta=800.d0 !imposer sur face AC 800 K
 Tb=800.d0
 
-temperature(:,:) =293.d0
+Temp(:,:) =293.d0
 
 sigmaA=L/20.d0
 sigmaB=L/20.d0
 
 ! Cas profil gaussien
 DO j=1,npty-1
-  temperature(1,j)=(Ta-T0)*exp((-ycentre_vol(1,j)**2)/(2.d0*sigmaA**2))+T0 !Ta
-  temperature(nptx-1,j)=(Tb-T0)*exp((-ycentre_vol(nptx-1,j)**2)/(2.d0*sigmaB**2))+T0 !Tb
+  Temp(1,j)=(Ta-T0)*exp((-ycentre_vol(1,j)**2)/(2.d0*sigmaA**2))+T0 !Ta
+  Temp(nptx-1,j)=(Tb-T0)*exp((-ycentre_vol(nptx-1,j)**2)/(2.d0*sigmaB**2))+T0 !Tb
 END DO
 
 
 
 
-END SUBROUTINE champ_temperature
+END SUBROUTINE champ_temp
 
 !******************************
 SUBROUTINE calcul_flux_advectif
@@ -149,12 +149,17 @@ INTEGER     :: i, j
 
 !TODO Conditions Limites
 
+!Conditions Limites
+flux_adv_y(:,1) = 0
+flux_adv_y(:,npty) = 0
+
+
 DO i=1,nptx-1
   DO j=1,npty-1
-    flux_adv_gauche(i,j)=-ux_centres_faces(i,j)*temperature(i,j)*dx
-    flux_adv_droit(i,j)=ux_centres_faces(i,j)*temperature(i,j)*dx
-    flux_adv_bas(i,j)=-uy_centres_faces(i,j)*temperature(i,j)*dy
-    flux_adv_haut(i,j)=uy_centres_faces(i,j)*temperature(i,j)*dy
+    flux_adv_gauche(i,j)=-ux_centres_faces(i,j)*Temp(i,j)*dx
+    flux_adv_droit(i,j)=ux_centres_faces(i,j)*Temp(i,j)*dx
+    flux_adv_bas(i,j)=-uy_centres_faces(i,j)*Temp(i,j)*dy
+    flux_adv_haut(i,j)=uy_centres_faces(i,j)*Temp(i,j)*dy
   END DO
 END DO
 
@@ -164,19 +169,64 @@ flux_tot(:,:)=flux_adv_bas(:,:)+flux_adv_haut(:,:)+flux_adv_droit(:,:)+flux_adv_
 !il faut prendre Ui Ti si Ui.N<0
 !et Ui+1 Ti+1 si Ui.N
 
-!Flux convectif sur x
-!DO i=2,nx DO j=1,ny
-!fcx(i,j)=(c(i-1,j,1)*u(i-1,j)-c(i,j,1)*u(i,j))*(y(j+1)-y(j))
-!ENDDO
-!ENDDO
-!!Flux convectif sur y DO i=2,nx
-!DO j=2,ny-1
-!  IF (v(i,j)>=0) THEN fcy(i,j)=(c(i,j-1,1)*v(i,j-1)-c(i,j,1)*v(i,j))*(x(i+1)-x(i))
-!ELSE
-!fcy(i,j)=(c(i,j+1,1)*v(i,j+1)-c(i,j,1)*v(i,j))*(x(i+1)-x(i))
-!ENDIF
+!TODO voir si c'est des nptx ou npty -1
+!TODO voir avec la conditions sur le dt à calculer 
+
+!Flux advectif sur x
+! x représente les faces verticales
+DO i=2,nptx
+  DO j=1,npty-1
+     flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_faces(i-1,j)-Temp(i,j)*ux_centres_faces(i,j))*dy!(ycentre_faces_vertic(j+1)-ycentre_faces_vertic(j))
+  END DO
+END DO
+
+!Flux convectif sur y
+DO i=2,nptx-1
+  DO j=2,npty-1
+    IF (uy_centres_faces(i,j)>=0)THEN
+      flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_faces(i,j-1)-Temp(i,j)*uy_centres_faces(i,j))*dx!(xcentre_faces_horiz(i+1)-xcentre_faces_horiz(i))
+    ELSE
+      flux_adv_y(i,j)=(Temp(i,j+1)*uy_centres_faces(i,j+1)-Temp(i,j)*uy_centres_faces(i,j))*dx!(xcentre_faces_horiz(i+1)-xcentre_faces_horiz(i))
+    ENDIF
+  END DO
+END DO
+
 
 END SUBROUTINE calcul_flux_advectif
+
+!********************
+SUBROUTINE maj_temp
+!*******************
+USE module_reacteur_chimique
+
+!Temperature est définie au centre des volumes de controle donc nx-1 * ny-1
+DO i=1,nptx-1
+  DO j=1,npty-1
+    Temp(i,j)=Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)+flux_adv_y(i,j+1)+flux_adv_x(i,j)+flux_adv_x(i+1,j))
+!		+flux_diff_Y(i,j)-flux_diff_Y(i,j+1)+flux_diff_X(i,j)&
+!		-flux_diff_X(i+1,j)&
+
+
+  END DO
+END DO
+
+END SUBROUTINE maj_temp
+
+
+!Concentration a l'instant n+1
+!DO i=2,nx
+!DO j=2,ny
+!  c(i,j,2)=c(i,j,1)+dt/((x(i+1)-x(i))*(y(i+1)-y(i)))*(fcx(i,j)+fdx(i,j)+fcy(i,j)+fdy(i,j))
+!  WRITE(*,*) c(i,j,2)
+!ENDDO
+!ENDDO
+
+!DO i=1,nx
+!DO j=1,ny!
+!  c(i,j,1)=c(i,j,2)
+!ENDDO
+!ENDDO
+
 
 !**************************
 SUBROUTINE affichage_sortie
