@@ -159,22 +159,35 @@ end
 %   (4) Y a t-il un effectif theorique assez important dans les intervalles?
 %Il faut au moins 80% des tk>5
 
-%%%% A VOIR %%%%%%%%%
-for i=1:n
-    if tk(i)>5
-        
+tk_5=find(tk>=5);
+int_80=length(tk_5)/length(tk);
+
+if int_80<0.8
+    disp("on est inferieur à 80%, il n'y a pas un effectif théorique assez important")
+else
+    disp("il faut regrouper les intervalles")
 end
 
 
 %   (5) Evaluer l'integrale de la densite de probabilite sur son support 
 %pour verifier qu'elle est bien egale a 1.
 
+
 %Test sur la propriete premiere d'une densite de probabilit�:
 
+int_ddp=sum(ftheo);
+
+if int_ddp<1
+    disp("l'intégrale de la ddp est inferieure à 1,il manque donc des valeurs")
+end
 
 %Test sur l'effectif theorique des observations: 
 
+tk_tot = sum(tk);
 
+if tk_tot<300
+    disp("l'effectif théorique est inferieur à 300")
+end
 
 
 
@@ -210,32 +223,54 @@ end
 %empirique regroupee femp_reg et rearangee en consequence.
 X_reg=(9:27)'; 
 femp_reg=[5 7 6 14 14 20 27 22 23 27 30 26 18 15 17 12 6 3 8]'/300;
-
-
-
-
-
+n_theo_reg = 300;
 
 
 %   (1) Calculer la fr�quence theorique apres regroupement "ftheo_reg"
 
+
 %Calcul de la fr�quence theorique apres regroupement "ftheo_reg"
-ftheo_reg=zeros(length(X_reg),1);
+ftheo_reg=zeros(length(X_reg),1);%initialisation
 
+%Boucle pour remplir la 1ère valeur
+for i=0:9 
+    ftheo_reg(1)=l^i * exp(-l)/factorial(i)+ftheo_reg(1);
+end
 
+%Boucle pour remplir les valeurs du milieux
+for i=2:19-1
+   ftheo_reg(i)=l^X_reg(i) * exp(-l)/factorial(X_reg(i));
+end    
+
+%Pour remplir la 19ème valeur on prend la ddp=1 moins les autres valeurs
+ftheo_reg(19) = 1-sum(ftheo_reg);
 %Test sur la propriete premiere d'une densite de probabilit� apres 
 %regroupement: Sum(ftheo_reg)=1?
 
+ddp_reg = sum(ftheo_reg);
+if int_ddp<1
+    disp("l'intégrale de la ddp du regroupement est inferieure à 1")
+end
 
 
 %   (2) Calculer l'effectif theorique apres regroupement "tk_reg"
 %Calcul de l'effectif theorique
 
+tk_reg = 300.*ftheo_reg;
+n_reg =sum(tk_reg);
+
 
 %   (3) Y a t-il un effectif theorique assez important dans les intervalles?
 %Il faut au moins 80% des tk>5
 
+tk_5_reg=find(tk_reg>=5);
+inf_5_reg=length(tk_5_reg)/length(tk_reg);
 
+if inf_5_reg<0.8
+    disp("on est inferieur à 80%, il n'y a pas un effectif théorique assez important")
+else
+    disp("On est superieur à 80% dans le regroupé")
+end
 
 
 
@@ -243,9 +278,9 @@ ftheo_reg=zeros(length(X_reg),1);
 %un diagramme de frequence:
 
 %   (4) Tracer la densit� de probabilit� de la loi de Poisson regroup�e 
-%"ftheo_reg" dans le subplot(1,2,2).
+%"ftheo_reg" dans le subplot(1,2,1).
 
-
+%Cf figure 3
 
 %Confrontation entre donnees empirique et proposition de loi theorique dans
 %la CDF:
@@ -253,9 +288,23 @@ ftheo_reg=zeros(length(X_reg),1);
 %   (5) Calculer la fonction de r�partition empirique des observations 
 %regroupees "CDFemp_reg" et les representer avec des barres dans le 
 %subplot(1,2,2).
+
+CDFemp_reg=zeros(length(X_reg),1);
+CDFemp_reg(1)=1/n_theo_reg;
+for i=2:19
+    CDFemp_reg(i)=sum(femp_reg(1:i));
+end
+
+
+
 %   (6) Calculer la fonction de repartition de la loi de Poisson regroupee
 %"CDFtheo_reg" et la tracer dans le subplot(1,2,2).
 
+CDFtheo_reg=zeros(length(X_reg),1);
+CDFtheo_reg(1)=1/n_theo_reg;
+for i=2:19
+    CDFtheo_reg(i)=sum(ftheo_reg(1:i));
+end
 
 
 
@@ -266,6 +315,14 @@ ftheo_reg=zeros(length(X_reg),1);
 %Calcul des ecarts entre les distributions theoriques et empiriques 
 %(test du chi2)
 %   (7) Realiser le test du chi2 sur les donnees regroupees
+chi2 = sum((femp_reg.* n_theo_reg - tk_reg).^2 ./ tk_reg ) 
+
+ddl = 19-1-1; %degrés de libertés k-r-1
+
+% On trouve un chi2 = 8.3295 comparé au chi2 à 0.05% qui est dans la table
+% de 27.857, on peut alors approuver l'hypothese H0 avec un risque de se
+% tromper de 5%
+% On peut monter jusqu'à la valeur de 95% sans risquer de se tromper
 
 
 %% FIGURES
@@ -307,6 +364,7 @@ figure (2)
 subplot(1,2,1)
 hold on
 bar(X_reg,femp_reg,'w')
+plot(X_reg,ftheo_reg)
 hold off
 xlabel('$X$ : absence de ceinture','interpreter','latex','fontsize',14)
 ylabel('$f$ : frequence','interpreter','latex','fontsize',14)
@@ -316,6 +374,8 @@ axis([5 32 0 0.12])
 %Figure 4
 subplot(1,2,2)
 hold on
+bar(X_reg,CDFemp_reg,'w')
+plot(X_reg,CDFtheo_reg,'b')
 hold off
 xlabel('$X$ : absence de ceinture','interpreter','latex','fontsize',14)
 ylabel('$CDF$ : frequence cumulee','interpreter','latex','fontsize',14)
