@@ -2,10 +2,10 @@
 #Données Numériques#
 0.1d0	#pas de temps (s)
 10.d0	#temps final
-100		#nb point x
-100		#nb point y
+10		#nb point x
+10		#nb point y
 #Données Physiques#
 0.005d0   #Longueur domaine
-0.05d0  	#Paramètre A caractéristique de la vitesse des Gaz
+0.001d0  	#Paramètre A caractéristique de la vitesse des Gaz, 0.05d0 par défaut
 0.00002d0 	#Coefficient diffusivité Thermique alpha_aA
 0.00002d0 	#Coefficient diffusivité Thermique alpha_b

@@ -130,12 +130,9 @@ sigmaB=L/20.d0
 
 ! Cas profil gaussien
 DO j=1,npty-1
-  Temp(1,j)=(Ta-T0)*exp((-ycentre_vol(1,j)**2)/(2.d0*sigmaA**2))+T0 !Ta
-  Temp(nptx-1,j)=(Tb-T0)*exp((-ycentre_vol(nptx-1,j)**2)/(2.d0*sigmaB**2))+T0 !Tb
+  TfaceAC(j)=(Ta-T0)*exp((-ycentre_faces_vertic(1,j)**2)/(2.d0*sigmaA**2))+T0 !Ta
+  TfaceBD(j)=(Tb-T0)*exp((-ycentre_faces_vertic(nptx-1,j)**2)/(2.d0*sigmaB**2))+T0 !Tb
 END DO
-
-
-
 
 END SUBROUTINE champ_temp
 
@@ -150,46 +147,61 @@ INTEGER     :: i, j
 !TODO Conditions Limites
 
 !Conditions Limites
-flux_adv_y(:,1) = 0
-flux_adv_y(:,npty) = 0
+!DO i=1,nptx-1
+    flux_adv_gauche(1,:)=-ux_centres_faces(1,:)*TfaceAC(:)*dy
+    flux_adv_droit(nptx,:)=-uy_centres_faces(:,npty-1)*TfaceBD(:)*dy
+    flux_adv_droit(1,:)=-uy_centres_faces(1,:)*Temp(1,:)*dy
+!END DO
 
+flux_adv_bas(:,1) = 0.d0
+flux_adv_haut(:,npty) = 0.d0
 
-DO i=1,nptx-1
+! Vitesse des faces courantes * température d'avant
+DO i=2,nptx-1
   DO j=1,npty-1
-    flux_adv_gauche(i,j)=-ux_centres_faces(i,j)*Temp(i,j)*dx
-    flux_adv_droit(i,j)=ux_centres_faces(i,j)*Temp(i,j)*dx
-    flux_adv_bas(i,j)=-uy_centres_faces(i,j)*Temp(i,j)*dy
-    flux_adv_haut(i,j)=uy_centres_faces(i,j)*Temp(i,j)*dy
+    flux_adv_gauche(i,j)=-ux_centres_faces(i,j)*Temp(i-1,j)*dx
+    flux_adv_droit(i,j)=ux_centres_faces(i+1,j)*Temp(i,j)*dx
   END DO
 END DO
 
-flux_tot(:,:)=flux_adv_bas(:,:)+flux_adv_haut(:,:)+flux_adv_droit(:,:)+flux_adv_gauche(:,:)
+DO i=1,nptx-1
+  DO j=2,npty-1
+    flux_adv_bas(i,j)=-uy_centres_faces(i,j)*Temp(i,j-1)*dy
+    flux_adv_haut(i,j)=uy_centres_faces(i,j+1)*Temp(i,j)*dy
+  END DO
+END DO
+
+!flux_tot(:,:)=flux_adv_bas(:,:)+flux_adv_haut(:,:)+flux_adv_droit(:,:)+flux_adv_gauche(:,:)
 
 !Attention selon cours pour flux advectif
 !il faut prendre Ui Ti si Ui.N<0
 !et Ui+1 Ti+1 si Ui.N
 
 !TODO voir si c'est des nptx ou npty -1
-!TODO voir avec la conditions sur le dt à calculer 
+!TODO voir avec la conditions sur le dt à calculer
 
 !Flux advectif sur x
 ! x représente les faces verticales
-DO i=2,nptx
-  DO j=1,npty-1
-     flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_faces(i-1,j)-Temp(i,j)*ux_centres_faces(i,j))*dy!(ycentre_faces_vertic(j+1)-ycentre_faces_vertic(j))
-  END DO
-END DO
+!DO i=2,nptx
+!  DO j=1,npty-1
+!    IF (ux_centres_faces(i,j)>=0)THEN
+!     flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_faces(i-1,j)-Temp(i,j)*ux_centres_faces(i,j))*dy!(ycentre_faces_vertic(j+1)-ycentre_faces_vertic(j))
+!   ELSE
+!     flux_adv_x(i,j)=(Temp(i+1,j)*ux_centres_faces(i+1,j)-Temp(i,j)*ux_centres_faces(i,j))*dy!(ycentre_faces_vertic(j+1)-ycentre_faces_vertic(j))
+!   END IF
+!  END DO
+!END DO
 
 !Flux convectif sur y
-DO i=2,nptx-1
-  DO j=2,npty-1
-    IF (uy_centres_faces(i,j)>=0)THEN
-      flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_faces(i,j-1)-Temp(i,j)*uy_centres_faces(i,j))*dx!(xcentre_faces_horiz(i+1)-xcentre_faces_horiz(i))
-    ELSE
-      flux_adv_y(i,j)=(Temp(i,j+1)*uy_centres_faces(i,j+1)-Temp(i,j)*uy_centres_faces(i,j))*dx!(xcentre_faces_horiz(i+1)-xcentre_faces_horiz(i))
-    ENDIF
-  END DO
-END DO
+!DO i=2,nptx-1
+!  DO j=2,npty-1
+!    IF (uy_centres_faces(i,j)>=0)THEN
+!      flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_faces(i,j-1)-Temp(i,j)*uy_centres_faces(i,j))*dx!(xcentre_faces_horiz(i+1)-xcentre_faces_horiz(i))
+!    ELSE
+!      flux_adv_y(i,j)=(Temp(i,j+1)*uy_centres_faces(i,j+1)-Temp(i,j)*uy_centres_faces(i,j))*dx!(xcentre_faces_horiz(i+1)-xcentre_faces_horiz(i))
+!    ENDIF
+!  END DO
+!END DO
 
 
 END SUBROUTINE calcul_flux_advectif
@@ -205,7 +217,7 @@ DO i=1,nptx-1
     Temp(i,j)=Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)+flux_adv_y(i,j+1)+flux_adv_x(i,j)+flux_adv_x(i+1,j))
 !		+flux_diff_Y(i,j)-flux_diff_Y(i,j+1)+flux_diff_X(i,j)&
 !		-flux_diff_X(i+1,j)&
-
+  !Temp(i,j)=Temp(i,j)+dt/(dx*dy)*flux_tot
 
   END DO
 END DO
@@ -251,25 +263,25 @@ OPEN(1,FORM='FORMATTED',FILE=TRIM(nom))
 WRITE(1,100)
 100 FORMAT(3x,'i',3x,'x noeuds',7x,'y noeuds',7x,'x centre Vol',7x,'y centre Vol',4x,'Vitesse x',7x,'Vitesse y',4x,'x ctr faces horiz',4x,'y ctr faces horiz')
 
-DO i=1,nptx
-  DO j=1,npty
-    WRITE(1,200)i,xnoeuds(i,j),ynoeuds(i,j)!,U(i,1),U(1,i),xcentre_faces_horiz(i,1),ycentre_faces_horiz(1,i)
-  END DO
-END DO
+!DO i=1,nptx
+!  DO j=1,npty
+!    WRITE(1,200)i,xnoeuds(i,j),ynoeuds(i,j)!,U(i,1),U(1,i),xcentre_faces_horiz(i,1),ycentre_faces_horiz(1,i)
+!  END DO
+!END DO
 
-WRITE(1,*)'/n'
+!WRITE(1,*)'/n'
+
+!DO i=1,nptx-1
+!  DO j=1,npty-1
+!    WRITE(1,200)i,xcentre_vol(i,j),ycentre_vol(i,j)
+!  END DO
+!END DO
+
+!WRITE(1,*)'/n'
 
 DO i=1,nptx-1
   DO j=1,npty-1
-    WRITE(1,200)i,xcentre_vol(i,j),ycentre_vol(i,j)
-  END DO
-END DO
-
-WRITE(1,*)'/n'
-
-DO i=1,nptx-1
-  DO j=1,npty-1
-    WRITE(1,200)i,ux_centres_vol(i,j),uy_centres_vol(i,j)
+    WRITE(1,200)i,flux_adv_gauche(i,j),flux_adv_droit(i,j)
   END DO
 END DO
 
