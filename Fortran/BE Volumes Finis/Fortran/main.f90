@@ -3,7 +3,7 @@ PROGRAM main
 !TODO normalement on devrait allouer xcentre_vol,ycentre_vol,xcentre_faces_horiz,ycentre_faces_horiz en taille n-1*n-1
 !Comment afficher tout ça sans avoir d'erreur ?
 !TODO Calcul du pas de temps
-!TODO saisir en entrée CFL = 1 puis en calculer le dt avec les formules umin et tout ça 
+!TODO saisir en entrée CFL = 1 puis en calculer le dt avec les formules umin et tout ça
 
 USE module_reacteur_chimique
 IMPLICIT NONE
@@ -41,9 +41,11 @@ END DO
 
 CALL VTSWriter(tfinal,npttemps,nptx,npty,xnoeuds,ynoeuds,Temp,ux_centres_vol,uy_centres_vol,"end")
 
-DEALLOCATE(xnoeuds,ynoeuds,xcentre_vol,ycentre_vol,xcentre_faces_horiz,ycentre_faces_horiz,&
-xcentre_faces_vertic,ycentre_faces_vertic,Temp,flux_adv_gauche,flux_adv_haut,flux_adv_droit,flux_adv_bas,&
-ux_centres_vol,ux_centres_faces,uy_centres_faces,uy_centres_vol,flux_tot,flux_adv_y,flux_adv_x,TfaceAC,TfaceBD)
+DEALLOCATE(xnoeuds,ynoeuds,xcentre_vol,ycentre_vol,xcentre_faces_horiz,ycentre_faces_horiz,xcentre_faces_vertic,ycentre_faces_vertic)
+DEALLOCATE(Temp,TfaceAC,TfaceBD)
+DEALLOCATE(ux_centres_vol,ux_centres_faces,uy_centres_faces,uy_centres_vol)
+DEALLOCATE(flux_adv_gauche,flux_adv_haut,flux_adv_droit,flux_adv_bas,flux_tot)
+DEALLOCATE(flux_adv_y,flux_adv_x)
 
 
 END PROGRAM main

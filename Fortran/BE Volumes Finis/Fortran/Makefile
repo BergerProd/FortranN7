@@ -26,4 +26,4 @@ module.o:
 
 # pour compiler à nouveau
 clean:
-	/bin/rm *.o *.mod *.f90~  Makefile~  $(EXENAME) $(OBJS)
+	/bin/rm *.o *.mod *.f90~  Makefile~  $(EXENAME) $(OBJS) ../RUN/*.vts #Pour supprimer dans le RUN les .vts
