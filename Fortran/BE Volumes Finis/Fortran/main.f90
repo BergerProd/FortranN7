@@ -26,6 +26,8 @@ ALLOCATE(flux_tot(nptx,npty),flux_adv_x(nptx,npty),flux_adv_y(nptx,npty))
 CALL maillage()
 CALL champ_vitesse()
 CALL champ_temp()
+CALL calcul_dt()
+PRINT*,dt
 CALL calcul_flux_advectif()
 CALL affichage_sortie()
 CALL VTSWriter(0,0,nptx,npty,xnoeuds,ynoeuds,Temp,ux_centres_vol,uy_centres_vol,'ini')

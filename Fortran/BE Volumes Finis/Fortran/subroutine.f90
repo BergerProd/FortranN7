@@ -13,7 +13,8 @@ IF (file_exists) THEN
     OPEN(1,FORM='FORMATTED',file='parametres.in')
     READ(1,*)
     READ(1,*)
-    READ(1,*)dt !pas de temps
+    READ(1,*)cfl!nombre de courant
+    READ(1,*)fourier !nombre de fourier
     READ(1,*)tfinal !temps final
     READ(1,*)nptx !nombre de points en x
     READ(1,*)npty !nombre de points en y
@@ -96,8 +97,8 @@ INTEGER     :: i, j
 
 DO i=1,nptx-1
     DO j=1,npty-1
-    ux_centres_vol(i,j) =  a*DCOS(pi*((xcentre_vol(i,j)/L) -0.5d0))*DSIN(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Ux
-    uy_centres_vol(i,j) =  -a*DSIN(pi*((xcentre_vol(i,j)/L) -0.5d0))*DCOS(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Uy
+    ux_centres_vol(i,j) = a*DCOS(pi*((xcentre_vol(i,j)/L) -0.5d0))*DSIN(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Ux
+    uy_centres_vol(i,j) = -a*DSIN(pi*((xcentre_vol(i,j)/L) -0.5d0))*DCOS(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Uy
     END DO
 END DO
 
@@ -107,6 +108,7 @@ DO i=1,nptx-1
     uy_centres_faces(i,j) = -a*SIN(pi*((xcentre_faces_horiz(i,j)/L) -0.5))*COS(pi*((ycentre_faces_horiz(i,j)/L) -0.5)) !Uy
     END DO
 END DO
+
 
 END SUBROUTINE champ_vitesse
 
@@ -136,6 +138,19 @@ END DO
 
 END SUBROUTINE champ_temp
 
+
+!******************************
+SUBROUTINE calcul_dt
+!*****************************
+USE module_reacteur_chimique
+
+IMPLICIT NONE
+!INTEGER     :: i, j
+
+alpha_moy = (alpha_a + alpha_b)/2.d0
+dt=1.d0/ (((ABS(MINVAL(ux_centres_vol)))/(cfl*dx)) + (ABS(MINVAL(uy_centres_vol))/(cfl*dx)) + (alpha_moy/fourier*(1/(dx*dx)+1/(dy*dy))))
+
+END SUBROUTINE calcul_dt
 !******************************
 SUBROUTINE calcul_flux_advectif
 !******************************

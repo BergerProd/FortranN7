@@ -3,7 +3,7 @@ MODULE module_reacteur_chimique
 IMPLICIT NONE
 
 INTEGER                         :: nptx, npty,npttemps
-REAL(KIND=8)                            :: dt, tfinal, l, a, alpha_a, alpha_b,pi,dx,dy
+REAL(KIND=8)                            :: dt, tfinal, l, a, alpha_a, alpha_b,pi,dx,dy,cfl,fourier,alpha_moy
 REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: xnoeuds, ynoeuds, xcentre_vol,ycentre_vol
 REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: xcentre_faces_horiz,ycentre_faces_horiz,xcentre_faces_vertic,ycentre_faces_vertic
 REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: Temp
