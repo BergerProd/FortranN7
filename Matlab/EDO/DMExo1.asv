@@ -110,11 +110,11 @@ for i=1:length(Goemonts_0)
     
     
     hold(subplot(2,1,1), 'on')
-    plot(temps, solution(:,1),colors(i)) %Y(1) définit les Goemonts
+    plot(temps, solution(:,1),colors) %Y(1) définit les Goemonts
     hold(subplot(2,1,1), 'off')
     
     hold(subplot(2,1,2), 'on')
-    plot(temps, solution(:,2),colors(i), 'Parent', ax2) %Y(2) définit les Patelles
+    plot(temps, solution(:,2),) %Y(2) définit les Patelles
     hold(subplot(2,1,2), 'off')
     
     
