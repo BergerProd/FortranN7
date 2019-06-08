@@ -137,9 +137,9 @@ Selon le cahier des charges, nous devons respecter certaines scpécifications :
 
 L'équation de transport des températures s'écrit alors :
 
-\[
+\begin{equation}	\label{eqderivpart}
 \frac{\partial T}{\partial t} + \nabla . (\overrightarrow{U}T) - \nabla . (\alpha \overrightarrow{\nabla}T) = 0 
-\]
+\end{equation}
 
 \section{Pré-Processeur}
 \subsection{Lecture d'un Fichier d'Entrée}
@@ -240,16 +240,58 @@ Les calculs utilisant la formulation Volumes Finis nécessitent de calculer le p
 	dt =  \left\{ \frac{\mid u_{min}\mid}{d_x \times CFL} +\frac{\mid v_{min}\mid}{d_y \times CFL} + \frac{\alpha}{r}\left(\frac{1}{d_x^2} + \frac{1}{d_y^2}\right) \right\}^{-1}
 \]
 
-En pratique on 
+\noindent $CFL$ est le nombre de courant, pris égal à 1\\
+$r$ est le nombre de Fourier, pris égal à 0.5\\
+$\alpha$ est le coefficient de diffusivité thermique qui est en réalité $\alpha_{moyen}$ que nous définissons comme $(\alpha_a + \alpha_b)/2$\\
+
+En pratique on utilisera directement les fonctions intrinsèques présentes dans Fortran \verb?ABS? et \verb?MINVAL? qui nous donneront la valeur absolue minimale du tableaux u et v.
+$CFL$,$r$,$\alpha_a$ et $\alpha_b$ sont modifiables dans le fichier d'entrée.
+
 \subsection{Para View}
 
 Para View est un logiciel libre de visualisation de données. 
 Il nous permet à l'aide de la subroutine fournie \verb?VTSWriter? en fournissant certains arguments d'afficher nos résultats dans ce format.
 
 \section{Discrétisation}
+Si on se restreint à un seul volume du maillage on peut représenter les flux comme ceci :
 
-\subsection{Architecture}
+\begin{figure}[h!]
+\bigcenter
+\includegraphics[scale=0.4]{flux.PNG}
+\caption{Schématisation des flux sur un volume du maillage}
+\end{figure}
 
+
+Il s'agit donc d'un calcul qui s'effectue à chaque centre des faces et non au centre des volumes comme c'est couramment le cas pour les températures et les vitesses.
+
+
+\subsection{Calcul des Flux}
+
+
+Les flux advectifs et diffusifs dans le réacteur chimique se sont définis comme ceci :
+\begin{equation*}
+\begin{cases}
+\phi_{adv} = \overrightarrow{u}\times \rho C_p T\\
+\phi_{diff} = -\alpha \overrightarrow{\nabla} T\\
+\end{cases}
+\end{equation*}
+
+
+En intégrant alors l'équation \ref{eqderivpart}, on obtient :
+
+\[
+\frac{d}{dt} (Volume_{i,j} T_{i,j})= \int \overrightarrow{U}T.\overrightarrow{n} dS + \int (\alpha\overrigtharrow{\nabla} T).\overrightarrow{n} dS
+\]
+
+Cette intégrale laisse apparaître alors une distinction selon les sens des normales donc le sens de parcours de notre maillage pour les flux advectifs mais aussi pour les flux diffusifs.
+\subsubsection{Flux Advectif}
+
+
+
+\subsubsection{Flux Diffusif}
+
+
+\section{Noyau du Calcul}
 
 
 
