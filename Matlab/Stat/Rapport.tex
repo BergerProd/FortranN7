@@ -131,23 +131,21 @@ Juin 2019 % Publication year
 
 \section{Introduction}
 
-Le sujet de cette étude est d'observer pendant $n =$ 300 jours consécutifs de déterminer la loi de distribution de la variable aléatoire "absence de ceinture".
+Le sujet de cette étude est de déterminer la loi de distribution de la variable aléatoire "absence de ceinture".
 \section{Statistiques Descriptives}
 
 \begin{enumerate}
   \item
 
-  Pour construire l'histogramme des fréquences on a mis ceci dans Matlab.
+  Pour construire l'histogramme des fréquences on a implanté ceci dans Matlab.
   On a par la même occasion ajouté les valeurs extrêmes de la variable aléatoire.
 
 \begin{lstlisting}
-
   % Figure 1
 bar(Xemp,femp,'w')
 hold on
 plot(minX,femp(minXi),'x',maxX,femp(minXi),'o',Xemp(modefi),modef,'d') %plot des max et min et mode
 plot(Xemp,ftheo,'r')
-
 \end{lstlisting}
 
 
@@ -162,27 +160,27 @@ L'histogramme des fréquences paraît centré sur la moyenne et cela pourrait s'
 
 \clearpage
 
-\item Afin d'obtenir les valeurs extrêmes de la v.a. on utilise les fonctions intrinsèques \verb?min? et \verb?max? qui nous donne la valeur maximale et minimale ainsi que l'indice de cette valeur.
+\item Afin d'obtenir les valeurs extrêmes de la v.a. on utilise les fonctions intrinsèques \verb?min? et \verb?max? qui nous donnent les valeurs maximale et minimale ainsi que leur indice.
 
 \begin{lstlisting}
 [maxX,maxXi]=max(Xemp); %on récupère le max des fréquence, ainsi que l'indice de ce max
 [minX,minXi]=min(Xemp);
 \end{lstlisting}
 
-Nous utiliserons cet indice pour le tracer dans la figure avec la valeur maximale en abscisse, et la valeur de l'effectif empirique correspondante.
-On obtient le minimum égal à 7 c'est-à-dire qu'au minimum il y a eu 7 absences de ceinture et qu'au maximum il y a eu 30 absences de ceinture de sécurité.\\
+Nous utiliserons cet indice pour le tracer dans la figure.
+On obtient le minimum égal à 7, c'est-à-dire qu'au minimum il y a eu 7 absences de ceinture et qu'au maximum il y a eu 30 absences de ceinture de sécurité.\\
 
 \item
 
 Le mode correspond à la valeur la plus fréquente de l'effectif empirique.
-Pour la trouver nous utilisons encore une fois la valeur maximale sur l'effectif empirique cette fois-ci.
+Pour la trouver nous utilisons encore une fois la valeur maximale sur la fréquence empirique cette fois-ci.
 
 \begin{lstlisting}
 %Pour le mode c'est la valeur la plus fréquente => max de f
 [modef,modefi]=max(femp);
 \end{lstlisting}
 
-On obtient le mode égal à 0.1, or $0.1\times 300 =30$, l'effectif associé est 19, que durant 30 jours il y a eu 19 absences de ceintures, c'est le nombre d'absences de ceintures que l'on trouve le plus fréquemment.
+On obtient le mode égal à 0.1, or $0.1\times 300 =30$, l'effectif associé est 19, c'est-à-dire que durant 30 jours il y a eu 19 absences de ceintures, c'est le nombre d'absences de ceintures que l'on trouve le plus fréquemment.
 On le tracera de la même manière que précédemment dans la figure.\\
 
 \item
@@ -257,17 +255,17 @@ La formule de la densité de probabilité d'une loi de poisson est :
 Or puisque pour $p(0) =  P(X = 0)= 0 \times \frac{\lambda^0}{0!} e^{- \lambda} =\ 0$, on peut commencer la somme à 1, Ainsi 
 
 \[
- E(x) =  \sum_{k=1}^{+\infty} k\frac{\lambda^k}{k!} e^{- \lambda}\\
+ E(x)=  \sum_{k=1}^{+\infty} k\frac{\lambda^k}{k!} e^{- \lambda}\\
  \]
  \[
- E(x) =  \sum_{k=1}^{+\infty} \frac{k \lambda^k}{k!} e^{-\lambda}
+  =  \sum_{k=1}^{+\infty} \frac{k \lambda^k}{k!} e^{-\lambda}
  \]
  
  \[
- E(x) =  \sum_{k=1}^{+\infty} \frac{ \lambda^k}{(k-1)!} e^{- \lambda}\\
+ =  \sum_{k=1}^{+\infty} \frac{ \lambda^k}{(k-1)!} e^{- \lambda}\\
  \]
  \[
-  E(x) =  \sum_{k=1}^{+\infty} \frac{ \lambda*\lambda^{k-1}}{(k-1)!} e^{- \lambda}\\
+  =  \sum_{k=1}^{+\infty} \frac{ \lambda*\lambda^{k-1}}{(k-1)!} e^{- \lambda}\\
 \]
 
 Posons $y=k-1 \leftrightharpoons k=y+1$, Ainsi il vient
@@ -276,10 +274,10 @@ Posons $y=k-1 \leftrightharpoons k=y+1$, Ainsi il vient
 	  E(x) =  \sum_{y=0}^{+\infty} \frac{ \lambda*\lambda^{k}}{y!} e^{- \lambda}\\
 \]
 \[	  
-	    E(x) =  \lambda*\sum_{k=0}^{+\infty} \frac{ \lambda^{y}}{y!} e^{- \lambda}\\
+	     =  \lambda*\sum_{k=0}^{+\infty} \frac{ \lambda^{y}}{y!} e^{- \lambda}\\
 \]
 \[	    
-	    E(x) = \lambda
+	     = \lambda
 \]
 
 On a bien $E(x) = \lambda$
@@ -352,7 +350,7 @@ tk=300.*ftheo;
 \begin{tabular}{|c|c|c|c|}
 
  \hline
- x	& effectif empirique & fréquence théorique & effectif thérorique\\
+ x	& effectif empirique & fréquence théorique & effectif théorique\\
  \hline
  7 & 1	& 1,96E-03 & 0,589\\
  8 &	2	& 4,39E-03 & 1,318\\
@@ -383,7 +381,7 @@ tk=300.*ftheo;
 
  \hline
 \end{tabular}
-\captionof{table}{Tableau rassemblant effectifs empiriques, les fréquences théoriques, ainsi que l'effectif théorique}
+\captionof{table}{Tableau rassemblant l'effectif empirique, les fréquences théoriques, ainsi que l'effectif théorique}
  \end{center}
 
 \item
@@ -391,7 +389,6 @@ tk=300.*ftheo;
 Pour calculer le nombre d'intervalles on va calculer la longueur de l'effectif théorique :
 
 \begin{lstlisting}
-% Il doit y avoir au moins 8 intervalles, ici il y en a 24 donc c'est bon
 nb_intvl = length(tk);
 \end{lstlisting}
 
@@ -409,7 +406,7 @@ tk_5=find(tk>5);
 int_80=length(tk_5)/length(tk);
 \end{lstlisting}
 
-Dans ce cas on obtient que les valeurs supérieures à 5 représentent 62.5 $\%$, ce qui est bien inférieur à 80 $\%$, donc l'effectif théorique n'est pas assez important dans les intervalles.
+Dans ce cas on obtient que les valeurs supérieures à 5 représentent 62.5 $\%$ des valeurs totales, ce qui est inférieur à 80 $\%$, donc l'effectif théorique n'est pas assez important dans les intervalles.
 
 \newpage
 
@@ -469,7 +466,7 @@ On regroupe alors pour parer le problème des valeurs extrêmes.
 
  \hline
 \end{tabular}
-\captionof{table}{Tableau rassemblant effectifs empiriques, les fréquences théoriques, ainsi que l'effectif théorique regroupés}
+\captionof{table}{Tableau rassemblant l'effectif empirique, les fréquences théoriques, ainsi que l'effectif théorique regroupé}
  \end{center}
 
 \newpage
@@ -503,7 +500,7 @@ Ensuite on s'assure que la densité de probabilité après regroupement est éga
 \end{lstlisting}
 
 
-On va alors calculer aussi l'effectif théorique après regroupement 
+On va aussi calculer l'effectif théorique après regroupement 
 
 \begin{lstlisting}
 tk_reg = 300.*ftheo_reg;
@@ -518,6 +515,7 @@ tk_5_reg=find(tk_reg>=5);
 inf_5_reg=length(tk_5_reg)/length(tk_reg);
 \end{lstlisting}
 
+On trouve 84.211 $\%$.
 \newpage
 \item
 
@@ -552,7 +550,7 @@ end
 \end{lstlisting}
 
 
-On va pouvoir aussi calculer la fonction de répartition de la loi de Poisson regroupée :
+On va aussi calculer la fonction de répartition de la loi de Poisson regroupée :
 
 \begin{lstlisting}
 CDFtheo_reg=zeros(length(X_reg),1);
