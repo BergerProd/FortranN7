@@ -132,9 +132,14 @@ Selon le cahier des charges, nous devons respecter certaines scpécifications :
 	\item Schéma centré pour le terme diffusif
 	\item Intégration temporelle par la méthode d'Euler explicite
 	\item Conditions de Dirchlet avec température gaussienne sur les frontières AC et BD
-	\item Conditions de Neumann avec Interpolation des flux diffusifs à partir des flux connus à l'intérieur du domaine
+	\item Conditions de Neumann avec Interpolation des flux diffusifs à partir des flux connus à l'intérieur du domaine\\
 \end{itemize}
 
+L'équation de transport des températures s'écrit alors :
+
+\[
+\frac{\partial T}{\partial t} + \nabla . (\overrightarrow{U}T) - \nabla . (\alpha \overrightarrow{\nabla}T) = 0 
+\]
 
 \section{Pré-Processeur}
 \subsection{Lecture d'un Fichier d'Entrée}
@@ -209,8 +214,8 @@ On a ensuite pu calculer le champ des vitesses aux centres des volumes selon
 \end{cases}
 \end{equation*}
 
-avec $A$ paramètre caractéristique de la vitesse maximale du gaz, ici choisi à 0,05 $m/s$.\\
-Voici ce qu'on obtient en le modélisant sur ParaView, on observe bien la symétrie des 2 profils de vitesse.
+ $A$ paramètre caractéristique de la vitesse maximale du gaz, ici choisi à 0,05 $m/s$.\\
+Voici ce qu'on obtient en le modélisant sur ParaView, on observe bien la symétrie des deux profils de vitesse.
 
 \begin{figure}[h!]
 \centering
@@ -229,6 +234,13 @@ Ce calcul du champ des vitesses est réalisé à l'aide de la subroutine \verb?c
 
 \subsection{Calcul du Pas de Temps}
 
+Les calculs utilisant la formulation Volumes Finis nécessitent de calculer le pas de temps, étant donné que ce pas de temps $dt$ donne une condition de stablilité sur ce modèle. On le calcul de cette façon :
+
+\[
+	dt =  \left\{ \frac{\mid u_{min}\mid}{d_x \times CFL} +\frac{\mid v_{min}\mid}{d_y \times CFL} + \frac{\alpha}{r}\left(\frac{1}{d_x^2} + \frac{1}{d_y^2}\right) \right\}^{-1}
+\]
+
+En pratique on 
 \subsection{Para View}
 
 Para View est un logiciel libre de visualisation de données. 
@@ -237,7 +249,8 @@ Il nous permet à l'aide de la subroutine fournie \verb?VTSWriter? en fournissan
 \section{Discrétisation}
 
 \subsection{Architecture}
-???
+
+
 
 
 
