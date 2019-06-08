@@ -27,3 +27,12 @@ module.o:
 # pour compiler à nouveau
 clean:
 	/bin/rm *.o *.mod *.f90~  Makefile~  $(EXENAME) $(OBJS) ../RUN/*.vts #Pour supprimer dans le RUN les .vts
+
+cleanvts1 :
+	/bin/rm ../RUN/*.vts #Pour supprimer dans le RUN les .vts
+
+cleanvts2:
+	cd ../RUN/ \
+	for i in *.vts \
+	do rm $i \
+  done \

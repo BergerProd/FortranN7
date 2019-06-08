@@ -27,15 +27,17 @@ CALL maillage()
 CALL champ_vitesse()
 CALL champ_temp()
 CALL calcul_dt()
-PRINT*,dt
-CALL calcul_flux_advectif()
+WRITE(*,*) "Pas de Temps =", dt
+!CALL calcul_flux_advectif()
+CALL flux_adv()
 CALL affichage_sortie()
 CALL VTSWriter(0,0,nptx,npty,xnoeuds,ynoeuds,Temp,ux_centres_vol,uy_centres_vol,'ini')
 
 npttemps=int(tfinal/dt) !TODO rectifier ça parce que c'est de la merde
 !PRINT*,npttemps
 DO k=1,npttemps-1!
-  CALL calcul_flux_advectif()
+  !CALL calcul_flux_advectif()
+  CALL flux_adv()
 	!CALL flux_diff()
   CALL maj_temp()
   CALL VTSWriter(k*dt,k,nptx,npty,xnoeuds,ynoeuds,Temp,ux_centres_vol,uy_centres_vol,"int")

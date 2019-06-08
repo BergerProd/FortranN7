@@ -241,17 +241,61 @@ END DO
 
 END SUBROUTINE calcul_flux_advectif
 
+!******************* Selon simon
+SUBROUTINE flux_adv
+USE module_reacteur_chimique
+INTEGER :: shift
+INTEGER :: i,j
+!Flux advectif sur x
+DO i=2,nptx-1
+  DO j=1,npty-1
+    shift = int(-0.5*(1+sign(1.d0, 0.5d0*(ux_centres_vol(i-1,j)+ux_centres_vol(i,j))   ) ))
+    flux_adv_x(i,j) = ux_centres_vol(i+shift,j)*Temp(i+shift,j)*dy
+
+  END DO
+END DO
+
+!Flux advectif sur y
+DO i=1,nptx-1
+  DO j=2,npty-1
+    shift = int(-0.5*(1+sign(1.d0, 0.5d0*(uy_centres_vol(i,j-1)+uy_centres_vol(i,j))   ) ))
+    flux_adv_y(i,j) =uy_centres_vol(i,j+shift)*Temp(i,j+shift)*dx
+
+  END DO
+END DO
+
+!Conditions aux limites
+
+DO j=1,npty-1
+!  flux_adv_X(1,j) = U(1,j)*400.*dy  exemple avec une température d'entrée uniforme
+  flux_adv_x(1,j) = ux_centres_vol(1,j)*TfaceAC(j)*dy
+  flux_adv_x(nptx,j) = ux_centres_vol(nptx-1,j)*Temp(nptx-1,j)*dy
+END DO
+
+DO i=1,nptx-1
+  flux_adv_Y(i,1) = uy_centres_vol(i,1)*Temp(i,1)*dx
+  flux_adv_Y(i,npty) = uy_centres_vol(i,npty-1)*Temp(i,npty-1)*dx
+
+END DO
+
+
+END SUBROUTINE flux_adv
+
+
+
 !********************
 SUBROUTINE maj_temp
 !*******************
 USE module_reacteur_chimique
 
 !Temperature est définie au centre des volumes de controle donc nx-1 * ny-1
-DO i=2,nptx-1
-  DO j=1,npty
-    Temp(i,j)=Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)+flux_adv_x(i,j))
-!		+flux_diff_Y(i,j)-flux_diff_Y(i,j+1)+flux_diff_X(i,j)&
-!		-flux_diff_X(i+1,j)&
+DO i=1,nptx-1
+  DO j=1,npty-1
+    !Temp(i,j)=Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)+flux_adv_x(i,j)) Avec les x
+
+    Temp(i,j)= Temp(i,j)+dt/(dx*dy)*(flux_adv_Y(i,j)-flux_adv_Y(i,j+1)+flux_adv_X(i,j)-flux_adv_X(i+1,j)) !Pour le truc de simon
+!    +flux_diff_Y(i,j)-flux_diff_Y(i,j+1)+flux_diff_X(i,j)&
+!    -flux_diff_X(i+1,j)&
   !Temp(i,j)=Temp(i,j)+dt/(dx*dy)*flux_tot
 
   END DO
