@@ -250,7 +250,7 @@ $CFL$,$r$,$\alpha_a$ et $\alpha_b$ sont modifiables dans le fichier d'entrée.
 \subsection{Para View}
 
 Para View est un logiciel libre de visualisation de données. 
-Il nous permet à l'aide de la subroutine fournie \verb?VTSWriter? en fournissant certains arguments d'afficher nos résultats dans ce format.
+Il nous permet à l'aide de la subroutine fournie \verb?VTSWriter? en fournissant certains arguments d'afficher nos résultats dans un format lisible par ce logiciel.
 
 \section{Discrétisation}
 Si on se restreint à un seul volume du maillage on peut représenter les flux comme ceci :
@@ -284,15 +284,139 @@ En intégrant alors l'équation \ref{eqderivpart}, on obtient :
 \]
 
 Cette intégrale laisse apparaître alors une distinction selon les sens des normales donc le sens de parcours de notre maillage pour les flux advectifs mais aussi pour les flux diffusifs.
-\subsubsection{Flux Advectif}
+On va donc renommer les flux selon leur directions avec haut, bas, gauche et droite.
+
+On obtient alors comme équation générale :
+\begin{align*}
+\frac{d}{dt} (Volume_{i,j} T_{i,j}) &= \phi_{adv,haut,i,j}dx + \phi_{adv,bas,i,j}dx + \phi_{adv,gauche,i,j}dy  \\
+&+ \phi_{adv,droite,i,j}dy + \phi_{diff,haut,i,j}dx + \phi_{diff,bas,i,j}dx  \\
+&+ \phi_{diff,gauche,i,j}dy + \phi_{diff,droite,i,j}dy
+\end{align*}
+\subsubsection{Flux Advectifs}
+
+En notant que :
+
+\begin{equation*}
+\begin{cases}
+	\phi_{adv,haut,i,j} = -\phi_{adv,bas,i,j+1}\\
+	\phi_{adv,gauche,i,j}  = -\phi_{adv,droite,i,j+1}\\
+\end{cases}
+\end{equation*}
+
+On va alors distinguer uniquement les deux flux advectifs 
+$\phi_{adv,x}$ et $\phi_{adv,y}$.
+
+On obtient alors pour $\phi_{adv,x}$ :
+
+\begin{equation*}
+\begin{cases}
+	U_{i,j}T_{i,j} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \geq 0 \\
+U_{i+1,j}T_{i+1,j} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \leq 0 \\
+\end{cases}
+\end{equation*}
+
+De même pour $\phi_{adv,y}$ :
+\begin{equation*}
+\begin{cases}
+	U_{i,j}T_{i,j} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \geq 0 \\
+U_{i,j+1}T_{i,j+1} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \leq 0 \\\end{cases}
+\end{equation*}
+\subsubsection{Flux Diffusifs}
+
+A l'instar des flux advectifs, on obtient des résultats identiques sur les flux diffusifs, seuls l'expression change :
+
+\begin{equation*}
+\left\{
+ \begin{array}{c }
+  phi_{diff,x,i,j}  \\
+ phi_{diff,y,i,j}  \\
+  \end{array}
+\qquad
+\equiv
+\left\{
+\begin{array}{c c c}
+\alpha\frac{dT}{dx} = \alpha \frac{T_{i+1,j}-T_{i,j}	}{X_{i+1,j}-X_{i,j}}\\
+\alpha\frac{dT}{dy} = \alpha \frac{T_{i,j+1}-T_{i,j}	}{Y_{i,j+1}-Y_{i,j}}\\
+\end{array}
+\end{equation*}
+
+\subsection{Conditions Limites}
 
 
+Les calculs décrits jusqu'à présent étaient définis sur tout le centre du réacteur chimique, maintenant nous allons nous attarder sur les extrémités en prenant en comptes les conditions limites pour le calcul des flux advectifs et diffusifs mais aussi pour les températures.
 
-\subsubsection{Flux Diffusif}
+\subsubsection{Températures}
 
+Les températures aux extrémités droites et gauches du réacteur notées respectivement \verb?TfaceAC? et \verb?TfaceBD? sont définies selon un profil gaussien :
+
+\begin{equation*}
+\begin{cases}
+T_A(y)=(T_A - T_0)\e^{\frac{-y^2}{2\sigma_A^2}} +T_0\\
+T_B(y)= (T_B - T_0)\e^{\frac{-y^2}{2\sigma_B^2}} +T_0\\
+\end{cases}
+\end{equation*}
+
+$\sigma_A$ et $\sigma_B$ correspondent à $\frac{L}{20}$ et $T_A$,$T_B$ et $T_0$ sont modifiables dans le fichier d'entrée du programme.
+
+Ces températures interviennent ensuite dans le calcul des flux aux extrémités de notre maillage.
+
+\subsubsection{Flux}
+
+Les deux flux ont en commun d'avoir les mêmes conditions limites pour les extrémités hautes et basses.
+En réalité l'énoncé indique une interpolation des flux diffusifs à partir des flux connus à l'intérieur du domaine.
+
+On va appliquer cette hypothèse pour les deux flux ainsi, 
+
+\begin{equation*}
+	\begin{cases}
+		
+	\phi_{adv,i,npty} = \phi_{adv,i,npty-1}\\
+	\phi_{adv,i,1} = \phi_{adv,i,2}\\
+	\phi_{diff,i,npty} = \phi_{diff,i,npty-1}\\
+	\phi_{diff,i,1} = \phi_{diff,i,2}\\
+	\end{cases}
+\end{equation*}
+
+\paragraph{Advection}
+Pour les flux advectifs, nous définissons les flux aux points sur l'extrémité gauche comme étant le produit de la température du profil gaussien et de la vitesse au point :
+
+\[
+ \phi_{adv,1,j} =U_{1,j}T_{A,j}
+\]
+
+
+En ce qui concerne l'extrémité droite, nous considérons qu'il s'agit d'un flux sortant, c'est pourquoi nous calculons sa valeur à l'aide des vitesses et températures aux points précédents.
+  
+\[
+ \phi_{adv,nptx,j} =U_{nptx-1,j}T_{nptx-1,j}
+\]  
+
+On se demande si en réalité on ne pourrais pas utiliser directement le fait que le flux de droite ne viendrait pas de la température du profil gaussien en face BD et de la vitesse au point.
+
+\paragraph{Diffusion}
+
+
+Pour les flux diffusifs, les deux extrémités prennent en compte les profils de température $T_A$ et $T_B$.
+
+\begin{equation*}
+	\begin{cases}
+		\phi_{diff,1,j} = -\alpha\frac{T_A - T(1,j)}{dx/2} dy\\
+		\phi_{diff,Nptx,j} = -\alpha\frac{T(nptx-1,j) -T_B }{dx/2} dy\\
+	\end{cases}
+\end{equation*}
+ 
+Ce cas-ci sera pour le maillage uniforme.
+Si on envisage un maillage non-uniforme on remplacera $dx$ et $dy$ par la différence $x(i)-x(i-1)$ de même pour $y$.
 
 \section{Noyau du Calcul}
 
+Le calcul en lui même va s'articuler autour de l'algorigramme suivant :
+
+\begin{figure}[h!]
+\bigcenter
+\includegraphics[scale=0.4]{Algo.PNG}
+\caption{Algorigramme du calcul}
+\end{figure}
 
 
 

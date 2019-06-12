@@ -11,7 +11,7 @@ PROGRAM Volumes_finis
 USE module_VF
 IMPLICIT NONE
 
-!Lecture du fichier de données	
+!Lecture du fichier de données
 CALL lecture_fichier(L,A,alpha_a,alpha_b,Nx,Ny)
 
 ALLOCATE(X(Nx),Y(Ny))
@@ -41,11 +41,12 @@ flux_diff_Y(:,:)=0.
 CALL maillage(x1,x2,dx,y1,y2,dy)
 CALL vitesse
 CALL temperature
-CALL temps	
+CALL temps
 CALL VTSWriter(0.,0,Nx,Ny,tab_x,tab_y,T,U,V,"ini")
 
 
 Nt=int(Tf/dt)
+Print*,dt
 PRINT*,Nt
 
 DO k=1,Nt

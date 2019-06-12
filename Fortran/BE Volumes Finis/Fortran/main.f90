@@ -18,9 +18,9 @@ ALLOCATE(xcentre_vol(nptx-1,npty-1),ycentre_vol(nptx-1,npty-1))
 ALLOCATE(xcentre_faces_horiz(nptx,npty),ycentre_faces_horiz(nptx,npty))
 ALLOCATE(xcentre_faces_vertic(nptx,npty),ycentre_faces_vertic(nptx,nptx))
 ALLOCATE(ux_centres_vol(nptx-1,npty-1),uy_centres_vol(nptx-1,nptx-1),ux_centres_faces(nptx,npty-1),uy_centres_faces(nptx-1,npty))
-ALLOCATE(Temp(nptx-1,npty-1),TfaceAC(npty),TfaceBD(npty))
+ALLOCATE(Temp(nptx-1,npty-1),TfaceAC(npty-1),TfaceBD(npty-1))
 ALLOCATE(flux_adv_bas(nptx,npty),flux_adv_haut(nptx,npty),flux_adv_gauche(nptx,npty),flux_adv_droit(nptx,npty))
-ALLOCATE(flux_tot(nptx,npty),flux_adv_x(nptx,npty),flux_adv_y(nptx,npty))
+ALLOCATE(flux_tot(nptx,npty),flux_adv_x(nptx,npty-1),flux_adv_y(nptx-1,npty))
 
 
 CALL maillage()
@@ -28,16 +28,20 @@ CALL champ_vitesse()
 CALL champ_temp()
 CALL calcul_dt()
 WRITE(*,*) "Pas de Temps =", dt
+!CALL calcul_dt()
 !CALL calcul_flux_advectif()
-CALL flux_adv()
-CALL affichage_sortie()
+!CALL flux_adv()
+!CALL affichage_sortie()
+
 CALL VTSWriter(0,0,nptx,npty,xnoeuds,ynoeuds,Temp,ux_centres_vol,uy_centres_vol,'ini')
 
-npttemps=int(tfinal/dt) !TODO rectifier ça parce que c'est de la merde
+!npttemps=int(tfinal/dt) !TODO rectifier ça parce que c'est de la merde
+npttemps = int(tfinal/dt +1)
+WRITE(*,*)"nombre de points temps =",npttemps
 !PRINT*,npttemps
 DO k=1,npttemps-1!
-  !CALL calcul_flux_advectif()
-  CALL flux_adv()
+  CALL calcul_flux_advectif()
+  !CALL flux_adv()
 	!CALL flux_diff()
   CALL maj_temp()
   CALL VTSWriter(k*dt,k,nptx,npty,xnoeuds,ynoeuds,Temp,ux_centres_vol,uy_centres_vol,"int")

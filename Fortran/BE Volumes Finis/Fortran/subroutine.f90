@@ -97,8 +97,8 @@ INTEGER     :: i, j
 
 DO i=1,nptx-1
     DO j=1,npty-1
-    ux_centres_vol(i,j) = a*DCOS(pi*((xcentre_vol(i,j)/L) -0.5d0))*DSIN(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Ux
-    uy_centres_vol(i,j) = -a*DSIN(pi*((xcentre_vol(i,j)/L) -0.5d0))*DCOS(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Uy
+    ux_centres_vol(i,j) = -10.d0 !a*DCOS(pi*((xcentre_vol(i,j)/L) -0.5d0))*DSIN(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Ux
+    uy_centres_vol(i,j) = 0.d0!-a*DSIN(pi*((xcentre_vol(i,j)/L) -0.5d0))*DCOS(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Uy
     END DO
 END DO
 
@@ -132,8 +132,8 @@ sigmaB=L/20.d0
 
 ! Cas profil gaussien
 DO j=1,npty-1
-  TfaceAC(j)=(Ta-T0)*exp((-ycentre_faces_vertic(1,j)**2)/(2.d0*sigmaA**2))+T0 !Ta
-  TfaceBD(j)=(Tb-T0)*exp((-ycentre_faces_vertic(nptx-1,j)**2)/(2.d0*sigmaB**2))+T0 !Tb
+  TfaceAC(j)=800.d0!(Ta-T0)*exp((-ycentre_faces_vertic(1,j)**2)/(2.d0*sigmaA**2))+T0 !Ta
+  TfaceBD(j)=800.d0!(Tb-T0)*exp((-ycentre_faces_vertic(nptx-1,j)**2)/(2.d0*sigmaB**2))+T0 !Tb
 END DO
 
 END SUBROUTINE champ_temp
@@ -199,44 +199,61 @@ INTEGER     :: i, j
 !avec les flux_adv_y et x
 !**************************
 
-!Conditions Limites
-flux_adv_y(:,npty)=0.d0 !tout en haut
-flux_adv_y(:,1) = 0.d0 ! tout en bas
-flux_adv_x(nptx,:)=-uy_centres_vol(nptx,:)*TfaceBD(:)*dy
-flux_adv_x(1,:)=uy_centres_vol(1,:)*TfaceAC(:)*dy
-
 
 !Flux advectif sur x
 ! x représente les faces verticales
 !fcx(i,j)=(c(i-1,j,1)*u(i-1,j)-c(i,j,1)*u(i,j))*(y(j+1)-y(j))
+
+!TODO voir là dessus mais bonne piste, par contre met trop de temps donc à voir.
 DO i=2,nptx-1
   DO j=1,npty-1
     IF (ux_centres_vol(i,j)>=0)THEN
-     flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_vol(i-1,j) - Temp(i,j)*ux_centres_vol(i,j))*(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
+     !flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_vol(i-1,j) - Temp(i,j)*ux_centres_vol(i,j))*dy!(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
+    flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_vol(i-1,j))*dy!(ycentre_faces_vertic(i,j+1) - ycentre_faces_vertic(i,j))
    ELSE
-     flux_adv_x(i,j)=(Temp(i+1,j)*ux_centres_vol(i+1,j) - Temp(i,j)*ux_centres_vol(i,j))*(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
+    ! flux_adv_x(i,j)=(Temp(i+1,j)*ux_centres_vol(i+1,j) - Temp(i,j)*ux_centres_vol(i,j))*dy!(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
+    flux_adv_x(i,j)=(Temp(i+1,j)*ux_centres_vol(i+1,j))*dy!(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
    END IF
   END DO
 END DO
 
-!Flux convectif sur y
-!DO i=2,nx
-!DO j=2,ny-1
-!IF (v(i,j)>=0) THEN
-!fcy(i,j)=(c(i,j-1,1)*v(i,j-1)-c(i,j,1)*v(i,j))*(x(i+1)-x(i))
-!ELSE
-!fcy(i,j)=(c(i,j+1,1)*v(i,j+1)-c(i,j,1)*v(i,j))*(x(i+1)-x(i))
-!ENDIF ENDDO
 
 DO i=1,nptx-1
   DO j=2,npty-1
     IF (uy_centres_vol(i,j)>=0)THEN
-      flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_vol(i,j-1) - Temp(i,j)*uy_centres_vol(i,j))*(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
+      !flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_vol(i,j-1) - Temp(i,j)*uy_centres_vol(i,j))*(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
+      flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_vol(i,j-1))*dx!(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
+
     ELSE
-      flux_adv_y(i,j)=(Temp(i,j+1)*uy_centres_vol(i,j+1) - Temp(i,j)*uy_centres_vol(i,j))*(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
+      !flux_adv_y(i,j)=(Temp(i,j+1)*uy_centres_vol(i,j+1) - Temp(i,j)*uy_centres_vol(i,j))*(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
+      flux_adv_y(i,j)=(Temp(i,j+1)*uy_centres_vol(i,j+1))*dx!(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
+
     ENDIF
   END DO
 END DO
+
+
+DO j=1,npty-1
+!  flux_adv_X(1,j) = U(1,j)*400.*dy  exemple avec une température d'entrée uniforme
+  flux_adv_x(1,j) = ux_centres_vol(1,j)*TfaceAC(j)*dy
+  flux_adv_x(nptx,j) = ux_centres_vol(nptx-1,j)*TfaceBD(j)*dy!Temp(nptx-1,j)*dy
+END DO
+
+DO i=1,nptx-1
+  flux_adv_Y(i,1) = uy_centres_vol(i,1)*Temp(i,2)*dx !à voir
+  flux_adv_Y(i,npty) = uy_centres_vol(i,npty)*Temp(i,npty-1)*dx
+
+END DO
+
+!flux horizontaux
+!flux_adv_x(nptx,:)=-uy_centres_vol(nptx,:)*TfaceBD(:)*dy
+!flux_adv_x(nptx,:) = ux_centres_vol(nptx-1,:)*Temp(nptx-1,:)*dy
+!flux_adv_x(1,:)=ux_centres_vol(1,:)*TfaceAC(:)*dy
+
+
+!selon simon
+!flux_adv_y(:,1) = uy_centres_vol(:,1)*Temp(:,1)*dx
+!flux_adv_y(:,npty) = uy_centres_vol(:,npty-1)*Temp(:,npty-1)*dx
 
 
 END SUBROUTINE calcul_flux_advectif
@@ -279,6 +296,7 @@ DO i=1,nptx-1
 END DO
 
 
+
 END SUBROUTINE flux_adv
 
 
@@ -291,33 +309,17 @@ USE module_reacteur_chimique
 !Temperature est définie au centre des volumes de controle donc nx-1 * ny-1
 DO i=1,nptx-1
   DO j=1,npty-1
-    !Temp(i,j)=Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)+flux_adv_x(i,j)) Avec les x
+    !Temp(i,j)=Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)+flux_adv_x(i,j)) !Avec les x
 
-    Temp(i,j)= Temp(i,j)+dt/(dx*dy)*(flux_adv_Y(i,j)-flux_adv_Y(i,j+1)+flux_adv_X(i,j)-flux_adv_X(i+1,j)) !Pour le truc de simon
+    Temp(i,j)= Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)-flux_adv_y(i,j+1)+flux_adv_x(i,j)-flux_adv_x(i+1,j)) !Pour le truc de simon
 !    +flux_diff_Y(i,j)-flux_diff_Y(i,j+1)+flux_diff_X(i,j)&
 !    -flux_diff_X(i+1,j)&
-  !Temp(i,j)=Temp(i,j)+dt/(dx*dy)*flux_tot
+
 
   END DO
 END DO
 
 END SUBROUTINE maj_temp
-
-
-!Concentration a l'instant n+1
-!DO i=2,nx
-!DO j=2,ny
-!  c(i,j,2)=c(i,j,1)+dt/((x(i+1)-x(i))*(y(i+1)-y(i)))*(fcx(i,j)+fdx(i,j)+fcy(i,j)+fdy(i,j))
-!  WRITE(*,*) c(i,j,2)
-!ENDDO
-!ENDDO
-
-!DO i=1,nx
-!DO j=1,ny!
-!  c(i,j,1)=c(i,j,2)
-!ENDDO
-!ENDDO
-
 
 !**************************
 SUBROUTINE affichage_sortie
