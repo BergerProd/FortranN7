@@ -43,7 +43,7 @@ for i = 1:length(G0)
     plot(t, sol(:,2), 'color', colors(i), 'Parent', ax2)
     hold(ax2, 'off')
     
-    
+     
     hold(ax3, 'on')
     plt = plot(sol(:,2), sol(:,1), '-', 'Parent', ax3, 'DisplayName',num2str(G0));
     plot(P0(i), G0(i), 'r', 'marker', marker(i), 'markerfacecolor', 'none')

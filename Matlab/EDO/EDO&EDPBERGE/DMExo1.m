@@ -76,54 +76,46 @@ t_fin = 50;
 
 %Conditions Initales
 Goemonts_0 = [1000, 5000, 30000, 10000];
-Patelles_0 = [100, 500, 3000, 10000];
+Patelles_0 = [0,50,300,1000];
 
+figure(4).Name = "Point d'inflexion";
+%solution=zeros(1,4);
 
-%Initialisation Figures
-
-figure(2).Name = "Evolutions des Proies et des Prédateurs au cours du Temps";
-
-%Goemonts - Temps
-subplot(2,1,1);
-grid on
-ylabel('Goemonts')
-xlabel('Temps (s)')
-%Patelles - Temps
-subplot(2,1,2);
-grid on
-ylabel('Patelles')
-xlabel('Temps (s)')
+for i=1:length(Goemonts_0)
+    % On envoit à chaque fois les conditions initiales
+    [temps, solution] = solveur(Patelles_0(i), Goemonts_0(i), t_fin);       
 
 colors = ['r' , 'g', 'b', 'm'];
 marker = ['x', 'o', '+' ,'d'];
 
+hold(subplot(2,1,1), 'on')
+figure(2).Name = "Evolutions des Proies et des Prédateurs au cours du Temps";
+%Goemonts - Temps
+plot(temps, solution(:,1),colors(i)) %Y(1) définit les Goemonts
+grid on
+ylabel('Goemonts')
+xlabel('Temps (s)')
+hold(subplot(2,1,1), 'off')
 
-figure(3).Name = "Point d'inflexion";
+%Patelles - Temps
+hold(subplot(2,1,2), 'on')
+plot(temps, solution(:,2),colors(i)) %Y(2) définit les Patelles
+grid on
+ylabel('Patelles')
+xlabel('Temps (s)')
+hold(subplot(2,1,2), 'off')
+
+
+end
+
+
+hold(figure(4),'on')
+plot(solution(:,2), solution(:,1));
+%plot(Patelles_0(i), Goemonts_0(i),marker(i))
 grid on
 xlabel('Goemonts')
 ylabel('Patelles')
-
-
-for i=1:length(Goemonts_0)
-    % On envoit à chaque fois les conditions initiales
-    [temps, solution] = solveur(Patelles_0(i), Goemonts_0(i), t_fin); 
-    
-    
-    hold(subplot(2,1,1), 'on')
-    plot(temps, solution(:,1),colors(i)) %Y(1) définit les Goemonts
-    hold(subplot(2,1,1), 'off')
-    
-    hold(subplot(2,1,2), 'on')
-    plot(temps, solution(:,2),colors(i), 'Parent', ax2) %Y(2) définit les Patelles
-    hold(subplot(2,1,2), 'off')
-    
-    
-     hold(figure(3), 'on')
-     plot(solution(:,2), solution(:,1), '-', 'Parent', ax3, 'DisplayName',num2str(G0));
-     plot(Patelles_0(i), Goemonts_0(i), 'r', 'marker', marker(i), 'markerfacecolor', 'none')
-     hold(figure(3), 'off')
-end
-
+hold(figure(4),'off')
 
 %% Fonctions 
 
