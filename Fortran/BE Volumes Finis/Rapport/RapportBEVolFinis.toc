@@ -6,17 +6,20 @@
 \contentsline {subsection}{\numberline {3.2}le Maillage}{3}{subsection.3.2}
 \contentsline {subsection}{\numberline {3.3}Champ des Vitesses}{4}{subsection.3.3}
 \contentsline {subsection}{\numberline {3.4}Calcul du Pas de Temps}{5}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Para View}{6}{subsection.3.5}
-\contentsline {section}{\numberline {4}Discr\IeC {\'e}tisation}{6}{section.4}
+\contentsline {subsection}{\numberline {3.5}Para View}{5}{subsection.3.5}
+\contentsline {section}{\numberline {4}Discr\IeC {\'e}tisation}{5}{section.4}
 \contentsline {subsection}{\numberline {4.1}Calcul des Flux}{6}{subsection.4.1}
-\contentsline {subsubsection}{\numberline {4.1.1}Flux Advectifs}{7}{subsubsection.4.1.1}
-\contentsline {subsubsection}{\numberline {4.1.2}Flux Diffusifs}{7}{subsubsection.4.1.2}
+\contentsline {subsubsection}{\numberline {4.1.1}Flux Advectifs}{6}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}Flux Diffusifs}{6}{subsubsection.4.1.2}
 \contentsline {subsection}{\numberline {4.2}Conditions Limites}{7}{subsection.4.2}
 \contentsline {subsubsection}{\numberline {4.2.1}Temp\IeC {\'e}ratures}{7}{subsubsection.4.2.1}
-\contentsline {subsubsection}{\numberline {4.2.2}Flux}{8}{subsubsection.4.2.2}
-\contentsline {paragraph}{Advection}{8}{section*.8}
-\contentsline {paragraph}{Diffusion}{8}{section*.9}
+\contentsline {subsubsection}{\numberline {4.2.2}Flux}{7}{subsubsection.4.2.2}
+\contentsline {paragraph}{Advection}{7}{section*.6}
+\contentsline {paragraph}{Diffusion}{7}{section*.7}
 \contentsline {section}{\numberline {5}Noyau du Calcul}{8}{section.5}
-\contentsline {section}{\numberline {6}Validation}{9}{section.6}
+\contentsline {section}{\numberline {6}Validation}{8}{section.6}
+\contentsline {subsection}{\numberline {6.1}Construction du Champ des Vitesses}{8}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Advection Pure 1D}{8}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Advection 2D}{8}{subsection.6.3}
 \contentsline {section}{\numberline {7}Exploitation}{9}{section.7}
 \contentsline {section}{\numberline {8}Conclusion}{9}{section.8}

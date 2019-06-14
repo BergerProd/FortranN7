@@ -97,7 +97,7 @@ INTEGER     :: i, j
 
 DO i=1,nptx-1
     DO j=1,npty-1
-    ux_centres_vol(i,j) = -10.d0 !a*DCOS(pi*((xcentre_vol(i,j)/L) -0.5d0))*DSIN(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Ux
+    ux_centres_vol(i,j) = 0.d0!a*DCOS(pi*((xcentre_vol(i,j)/L) -0.5d0))*DSIN(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Ux
     uy_centres_vol(i,j) = 0.d0!-a*DSIN(pi*((xcentre_vol(i,j)/L) -0.5d0))*DCOS(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Uy
     END DO
 END DO
@@ -132,8 +132,8 @@ sigmaB=L/20.d0
 
 ! Cas profil gaussien
 DO j=1,npty-1
-  TfaceAC(j)=800.d0!(Ta-T0)*exp((-ycentre_faces_vertic(1,j)**2)/(2.d0*sigmaA**2))+T0 !Ta
-  TfaceBD(j)=800.d0!(Tb-T0)*exp((-ycentre_faces_vertic(nptx-1,j)**2)/(2.d0*sigmaB**2))+T0 !Tb
+  TfaceAC(j)=(Ta-T0)*exp((-ycentre_faces_vertic(1,j)**2)/(2.d0*sigmaA**2))+T0 !Ta
+  TfaceBD(j)=(Tb-T0)*exp((-ycentre_faces_vertic(nptx-1,j)**2)/(2.d0*sigmaB**2))+T0 !Tb
 END DO
 
 END SUBROUTINE champ_temp
@@ -159,147 +159,98 @@ USE module_reacteur_chimique
 IMPLICIT NONE
 INTEGER     :: i, j
 
-!TODO Conditions Limites
-
-!Conditions Limites
-!DO i=1,nptx-1
-!    flux_adv_gauche(1,:)=-ux_centres_faces(1,:)*TfaceAC(:)*dy
-!    flux_adv_droit(nptx,:)=-uy_centres_faces(:,npty-1)*TfaceBD(:)*dy
-!    flux_adv_droit(1,:)=-uy_centres_faces(1,:)*Temp(1,:)*dy
-!END DO
-
-!flux_adv_bas(:,1) = 0.d0
-!flux_adv_haut(:,npty) = 0.d0
-
-! Vitesse des faces courantes * température d'avant
-!DO i=2,nptx-1
-!  DO j=1,npty-1
-!    flux_adv_gauche(i,j)=-ux_centres_faces(i,j)*Temp(i-1,j)*dx
-!    flux_adv_droit(i,j)=ux_centres_faces(i+1,j)*Temp(i,j)*dx
-!  END DO
-!END DO
-
-!DO i=1,nptx-1
-!  DO j=2,npty-1
-!    flux_adv_bas(i,j)=-uy_centres_faces(i,j)*Temp(i,j-1)*dy
-!    flux_adv_haut(i,j)=uy_centres_faces(i,j+1)*Temp(i,j)*dy
-!  END DO
-!END DO
-
-!flux_tot(:,:)=flux_adv_bas(:,:)+flux_adv_haut(:,:)+flux_adv_droit(:,:)+flux_adv_gauche(:,:)
-
-!Attention selon cours pour flux advectif
-!il faut prendre Ui Ti si Ui.N<0
-!et Ui+1 Ti+1 si Ui.N
-
-!TODO voir si c'est des nptx ou npty -1
-!TODO voir avec la conditions sur le dt à calculer
-
-!***************************
-!avec les flux_adv_y et x
-!**************************
-
-
-!Flux advectif sur x
-! x représente les faces verticales
-!fcx(i,j)=(c(i-1,j,1)*u(i-1,j)-c(i,j,1)*u(i,j))*(y(j+1)-y(j))
-
-!TODO voir là dessus mais bonne piste, par contre met trop de temps donc à voir.
 DO i=2,nptx-1
   DO j=1,npty-1
     IF (ux_centres_vol(i,j)>=0)THEN
-     !flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_vol(i-1,j) - Temp(i,j)*ux_centres_vol(i,j))*dy!(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
-    flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_vol(i-1,j))*dy!(ycentre_faces_vertic(i,j+1) - ycentre_faces_vertic(i,j))
-   ELSE
+     !flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_vol(i-1,j)
+     flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_vol(i,j))*dy!(ycentre_faces_vertic(i,j+1) - ycentre_faces_vertic(i,j)
+
+    ELSE
     ! flux_adv_x(i,j)=(Temp(i+1,j)*ux_centres_vol(i+1,j) - Temp(i,j)*ux_centres_vol(i,j))*dy!(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
-    flux_adv_x(i,j)=(Temp(i+1,j)*ux_centres_vol(i+1,j))*dy!(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
+      flux_adv_x(i,j)=(Temp(i,j)*ux_centres_vol(i,j))*dy!(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
    END IF
   END DO
 END DO
 
 
+
 DO i=1,nptx-1
   DO j=2,npty-1
     IF (uy_centres_vol(i,j)>=0)THEN
-      !flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_vol(i,j-1) - Temp(i,j)*uy_centres_vol(i,j))*(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
-      flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_vol(i,j-1))*dx!(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
+      !flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_vol(i,j-1)
+      flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_vol(i,j))*dx!(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
 
     ELSE
-      !flux_adv_y(i,j)=(Temp(i,j+1)*uy_centres_vol(i,j+1) - Temp(i,j)*uy_centres_vol(i,j))*(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
-      flux_adv_y(i,j)=(Temp(i,j+1)*uy_centres_vol(i,j+1))*dx!(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
+      !flux_adv_y(i,j)=(Temp(i,j+1)*uy_centres_vol(i,j+1))
+      flux_adv_y(i,j)=(Temp(i,j)*uy_centres_vol(i,j))*dx!(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
 
     ENDIF
   END DO
 END DO
 
+!Conditions Limites
 
 DO j=1,npty-1
-!  flux_adv_X(1,j) = U(1,j)*400.*dy  exemple avec une température d'entrée uniforme
   flux_adv_x(1,j) = ux_centres_vol(1,j)*TfaceAC(j)*dy
   flux_adv_x(nptx,j) = ux_centres_vol(nptx-1,j)*TfaceBD(j)*dy!Temp(nptx-1,j)*dy
 END DO
 
 DO i=1,nptx-1
-  flux_adv_Y(i,1) = uy_centres_vol(i,1)*Temp(i,2)*dx !à voir
-  flux_adv_Y(i,npty) = uy_centres_vol(i,npty)*Temp(i,npty-1)*dx
+  flux_adv_Y(i,1) = uy_centres_vol(i,1)*Temp(i,1)*dx !soit Temp(i,1) soit Temp(i,2)
+  flux_adv_Y(i,npty) = uy_centres_vol(i,npty-1)*Temp(i,npty-1)*dx !soit Temp(i,npty-1) soit Temp(i,npty-2)
 
 END DO
 
-!flux horizontaux
-!flux_adv_x(nptx,:)=-uy_centres_vol(nptx,:)*TfaceBD(:)*dy
-!flux_adv_x(nptx,:) = ux_centres_vol(nptx-1,:)*Temp(nptx-1,:)*dy
-!flux_adv_x(1,:)=ux_centres_vol(1,:)*TfaceAC(:)*dy
-
-
-!selon simon
-!flux_adv_y(:,1) = uy_centres_vol(:,1)*Temp(:,1)*dx
-!flux_adv_y(:,npty) = uy_centres_vol(:,npty-1)*Temp(:,npty-1)*dx
 
 
 END SUBROUTINE calcul_flux_advectif
 
-!******************* Selon simon
-SUBROUTINE flux_adv
+!***************************
+SUBROUTINE calcul_flux_diff
+!***************************
 USE module_reacteur_chimique
-INTEGER :: shift
+
 INTEGER :: i,j
-!Flux advectif sur x
+
+!DO i=2,nptx-2
+!  DO j=1,npty-1
+!    flux_diff_x(i,j)=alpha_a*((Temp(i+1,j)-Temp(i,j))/dx - (Temp(i,j)-Temp(i-1,j))/dx)*dy
+!  END DO
+!END DO
+
 DO i=2,nptx-1
   DO j=1,npty-1
-    shift = int(-0.5*(1+sign(1.d0, 0.5d0*(ux_centres_vol(i-1,j)+ux_centres_vol(i,j))   ) ))
-    flux_adv_x(i,j) = ux_centres_vol(i+shift,j)*Temp(i+shift,j)*dy
-
+    flux_diff_x(i,j)=alpha_a*((Temp(i,j)-Temp(i-1,j))/dx)*dy
   END DO
 END DO
 
-!Flux advectif sur y
+!DO i=1,nptx-1
+!  DO j=2,npty-2
+!    flux_diff_y(i,j)=alpha_b*((Temp(i,j+1)-Temp(i,j))/dy - (Temp(i,j)-Temp(i,j-1))/dy)*dx
+!  END DO
+!END DO
+
 DO i=1,nptx-1
   DO j=2,npty-1
-    shift = int(-0.5*(1+sign(1.d0, 0.5d0*(uy_centres_vol(i,j-1)+uy_centres_vol(i,j))   ) ))
-    flux_adv_y(i,j) =uy_centres_vol(i,j+shift)*Temp(i,j+shift)*dx
-
+    flux_diff_y(i,j)=alpha_b*((Temp(i,j)-Temp(i,j-1))/dy)*dx
   END DO
 END DO
 
-!Conditions aux limites
-
+!Condition aux limites
+!TODO il semblerait que les conditions limites ne marchent pas
 DO j=1,npty-1
-!  flux_adv_X(1,j) = U(1,j)*400.*dy  exemple avec une température d'entrée uniforme
-  flux_adv_x(1,j) = ux_centres_vol(1,j)*TfaceAC(j)*dy
-  flux_adv_x(nptx,j) = ux_centres_vol(nptx-1,j)*Temp(nptx-1,j)*dy
+  flux_diff_x(1,j)        = alpha_a*((Temp(1,j)-TfaceAC(j))/(dx/2.d0))*dy
+  flux_diff_x(nptx,j)     = alpha_a*((TfaceBD(j)-Temp(nptx-1,j))/(dx/2.d0))*dy
 END DO
+
 
 DO i=1,nptx-1
-  flux_adv_Y(i,1) = uy_centres_vol(i,1)*Temp(i,1)*dx
-  flux_adv_Y(i,npty) = uy_centres_vol(i,npty-1)*Temp(i,npty-1)*dx
-
+  flux_diff_y(i,1) = flux_diff_y(i,2)
+  flux_diff_y(i,npty) = flux_diff_y(i,npty-1)
 END DO
 
 
-
-END SUBROUTINE flux_adv
-
-
+END SUBROUTINE calcul_flux_diff
 
 !********************
 SUBROUTINE maj_temp
@@ -309,13 +260,7 @@ USE module_reacteur_chimique
 !Temperature est définie au centre des volumes de controle donc nx-1 * ny-1
 DO i=1,nptx-1
   DO j=1,npty-1
-    !Temp(i,j)=Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)+flux_adv_x(i,j)) !Avec les x
-
-    Temp(i,j)= Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)-flux_adv_y(i,j+1)+flux_adv_x(i,j)-flux_adv_x(i+1,j)) !Pour le truc de simon
-!    +flux_diff_Y(i,j)-flux_diff_Y(i,j+1)+flux_diff_X(i,j)&
-!    -flux_diff_X(i+1,j)&
-
-
+    Temp(i,j)= Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)-flux_adv_y(i,j+1)+flux_adv_x(i,j)-flux_adv_x(i+1,j)+flux_diff_y(i,j)-flux_diff_y(i,j+1)+flux_diff_x(i,j)-flux_diff_x(i+1,j))
   END DO
 END DO
 
@@ -360,15 +305,15 @@ WRITE(1,100)
 
 !WRITE(1,*)'/n'
 
-DO i=1,nptx-1
-  DO j=1,npty-1
-    WRITE(1,200)i,flux_adv_gauche(i,j),flux_adv_droit(i,j)
-  END DO
-END DO
+!DO i=1,nptx-1
+!  DO j=1,npty-1
+!    WRITE(1,200)i,flux_adv_gauche(i,j),flux_adv_droit(i,j)
+!  END DO
+!END DO
 
 
-200 FORMAT(i4,2x,10(e13.6,3x),4x,10(e13.6,3x))
-CLOSE(1)
+!200 FORMAT(i4,2x,10(e13.6,3x),4x,10(e13.6,3x))
+!CLOSE(1)
 
 END SUBROUTINE affichage_sortie
 

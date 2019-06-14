@@ -8,8 +8,7 @@ REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: xnoeuds, ynoeuds, xcentre_vol,ycentre
 REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: xcentre_faces_horiz,ycentre_faces_horiz,xcentre_faces_vertic,ycentre_faces_vertic
 REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: Temp
 REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: ux_centres_vol,uy_centres_vol,ux_centres_faces,uy_centres_faces
-REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: flux_adv_haut, flux_adv_bas, flux_adv_gauche, flux_adv_droit,flux_tot
-REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: flux_adv_x,flux_adv_y
+REAL(KIND=8),ALLOCATABLE,DIMENSION(:,:) :: flux_adv_x,flux_adv_y,flux_diff_x,flux_diff_y
 REAL(KIND=8),ALLOCATABLE,DIMENSION(:)   :: TfaceAC,TfaceBD
 
 CONTAINS

@@ -205,30 +205,17 @@ Ce maillage est réalisé à l'aide de la subroutine \verb?maillage?
 
 \subsection{Champ des Vitesses}
 
-On a ensuite pu calculer le champ des vitesses aux centres des volumes selon 
+On a ensuite pu calculer le champ des vitesses aux centres des volumes selon \label{eqvitesses}
 
 \begin{equation*}
 \begin{cases}
  u = A \cos \left( \pi \left( {\frac{x}{L} - \frac{1}{2}} \right) \right)  \sin \left( \pi \left( \frac{y}{L} - \frac{1}{2}\right) \right) \\
  v = -A \sin \left( \pi \left( {\frac{x}{L} - \frac{1}{2}} \right) \right)  \cos \left( \pi \left( \frac{y}{L} - \frac{1}{2}\right) \right) \\
 \end{cases}
+
 \end{equation*}
 
  $A$ paramètre caractéristique de la vitesse maximale du gaz, ici choisi à 0,05 $m/s$.\\
-Voici ce qu'on obtient en le modélisant sur ParaView, on observe bien la symétrie des deux profils de vitesse.
-
-\begin{figure}[h!]
-\centering
-        \includegraphics[scale=0.4]{Champ_Vitesse_Maillage/Champ_Vitesse_u.png}
-        \caption{Champ des vitesses sur $u$ pour un maillage (100,100)}
-
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-        \includegraphics[scale=0.4]{Champ_Vitesse_Maillage/Champ_Vitesse_v.png}
-        \caption{Champ des vitesses sur $v$ pour un maillage (100,100)}
-\end{figure}
 
 Ce calcul du champ des vitesses est réalisé à l'aide de la subroutine \verb?champ_vitesse?
 
@@ -388,10 +375,9 @@ Pour les flux advectifs, nous définissons les flux aux points sur l'extrémité
 En ce qui concerne l'extrémité droite, nous considérons qu'il s'agit d'un flux sortant, c'est pourquoi nous calculons sa valeur à l'aide des vitesses et températures aux points précédents.
   
 \[
- \phi_{adv,nptx,j} =U_{nptx-1,j}T_{nptx-1,j}
+ \phi_{adv,nptx,j} =U_{nptx-1,j}T_{B,j}
 \]  
 
-On se demande si en réalité on ne pourrais pas utiliser directement le fait que le flux de droite ne viendrait pas de la température du profil gaussien en face BD et de la vitesse au point.
 
 \paragraph{Diffusion}
 
@@ -418,11 +404,63 @@ Le calcul en lui même va s'articuler autour de l'algorigramme suivant :
 \caption{Algorigramme du calcul}
 \end{figure}
 
-
-
+
 
 
 \section{Validation}
+
+\subsection{Construction du Champ des Vitesses}
+
+Voici ce qu'on obtient en le modélisant sur ParaView, on observe bien la symétrie des deux profils de vitesse.
+
+\begin{figure}[h!]
+\centering
+        \includegraphics[scale=0.4]{Champ_Vitesse_Maillage/Champ_Vitesse_u.png}
+        \caption{Champ des vitesses sur $u$ pour un maillage (100,100)}
+
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+        \includegraphics[scale=0.4]{Champ_Vitesse_Maillage/Champ_Vitesse_v.png}
+        \caption{Champ des vitesses sur $v$ pour un maillage (100,100)}
+\end{figure}
+
+
+\subsection{Advection Pure 1D}
+
+En fixant $u$ alternativement positive et négative et $v$ nulle et en prenant une température constante en entrée, on observe bien l'advection le phénomène d'advection pure.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{Advection_Pure_1D/AdvGauche.png}
+\caption{Température pour $u$ positive  (20,20), Ici on peut voir que le coefficient de diffusivité thermique n'est pas pris égal à 0}
+
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{Advection_Pure_1D/AdvDroite.png}
+\caption{Température pour $u$ négative (51,51)}
+\end{figure}
+
+
+\subsection{Advection 2D}
+En rétablissant alors le profil des vitesses avec la formule citée plus haut et en laissant une température constante en entrée on a alors :
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{Advection_2D/TemperatureStableEntree.png}
+\caption{Température stable en entrée et $u$ et $v$ issues de \ref{eqvitesses} sur maillage (51,51)}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.3]{Advection_2D/TemperatureGaussienne.png}
+\caption{Température gaussienne en entrée et $u$ et $v$ issues de \ref{eqvitesses} sur maillage (51,51)}
+\end{figure}
+
 
 
 \section{Exploitation}

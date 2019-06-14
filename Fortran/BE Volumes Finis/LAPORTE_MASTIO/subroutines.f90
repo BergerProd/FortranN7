@@ -176,10 +176,7 @@ DO i=1,Nx-1
 END DO
 
 !Condition aux limites
-DO i=1,Nx-1
-	flux_diff_Y(i,1) = flux_diff_Y(i,2)
-	flux_diff_Y(i,Ny) = flux_diff_Y(i,Ny-1)
-END DO
+
 
 
 DO j=1,Ny-1
@@ -187,7 +184,10 @@ DO j=1,Ny-1
 	flux_diff_X(Nx,j) = -alpha_a*(T(Nx-1,j)-T_B(j))/(dx/2.)*dy
 END DO
 
-
+DO i=1,Nx-1
+	flux_diff_Y(i,1) = flux_diff_Y(i,2)
+	flux_diff_Y(i,Ny) = flux_diff_Y(i,Ny-1)
+END DO
 
 
 END SUBROUTINE flux_diff

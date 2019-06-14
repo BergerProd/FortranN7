@@ -2,14 +2,14 @@
 #Données Numériques#
 1.d0	#CFL
 0.5d0 # Fourier
-0.5d0	#temps final
+0.001d0	#temps final
 20		#nb point x
 20		#nb point y
 #Données Physiques#
 0.005d0   #Longueur domaine
 0.05d0  	#Paramètre A caractéristique de la vitesse des Gaz, 0.05d0 par défaut
-0.00002d0 	#Coefficient diffusivité Thermique alpha_a
-0.00002d0 	#Coefficient diffusivité Thermique alpha_b
+0.00002d0	#Coefficient diffusivité Thermique alpha_a 0.00002d0 par défaut
+0.00002d0	#Coefficient diffusivité Thermique alpha_b 0.00002d0 par défaut
             #T(A) en K
             #T(B) en K
             #T0 en K
