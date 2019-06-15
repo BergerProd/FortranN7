@@ -14,9 +14,11 @@
 \BOOKMARK [3][-]{subsubsection.4.2.1}{Temp\351ratures}{subsection.4.2}% 14
 \BOOKMARK [3][-]{subsubsection.4.2.2}{Flux}{subsection.4.2}% 15
 \BOOKMARK [1][-]{section.5}{Noyau du Calcul}{}% 16
-\BOOKMARK [1][-]{section.6}{Validation}{}% 17
-\BOOKMARK [2][-]{subsection.6.1}{Construction du Champ des Vitesses}{section.6}% 18
-\BOOKMARK [2][-]{subsection.6.2}{Advection Pure 1D}{section.6}% 19
-\BOOKMARK [2][-]{subsection.6.3}{Advection 2D}{section.6}% 20
-\BOOKMARK [1][-]{section.7}{Exploitation}{}% 21
-\BOOKMARK [1][-]{section.8}{Conclusion}{}% 22
+\BOOKMARK [2][-]{subsection.5.1}{Mise \340 jour de la temp\351rature}{section.5}% 17
+\BOOKMARK [1][-]{section.6}{Validation}{}% 18
+\BOOKMARK [2][-]{subsection.6.1}{Construction du Champ des Vitesses}{section.6}% 19
+\BOOKMARK [2][-]{subsection.6.2}{Advection Pure 1D}{section.6}% 20
+\BOOKMARK [2][-]{subsection.6.3}{Advection 2D}{section.6}% 21
+\BOOKMARK [2][-]{subsection.6.4}{Diffusion}{section.6}% 22
+\BOOKMARK [1][-]{section.7}{Exploitation}{}% 23
+\BOOKMARK [1][-]{section.8}{Conclusion}{}% 24

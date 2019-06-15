@@ -50,8 +50,8 @@ Print*,dt
 PRINT*,Nt
 
 DO k=1,Nt
-	CALL flux_adv
-!	CALL flux_diff
+	!CALL flux_adv
+	CALL flux_diff
 	CALL maj_temp
 	CALL VTSWriter(k*dt,k,Nx,Ny,tab_x,tab_y,T,U,V,"int")
 END DO

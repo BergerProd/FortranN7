@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.9.16)  12 JUN 2019 22:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.9.16)  15 JUN 2019 13:25
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -350,9 +350,9 @@ Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
 Package: catchfile 2016/05/16 v1.7 Catch the contents of a file (HO)
 )
 \verbatim@out=\write3
-runsystem(touch w18-test-20196121351.tex)...executed.
+runsystem(touch w18-test-2019615805.tex)...executed.
 
-runsystem(rm -f w18-test-20196121351.tex)...executed.
+runsystem(rm -f w18-test-2019615805.tex)...executed.
 
 runsystem(rm -f "RapportBEVolFinis.gnuploterrors")...executed.
 
@@ -497,7 +497,7 @@ File: ot1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-<logoN7.png, id=92, 845.40843pt x 150.5625pt>
+<logoN7.png, id=100, 845.40843pt x 150.5625pt>
 File: logoN7.png Graphic file (type png)
 <use logoN7.png>
 Package pdftex.def Info: logoN7.png  used on input line 98.
@@ -513,7 +513,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has b
                    \relax 
 l.108 \newpage
                [1]
-<Schema_reacteur.PNG, id=132, 387.4475pt x 249.93375pt>
+<Schema_reacteur.PNG, id=142, 387.4475pt x 249.93375pt>
 File: Schema_reacteur.PNG Graphic file (type png)
 <use Schema_reacteur.PNG>
 Package pdftex.def Info: Schema_reacteur.PNG  used on input line 124.
@@ -528,7 +528,7 @@ LaTeX Font Info:    Try loading font information for T1+lmtt on input line 156.
  (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-<Champ_Vitesse_Maillage/MaillageTheorique.PNG, id=143, 660.4675pt x 385.44pt>
+<Champ_Vitesse_Maillage/MaillageTheorique.PNG, id=153, 660.4675pt x 385.44pt>
 File: Champ_Vitesse_Maillage/MaillageTheorique.PNG Graphic file (type png)
 <use Champ_Vitesse_Maillage/MaillageTheorique.PNG>
 Package pdftex.def Info: Champ_Vitesse_Maillage/MaillageTheorique.PNG  used on input line 171.
@@ -544,83 +544,34 @@ Overfull \hbox (1.88991pt too wide) in paragraph at lines 182--183
  []
 
 [3 <./Champ_Vitesse_Maillage/MaillageTheorique.PNG>]
-<Champ_Vitesse_Maillage/maillage100100.PNG, id=152, 613.29124pt x 594.22pt>
+<Champ_Vitesse_Maillage/maillage100100.PNG, id=162, 613.29124pt x 594.22pt>
 File: Champ_Vitesse_Maillage/maillage100100.PNG Graphic file (type png)
 <use Champ_Vitesse_Maillage/maillage100100.PNG>
 Package pdftex.def Info: Champ_Vitesse_Maillage/maillage100100.PNG  used on input line 200.
 (pdftex.def)             Requested size: 245.31215pt x 237.68379pt.
 
-./RapportBEVolFinis.tex:215: Missing $ inserted.
-<inserted text> 
-                $
-l.215 
-      
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-./RapportBEVolFinis.tex:215: Display math should end with $$.
-<to be read again> 
-                   \par 
-l.215 
-      
-The `$' that I just saw supposedly matches a previous `$$'.
-So I shall assume that you typed `$$' both times.
-
-
-./RapportBEVolFinis.tex:216: LaTeX Error: Bad math environment delimiter.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.216 \end{equation*}
-                     
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-./RapportBEVolFinis.tex:216: Missing $ inserted.
-<inserted text> 
-                $
-l.216 \end{equation*}
-                     
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-./RapportBEVolFinis.tex:216: Display math should end with $$.
-<to be read again> 
-                   \endgroup 
-l.216 \end{equation*}
-                     
-The `$' that I just saw supposedly matches a previous `$$'.
-So I shall assume that you typed `$$' both times.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 218--219
+Underfull \hbox (badness 10000) in paragraph at lines 217--218
 
  []
 
-[4 <./Champ_Vitesse_Maillage/maillage100100.PNG>]
-Overfull \hbox (22.02762pt too wide) in paragraph at lines 220--221
+
+Overfull \hbox (22.02762pt too wide) in paragraph at lines 219--220
 []\T1/lmr/m/n/10 Ce cal-cul du champ des vi-tesses est réa-lisé à l'aide de la su-brou-tine [][]\T1/lmtt/m/n/10 champ_vitesse 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 230--233
+[4 <./Champ_Vitesse_Maillage/maillage100100.PNG>]
+Underfull \hbox (badness 10000) in paragraph at lines 229--232
 
  []
 
-<flux.PNG, id=161, 311.1625pt x 251.94125pt>
+<flux.PNG, id=171, 311.1625pt x 251.94125pt>
 File: flux.PNG Graphic file (type png)
 <use flux.PNG>
-Package pdftex.def Info: flux.PNG  used on input line 247.
+Package pdftex.def Info: flux.PNG  used on input line 246.
 (pdftex.def)             Requested size: 124.46278pt x 100.7747pt.
 [5 <./flux.PNG>]
-./RapportBEVolFinis.tex:270: Undefined control sequence.
-l.270 ...arrow{n} dS + \int (\alpha\overrigtharrow
+./RapportBEVolFinis.tex:269: Undefined control sequence.
+l.269 ...arrow{n} dS + \int (\alpha\overrigtharrow
                                                   {\nabla} T).\overrightarro...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -628,46 +579,46 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./RapportBEVolFinis.tex:300: Undefined control sequence.
-l.300 	U_{i,j}T_{i,j} \ si \ \overrrightarrow
-                                             {U_{i,j}}.\overrightarrow{n} \g...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 ./RapportBEVolFinis.tex:301: Undefined control sequence.
-l.301 U_{i+1,j}T_{i+1,j} \ si \ \overrrightarrow
-                                                {U_{i,j}}.\overrightarrow{n}...
+l.301 ...,j}\times T_{i,j} \ si \ \overrrightarrow
+                                                  {U_{i,j}}     \overrightar...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./RapportBEVolFinis.tex:308: Undefined control sequence.
-l.308 	U_{i,j}T_{i,j} \ si \ \overrrightarrow
-                                             {U_{i,j}}.\overrightarrow{n} \g...
+./RapportBEVolFinis.tex:302: Undefined control sequence.
+l.302 ...}\times T_{i+1,j} \ si \ \overrrightarrow
+                                                  {U_{i,j}}.\overrightarrow{...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./RapportBEVolFinis.tex:309: Undefined control sequence.
-l.309 U_{i,j+1}T_{i,j+1} \ si \ \overrrightarrow
-                                                {U_{i,j}}.\overrightarrow{n}...
+./RapportBEVolFinis.tex:310: Undefined control sequence.
+l.310 ...,j}\times T_{i,j} \ si \ \overrrightarrow
+                                                  {U_{i,j}}.\overrightarrow{...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-./RapportBEVolFinis.tex:328: Missing \right. inserted.
+./RapportBEVolFinis.tex:311: Undefined control sequence.
+l.311 ...}\times T_{i,j+1} \ si \ \overrrightarrow
+                                                  {U_{i,j}}.\overrightarrow{...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./RapportBEVolFinis.tex:330: Missing \right. inserted.
 <inserted text> 
                 \right .
-l.328 \end{equation*}
+l.330 \end{equation*}
                      
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -675,114 +626,263 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-./RapportBEVolFinis.tex:328: Missing \right. inserted.
+./RapportBEVolFinis.tex:330: Missing \right. inserted.
 <inserted text> 
                 \right .
-l.328 \end{equation*}
+l.330 \end{equation*}
                      
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
 With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
+
+./RapportBEVolFinis.tex:343: Undefined control sequence.
+l.343 T_{A}(y)=(T_A - T_0)\e
+                            ^{\frac{-y^2}{2\sigma_A^2}} +T_0\\
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+./RapportBEVolFinis.tex:344: Undefined control sequence.
+l.344 T_{B}(y)= (T_B - T_0)\e
+                             ^{\frac{-y^2}{2\sigma_B^2}} +T_0\\
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
 [6]
-./RapportBEVolFinis.tex:341: Undefined control sequence.
-l.341 T_A(y)=(T_A - T_0)\e
-                          ^{\frac{-y^2}{2\sigma_A^2}} +T_0\\
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-./RapportBEVolFinis.tex:342: Undefined control sequence.
-l.342 T_B(y)= (T_B - T_0)\e
-                           ^{\frac{-y^2}{2\sigma_B^2}} +T_0\\
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-[7]
-<Algo.PNG, id=185, 457.71pt x 591.20876pt>
+<Algo.PNG, id=188, 458.71375pt x 547.04375pt>
 File: Algo.PNG Graphic file (type png)
 <use Algo.PNG>
-Package pdftex.def Info: Algo.PNG  used on input line 403.
-(pdftex.def)             Requested size: 183.08075pt x 236.47931pt.
-<Champ_Vitesse_Maillage/Champ_Vitesse_u.png, id=186, 544.0325pt x 449.68pt>
+Package pdftex.def Info: Algo.PNG  used on input line 404.
+(pdftex.def)             Requested size: 183.48224pt x 218.81361pt.
+ [7]
+Runaway argument?
+ 
+./RapportBEVolFinis.tex:414: Paragraph ended before \multline was complete.
+<to be read again> 
+                   \par 
+l.414 
+      
+I suspect you've forgotten a `}', causing me to apply this
+control sequence to too much text. How can we recover?
+My plan is to forget the whole thing and hope for the best.
+
+./RapportBEVolFinis.tex:414: Missing $ inserted.
+<inserted text> 
+                $
+l.414 
+      
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./RapportBEVolFinis.tex:414: Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.414 
+      
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./RapportBEVolFinis.tex:414: Display math should end with $$.
+<to be read again> 
+                   \par 
+l.414 
+      
+The `$' that I just saw supposedly matches a previous `$$'.
+So I shall assume that you typed `$$' both times.
+
+./RapportBEVolFinis.tex:415: Missing $ inserted.
+<inserted text> 
+                $
+l.415 T_
+        {i,j}^{n+1} = T_{i,j}^{n} 	+ \frac{\Delta t}{dx\times dy} \times ( \...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./RapportBEVolFinis.tex:417: Misplaced \cr.
+\math@cr@@@ ->\cr 
+                  
+l.417 \end{multline}
+                    
+I can't figure out why you would want to use a tab mark
+or \cr or \span just now. If something like a right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+./RapportBEVolFinis.tex:417: Misplaced \noalign.
+\math@cr@@ ... \iffalse }\fi \math@cr@@@ \noalign 
+                                                  {\vskip #1\relax }
+l.417 \end{multline}
+                    
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+./RapportBEVolFinis.tex:417: Missing $ inserted.
+<inserted text> 
+                $
+l.417 \end{multline}
+                    
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+./RapportBEVolFinis.tex:417: Missing } inserted.
+<inserted text> 
+                }
+l.417 \end{multline}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 415--417
+\OML/lmm/m/it/10 ^^^[] \OMS/lmsy/m/n/10 ^^@ \OML/lmm/m/it/10 ^^^[] \OT1/lmr/m/n/10 + \OML/lmm/m/it/10 ^^^[] \OMS/lmsy/m/n/10 ^^@ \OML/lmm/m/it/10 ^^^[]\OT1/lmr/m/n/10 )  []$ 
+ []
+
+./RapportBEVolFinis.tex:417: Extra }, or forgotten \endgroup.
+\math@cr@@ ...th@cr@@@ \noalign {\vskip #1\relax }
+                                                  
+l.417 \end{multline}
+                    
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./RapportBEVolFinis.tex:417: Extra }, or forgotten \endgroup.
+<recently read> \egroup 
+                        
+l.417 \end{multline}
+                    
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+./RapportBEVolFinis.tex:417: Missing $ inserted.
+<inserted text> 
+                $
+l.417 \end{multline}
+                    
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+./RapportBEVolFinis.tex:417: Display math should end with $$.
+<to be read again> 
+                   \endgroup 
+l.417 \end{multline}
+                    
+The `$' that I just saw supposedly matches a previous `$$'.
+So I shall assume that you typed `$$' both times.
+
+[8 <./Algo.PNG>]
+<Champ_Vitesse_Maillage/Champ_Vitesse_u.png, id=202, 544.0325pt x 449.68pt>
 File: Champ_Vitesse_Maillage/Champ_Vitesse_u.png Graphic file (type png)
 <use Champ_Vitesse_Maillage/Champ_Vitesse_u.png>
-Package pdftex.def Info: Champ_Vitesse_Maillage/Champ_Vitesse_u.png  used on input line 419.
-(pdftex.def)             Requested size: 217.60915pt x 179.8688pt.
+Package pdftex.def Info: Champ_Vitesse_Maillage/Champ_Vitesse_u.png  used on input line 442.
+(pdftex.def)             Requested size: 163.211pt x 134.90503pt.
 
+Overfull \hbox (4.50868pt too wide) in paragraph at lines 442--443
+ [][] 
+ []
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<Champ_Vitesse_Maillage/Champ_Vitesse_v.png, id=187, 559.08875pt x 451.6875pt>
+<Champ_Vitesse_Maillage/Champ_Vitesse_v.png, id=203, 559.08875pt x 451.6875pt>
 File: Champ_Vitesse_Maillage/Champ_Vitesse_v.png Graphic file (type png)
 <use Champ_Vitesse_Maillage/Champ_Vitesse_v.png>
-Package pdftex.def Info: Champ_Vitesse_Maillage/Champ_Vitesse_v.png  used on input line 426.
-(pdftex.def)             Requested size: 223.63153pt x 180.67178pt.
+Package pdftex.def Info: Champ_Vitesse_Maillage/Champ_Vitesse_v.png  used on input line 448.
+(pdftex.def)             Requested size: 167.7279pt x 135.5073pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Overfull \hbox (9.02559pt too wide) in paragraph at lines 448--449
+ [][] 
+ []
 
-<Advection_Pure_1D/AdvGauche.png, id=188, 959.585pt x 721.69624pt>
+<Advection_Pure_1D/AdvGauche.png, id=204, 959.585pt x 721.69624pt>
 File: Advection_Pure_1D/AdvGauche.png Graphic file (type png)
 <use Advection_Pure_1D/AdvGauche.png>
-Package pdftex.def Info: Advection_Pure_1D/AdvGauche.png  used on input line 437.
-(pdftex.def)             Requested size: 287.87772pt x 216.51054pt.
+Package pdftex.def Info: Advection_Pure_1D/AdvGauche.png  used on input line 471.
+(pdftex.def)             Requested size: 172.71785pt x 129.89972pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Overfull \hbox (14.01553pt too wide) in paragraph at lines 471--472
+ [][] 
+ []
 
-<Advection_Pure_1D/AdvDroite.png, id=189, 972.63374pt x 728.7225pt>
+<Advection_Pure_1D/AdvDroite.png, id=205, 972.63374pt x 728.7225pt>
 File: Advection_Pure_1D/AdvDroite.png Graphic file (type png)
 <use Advection_Pure_1D/AdvDroite.png>
-Package pdftex.def Info: Advection_Pure_1D/AdvDroite.png  used on input line 444.
-(pdftex.def)             Requested size: 291.79237pt x 218.61844pt.
+Package pdftex.def Info: Advection_Pure_1D/AdvDroite.png  used on input line 477.
+(pdftex.def)             Requested size: 175.06651pt x 131.16438pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Overfull \hbox (16.3642pt too wide) in paragraph at lines 477--478
+ [][] 
+ []
 
-<Advection_2D/TemperatureStableEntree.png, id=190, 959.585pt x 724.7075pt>
+[9
+
+ <./Champ_Vitesse_Maillage/Champ_Vitesse_u.png> <./Champ_Vitesse_Maillage/Champ_Vitesse_v.png> <./Advection_Pure_1D/AdvGauche.png> <./Advection_Pure_1D/AdvDroite.png>]
+<Advection_2D/TemperatureStableEntree.png, id=216, 959.585pt x 724.7075pt>
 File: Advection_2D/TemperatureStableEntree.png Graphic file (type png)
 <use Advection_2D/TemperatureStableEntree.png>
-Package pdftex.def Info: Advection_2D/TemperatureStableEntree.png  used on input line 454.
+Package pdftex.def Info: Advection_2D/TemperatureStableEntree.png  used on input line 501.
 (pdftex.def)             Requested size: 287.87772pt x 217.41393pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<Advection_2D/TemperatureGaussienne.png, id=193, 961.5925pt x 725.71124pt>
+<Advection_2D/TemperatureGaussienne.png, id=219, 961.5925pt x 725.71124pt>
 File: Advection_2D/TemperatureGaussienne.png Graphic file (type png)
 <use Advection_2D/TemperatureGaussienne.png>
-Package pdftex.def Info: Advection_2D/TemperatureGaussienne.png  used on input line 461.
+Package pdftex.def Info: Advection_2D/TemperatureGaussienne.png  used on input line 508.
 (pdftex.def)             Requested size: 288.47997pt x 217.71504pt.
+<Diffusion/Diffusion_saute.png, id=222, 630.355pt x 472.76625pt>
+File: Diffusion/Diffusion_saute.png Graphic file (type png)
+<use Diffusion/Diffusion_saute.png>
+Package pdftex.def Info: Diffusion/Diffusion_saute.png  used on input line 516.
+(pdftex.def)             Requested size: 252.13753pt x 189.10315pt.
+ [10
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 474.
-[8 <./Algo.PNG>] [9 <./Champ_Vitesse_Maillage/Champ_Vitesse_u.png> <./Champ_Vitesse_Maillage/Champ_Vitesse_v.png>] [10 <./Advection_Pure_1D/AdvGauche.png> <./Advection_Pure_1D/AdvDroite.png>] [11 <./Advection_2D/TemperatureStableEntree.png> <./Advection_2D/TemperatureGaussienne.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 474.
+ <./Advection_2D/TemperatureStableEntree.png> <./Advection_2D/TemperatureGaussienne.png>]
+<Diffusion/Diffusion.png, id=231, 636.3775pt x 480.79625pt>
+File: Diffusion/Diffusion.png Graphic file (type png)
+<use Diffusion/Diffusion.png>
+Package pdftex.def Info: Diffusion/Diffusion.png  used on input line 522.
+(pdftex.def)             Requested size: 254.5465pt x 192.31508pt.
+ [11 <./Diffusion/Diffusion_saute.png> <./Diffusion/Diffusion.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 539.
+ [12]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 539.
  (./RapportBEVolFinis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 474.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 474.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 539.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 539.
 Package rerunfilecheck Info: File `RapportBEVolFinis.out' has not changed.
-(rerunfilecheck)             Checksum: 9293BDB445A1E450B80BC3FA3FA5CAB8;1373.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 474.
+(rerunfilecheck)             Checksum: 2A27F8B23E1F540647BF07A1B30C3E9C;1517.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 539.
  ) 
 Here is how much of TeX's memory you used:
- 9662 strings out of 492649
- 144248 string characters out of 6129622
+ 9678 strings out of 492649
+ 144602 string characters out of 6129622
  245939 words of memory out of 5000000
- 13297 multiletter control sequences out of 15000+600000
+ 13307 multiletter control sequences out of 15000+600000
  60221 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  36i,21n,39p,472b,460s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr5.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmro10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsy5.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on RapportBEVolFinis.pdf (12 pages, 886760 bytes).
+Output written on RapportBEVolFinis.pdf (13 pages, 946427 bytes).
 PDF statistics:
- 298 PDF objects out of 1000 (max. 8388607)
- 239 compressed objects within 3 object streams
- 49 named destinations out of 1000 (max. 500000)
- 237 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 317 PDF objects out of 1000 (max. 8388607)
+ 253 compressed objects within 3 object streams
+ 52 named destinations out of 1000 (max. 500000)
+ 263 words of extra memory for PDF output out of 10000 (max. 10000000)
 

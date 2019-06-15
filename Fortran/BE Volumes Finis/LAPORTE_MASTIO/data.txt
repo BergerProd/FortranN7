@@ -8,6 +8,6 @@
 0.5		!Nombre de Fourier
 298.15		!To [K]: Température initiale (condition aux limites)
 315		!Ta [K]
-315		!Tb [K]
+400		!Tb [K]
 1		!Vitesse uniforme de départ
 0.005		!Temps final Tf

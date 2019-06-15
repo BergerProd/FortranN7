@@ -1,7 +1,7 @@
 !*******************
 SUBROUTINE read_data
 !*******************
-!lis les données enregistrées par l'utilisateur
+!lecture du fichier d'entrée
 
 USE module_reacteur_chimique
 IMPLICIT NONE
@@ -13,16 +13,19 @@ IF (file_exists) THEN
     OPEN(1,FORM='FORMATTED',file='parametres.in')
     READ(1,*)
     READ(1,*)
-    READ(1,*)cfl!nombre de courant
-    READ(1,*)fourier !nombre de fourier
-    READ(1,*)tfinal !temps final
-    READ(1,*)nptx !nombre de points en x
-    READ(1,*)npty !nombre de points en y
+    READ(1,*)cfl      !nombre de courant
+    READ(1,*)fourier  !nombre de fourier
+    READ(1,*)tfinal   !temps final
+    READ(1,*)nptx     !nombre de points en x
+    READ(1,*)npty     !nombre de points en y
     READ(1,*)
-    READ(1,*)l !longueur du domaine
-    READ(1,*)a !paramètre A amplitude
+    READ(1,*)l        !longueur du domaine
+    READ(1,*)a        !paramètre A amplitude
     READ(1,*)alpha_a
     READ(1,*)alpha_b
+    READ(1,*)Ta
+    READ(1,*)Tb
+    READ(1,*)T0
     CLOSE(1)
 ELSE
     PRINT*,' le fichier parametres.in n a pas été trouvé'
@@ -35,7 +38,7 @@ END SUBROUTINE read_data
 !******************
 SUBROUTINE maillage
 !******************
-
+!Maillage de tout le domaine au noeuds,au centre, sur les deux types de faces verticales et horizontales
 USE module_reacteur_chimique
 
 IMPLICIT NONE
@@ -44,12 +47,12 @@ INTEGER         :: i, j
 !Pas dx et dy
 dx = L/real(nptx-1)
 dy = L/real(npty-1)
+
 !initialisation des noeuds
 xnoeuds(1,:) = -L/2.d0
 ynoeuds(:,1) = -L/2.d0
 
-!Noeuds
-
+!Noeuds des mailles
 DO i=2,npty
     xnoeuds(i,:) = xnoeuds(1,1)+dx*(i-1)
     ynoeuds(:,i) = ynoeuds(1,1)+dy*(i-1)
@@ -60,6 +63,7 @@ END DO
 !npt-1 sur les 2
 xcentre_vol(1,:) = -L/2.d0 + dx/2.d0
 ycentre_vol(:,1) = -L/2.d0 + dx/2.d0
+
 DO i=2,npty-1
     xcentre_vol(i,:) = xcentre_vol(1,1) + dx*(i-1)
     ycentre_vol(:,i) = ycentre_vol(1,1) + dx*(i-1)
@@ -72,7 +76,6 @@ END DO
 !Faces horizontales
 !egales aux noeuds en x + dx/2 i.e. abcisse des centre des faces ->npt-1
 !meme coordonnées en y que les noeuds -> npt
-
 xcentre_faces_horiz(:,:)=xcentre_vol(:,:)
 ycentre_faces_horiz(:,:)=ynoeuds(:,:)
 
@@ -83,12 +86,12 @@ ycentre_faces_horiz(:,:)=ynoeuds(:,:)
 xcentre_faces_vertic(:,:)=xnoeuds(:,:)
 ycentre_faces_vertic(:,:)=ycentre_vol(:,:)
 
-
 END SUBROUTINE maillage
 
 !***********************
 SUBROUTINE champ_vitesse
 !***********************
+!Calcul du champ des vitesses aux centres des volumes
 
 USE module_reacteur_chimique
 
@@ -97,35 +100,26 @@ INTEGER     :: i, j
 
 DO i=1,nptx-1
     DO j=1,npty-1
-    ux_centres_vol(i,j) = 0.d0!a*DCOS(pi*((xcentre_vol(i,j)/L) -0.5d0))*DSIN(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Ux
-    uy_centres_vol(i,j) = 0.d0!-a*DSIN(pi*((xcentre_vol(i,j)/L) -0.5d0))*DCOS(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Uy
+    ux_centres_vol(i,j) = a*DCOS(pi*((xcentre_vol(i,j)/L) -0.5d0))*DSIN(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Ux
+    uy_centres_vol(i,j) = -a*DSIN(pi*((xcentre_vol(i,j)/L) -0.5d0))*DCOS(pi*((ycentre_vol(i,j)/L) -0.5d0)) !Uy
     END DO
 END DO
-
-DO i=1,nptx-1
-    DO j=1,npty-1
-    ux_centres_faces(i,j) = a*COS(pi*((xcentre_faces_vertic(i,j)/L) -0.5))*SIN(pi*((ycentre_faces_vertic(i,j)/L) -0.5)) !Ux
-    uy_centres_faces(i,j) = -a*SIN(pi*((xcentre_faces_horiz(i,j)/L) -0.5))*COS(pi*((ycentre_faces_horiz(i,j)/L) -0.5)) !Uy
-    END DO
-END DO
-
 
 END SUBROUTINE champ_vitesse
 
 !***************************
 SUBROUTINE champ_temp
 !***************************
+!Initialisation de la température au centre du domaine à T0
+!Calcul des profils de températures gaussien TfaceAC et TfaceBD avec le centre des faces verticales avec Ta et Tb
+!T0, Ta,Tb sont rentré dans le fichier d'entrée en Kelvin.
 USE module_reacteur_chimique
 
 IMPLICIT NONE
-INTEGER     :: i, j
-REAL(KIND=8)        :: sigmaA,sigmaB,Ta,T0,Tb
+INTEGER     :: j
+REAL(KIND=8):: sigmaA,sigmaB
 
-T0=293.d0 ! tout le domaine à 293 K
-Ta=800.d0 !imposer sur face AC 800 K
-Tb=800.d0
-
-Temp(:,:) =293.d0
+Temp(:,:) =T0
 
 sigmaA=L/20.d0
 sigmaB=L/20.d0
@@ -138,22 +132,26 @@ END DO
 
 END SUBROUTINE champ_temp
 
-
 !******************************
 SUBROUTINE calcul_dt
 !*****************************
+!Calcul du pas de temps selon la formule donnée. CFL et fourier sont fournis dans le fichier d'entrée
+!alpha_moy est la moyenne des alpha des gaz A et B
 USE module_reacteur_chimique
 
 IMPLICIT NONE
-!INTEGER     :: i, j
+
 
 alpha_moy = (alpha_a + alpha_b)/2.d0
 dt=1.d0/ (((ABS(MINVAL(ux_centres_vol)))/(cfl*dx)) + (ABS(MINVAL(uy_centres_vol))/(cfl*dx)) + (alpha_moy/fourier*(1/(dx*dx)+1/(dy*dy))))
 
 END SUBROUTINE calcul_dt
+
 !******************************
 SUBROUTINE calcul_flux_advectif
 !******************************
+!Calcul des flux Advectifs selon la discrétisation du rapport
+!Implantation des conidtions limites
 USE module_reacteur_chimique
 
 IMPLICIT NONE
@@ -162,26 +160,20 @@ INTEGER     :: i, j
 DO i=2,nptx-1
   DO j=1,npty-1
     IF (ux_centres_vol(i,j)>=0)THEN
-     !flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_vol(i-1,j)
      flux_adv_x(i,j)=(Temp(i-1,j)*ux_centres_vol(i,j))*dy!(ycentre_faces_vertic(i,j+1) - ycentre_faces_vertic(i,j)
 
     ELSE
-    ! flux_adv_x(i,j)=(Temp(i+1,j)*ux_centres_vol(i+1,j) - Temp(i,j)*ux_centres_vol(i,j))*dy!(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
       flux_adv_x(i,j)=(Temp(i,j)*ux_centres_vol(i,j))*dy!(ycentre_faces_vertic(i,j+1)-ycentre_faces_vertic(i,j))
    END IF
   END DO
 END DO
 
-
-
 DO i=1,nptx-1
   DO j=2,npty-1
     IF (uy_centres_vol(i,j)>=0)THEN
-      !flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_vol(i,j-1)
       flux_adv_y(i,j)=(Temp(i,j-1)*uy_centres_vol(i,j))*dx!(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
 
     ELSE
-      !flux_adv_y(i,j)=(Temp(i,j+1)*uy_centres_vol(i,j+1))
       flux_adv_y(i,j)=(Temp(i,j)*uy_centres_vol(i,j))*dx!(xcentre_faces_horiz(i+1,j)-xcentre_faces_horiz(i,j))
 
     ENDIF
@@ -189,63 +181,72 @@ DO i=1,nptx-1
 END DO
 
 !Conditions Limites
-
 DO j=1,npty-1
   flux_adv_x(1,j) = ux_centres_vol(1,j)*TfaceAC(j)*dy
   flux_adv_x(nptx,j) = ux_centres_vol(nptx-1,j)*TfaceBD(j)*dy!Temp(nptx-1,j)*dy
 END DO
 
 DO i=1,nptx-1
-  flux_adv_Y(i,1) = uy_centres_vol(i,1)*Temp(i,1)*dx !soit Temp(i,1) soit Temp(i,2)
-  flux_adv_Y(i,npty) = uy_centres_vol(i,npty-1)*Temp(i,npty-1)*dx !soit Temp(i,npty-1) soit Temp(i,npty-2)
-
+  flux_adv_y(i,1) = uy_centres_vol(i,1)*Temp(i,1)*dx !soit Temp(i,1) soit Temp(i,2)
+  flux_adv_y(i,npty) = uy_centres_vol(i,npty-1)*Temp(i,npty-1)*dx !soit Temp(i,npty-1) soit Temp(i,npty-2)
 END DO
-
-
 
 END SUBROUTINE calcul_flux_advectif
 
 !***************************
 SUBROUTINE calcul_flux_diff
 !***************************
+!Calcul des flux diffusifs, ne marche pas pour le moment
 USE module_reacteur_chimique
 
 INTEGER :: i,j
 
-!DO i=2,nptx-2
+DO i=2,nptx-2
+  DO j=1,npty-1
+    flux_diff_x(i,j)=alpha_a*((Temp(i+1,j)-Temp(i,j))/dx - (Temp(i,j)-Temp(i-1,j))/(dx-1))*dy
+  END DO
+END DO
+
+!DO i=2,nptx-1
 !  DO j=1,npty-1
-!    flux_diff_x(i,j)=alpha_a*((Temp(i+1,j)-Temp(i,j))/dx - (Temp(i,j)-Temp(i-1,j))/dx)*dy
+!    flux_diff_x(i,j)=alpha_a*((Temp(i,j)-Temp(i-1,j))/dx)
 !  END DO
 !END DO
 
-DO i=2,nptx-1
-  DO j=1,npty-1
-    flux_diff_x(i,j)=alpha_a*((Temp(i,j)-Temp(i-1,j))/dx)*dy
+DO i=1,nptx-1
+  DO j=2,npty-2
+    flux_diff_y(i,j)=alpha_b*((Temp(i,j+1)-Temp(i,j))/dy - (Temp(i,j)-Temp(i,j-1))/(dy-1))*dx
   END DO
 END DO
 
 !DO i=1,nptx-1
-!  DO j=2,npty-2
-!    flux_diff_y(i,j)=alpha_b*((Temp(i,j+1)-Temp(i,j))/dy - (Temp(i,j)-Temp(i,j-1))/dy)*dx
+!  DO j=2,npty-1
+!    flux_diff_y(i,j)=alpha_b*((Temp(i,j)-Temp(i,j-1))/dy)
 !  END DO
 !END DO
 
-DO i=1,nptx-1
-  DO j=2,npty-1
-    flux_diff_y(i,j)=alpha_b*((Temp(i,j)-Temp(i,j-1))/dy)*dx
-  END DO
-END DO
-
 !Condition aux limites
 !TODO il semblerait que les conditions limites ne marchent pas
-DO j=1,npty-1
-  flux_diff_x(1,j)        = alpha_a*((Temp(1,j)-TfaceAC(j))/(dx/2.d0))*dy
-  flux_diff_x(nptx,j)     = alpha_a*((TfaceBD(j)-Temp(nptx-1,j))/(dx/2.d0))*dy
-END DO
+!DO j=1,npty-1
+!  flux_diff_x(1,j)        = alpha_a*((Temp(1,j)-TfaceAC(j))/(dx/2.d0))*dy
+!  flux_diff_x(nptx,j)     = alpha_a*((TfaceBD(j)-Temp(nptx-1,j))/(dx/2.d0))*dy
+!END DO
 
+!TODO faire cette méthode plus les npt-1 en CL et Faire en maj temp juste flux diff (i) et de y
+
+DO j=1,npty-1
+  !flux_diff_x(1,j)      =alpha_a*((Temp(2,j)-Temp(1,j))/dx - (Temp(1,j)-TfaceAC(j))/dx)*dy
+  flux_diff_x(1,j)      =alpha_a*((Temp(1,j)-TfaceAC(j))/dx - (TfaceAC(j)-TfaceAC(j))/dx)*dy !Test
+  !flux_diff_x(2,j)      =alpha_a*((Temp(2,j)-Temp(1,j))/dx - (Temp(1,j)-TfaceAC(j))/dx)*dy !Test
+
+
+  flux_diff_x(nptx-1,j)   =alpha_a*((TfaceBD(j)-Temp(nptx-1,j))/dx - (Temp(nptx-1,j)-Temp(nptx-2,j))/dx)*dy
+  flux_diff_x(nptx,j)     =alpha_a*((TfaceBD(j)-TfaceBD(j))/dx - (TfaceBD(j)-Temp(nptx-1,j))/dx)*dy
+END DO
 
 DO i=1,nptx-1
   flux_diff_y(i,1) = flux_diff_y(i,2)
+  flux_diff_y(i,npty-1)= flux_diff_y(i,npty-2)
   flux_diff_y(i,npty) = flux_diff_y(i,npty-1)
 END DO
 
@@ -255,67 +256,20 @@ END SUBROUTINE calcul_flux_diff
 !********************
 SUBROUTINE maj_temp
 !*******************
+!Mise à jour de la température au temps t+1
 USE module_reacteur_chimique
 
 !Temperature est définie au centre des volumes de controle donc nx-1 * ny-1
 DO i=1,nptx-1
   DO j=1,npty-1
-    Temp(i,j)= Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)-flux_adv_y(i,j+1)+flux_adv_x(i,j)-flux_adv_x(i+1,j)+flux_diff_y(i,j)-flux_diff_y(i,j+1)+flux_diff_x(i,j)-flux_diff_x(i+1,j))
+    Temp(i,j)= Temp(i,j)+dt/(dx*dy)*(flux_adv_y(i,j)-flux_adv_y(i,j+1)+flux_adv_x(i,j)-flux_adv_x(i+1,j)+&
+    !flux_diff_y(i,j)-flux_diff_y(i,j+1)+flux_diff_x(i,j)-flux_diff_x(i+1,j))
+    flux_diff_x(i,j)+flux_diff_y(i,j))
   END DO
 END DO
 
 END SUBROUTINE maj_temp
 
-!**************************
-SUBROUTINE affichage_sortie
-!**************************
-
-USE module_reacteur_chimique
-IMPLICIT NONE
-CHARACTER(LEN=30)           :: nom
-INTEGER                     :: i,j
-!CHARACTER(LEN=5)            :: tmp
-
-! je met un nom de fichier de sortie dont le nom indique le choix de la fonction
-! et le nombre de point
-
-! je suis obligé de ruser avec les longueurs des chaines de caracteres
-! car je suis obligé de définir carac d'une longueur constante
-!tmp=carac(5,typ)
-nom='reacteur.out'
-
-
-OPEN(1,FORM='FORMATTED',FILE=TRIM(nom))
-WRITE(1,100)
-100 FORMAT(3x,'i',3x,'x noeuds',7x,'y noeuds',7x,'x centre Vol',7x,'y centre Vol',4x,'Vitesse x',7x,'Vitesse y',4x,'x ctr faces horiz',4x,'y ctr faces horiz')
-
-!DO i=1,nptx
-!  DO j=1,npty
-!    WRITE(1,200)i,xnoeuds(i,j),ynoeuds(i,j)!,U(i,1),U(1,i),xcentre_faces_horiz(i,1),ycentre_faces_horiz(1,i)
-!  END DO
-!END DO
-
-!WRITE(1,*)'/n'
-
-!DO i=1,nptx-1
-!  DO j=1,npty-1
-!    WRITE(1,200)i,xcentre_vol(i,j),ycentre_vol(i,j)
-!  END DO
-!END DO
-
-!WRITE(1,*)'/n'
-
-!DO i=1,nptx-1
-!  DO j=1,npty-1
-!    WRITE(1,200)i,flux_adv_gauche(i,j),flux_adv_droit(i,j)
-!  END DO
-!END DO
-
-
-!200 FORMAT(i4,2x,10(e13.6,3x),4x,10(e13.6,3x))
-!CLOSE(1)
-
-END SUBROUTINE affichage_sortie
 
 !******************
 subroutine VTSWriter(Time,Step,nx,ny,x,y,T,U,V,opt)

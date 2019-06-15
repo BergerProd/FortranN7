@@ -88,7 +88,7 @@
 	\vspace{0.5\baselineskip} % Whitespace below the editor list
 
 	\textit{ENSEEIHT} % Editor affiliation
-
+	GROUPE 1
 	\vfill % Whitespace between editor names and publisher logo
 
 	%------------------------------------------------
@@ -115,7 +115,7 @@ d'advection-diffusion de cette dernière par la méthode des volumes finis.
 
 \section{Description du Problème}
 
-Selon la configuration schématisée dans la figure ci-dessous, les deux réqctifs sont injectés face-à-face.
+Selon la configuration schématisée dans la figure ci-dessous, les deux réactifs sont injectés face-à-face.
 Puisque la diffusivité thermique des réactifs est très grande, l'efficacité de l'échangeur est dictée par la cinétique de la réaction qui est très influencée par la température. Cela revient donc à étudier le champ de température sur toute la taille du réacteur mais surtout dans la zone centrale. C'est pour cela que nous analyserons le phénomène d'advection-diffusion de la température par la méthode des volumes finis. 
 
 
@@ -125,9 +125,9 @@ Puisque la diffusivité thermique des réactifs est très grande, l'efficacité 
 \caption{Schéma du système d'injection dans le réacteur chimique}
 \end{figure}
 
-Selon le cahier des charges, nous devons respecter certaines scpécifications :
+Selon le cahier des charges, nous devons respecter certaines spécifications :
 \begin{itemize}
-	\item Maillage irregulier en x et y
+	\item Maillage irrégulier en x et y
 	\item Schéma amont pour le terme advectif
 	\item Schéma centré pour le terme diffusif
 	\item Intégration temporelle par la méthode d'Euler explicite
@@ -169,7 +169,7 @@ Et puisque la subroutine de transformation de VTS vers Paraview nous fait utilis
 \begin{figure}[h!]
 \bigcenter
 \includegraphics[scale=0.5]{Champ_Vitesse_Maillage/MaillageTheorique.PNG}
-\caption{Exemple d'un maillage 2D SOURCE A METTRE Poly Alexei Stoukov}
+\caption{Exemple d'un maillage 2D}
 \end{figure}
 
 Pour ceci nous allons donc utiliser plusieurs tableaux, pour chaque maillage il y aura un tableau pour $x$ et un selon $y$ dépendant de ($i$,$j$) conformément au schéma ci-dessus.
@@ -183,7 +183,7 @@ Nous définissons alors 4 maillages différents :
 \end{itemize}
 
 On effectue d'abord le maillage sur les noeuds et les centres des volumes, puis on peut composer les faces horizontales et verticales avec ceux-ci.
-Tout ces tableaux sont de tailles différentes puisqu'il y a $N_x \times N_y$ noeuds mais ($N_x -1 )\times (N_y -1$) centres.
+Tous ces tableaux sont de tailles différentes puisqu'il y a $N_x \times N_y$ noeuds mais ($N_x -1 )\times (N_y -1$) centres.
 C'est pourquoi il faudra faire attention à la taille des tableaux quand on les allouera.
 Ces tableaux sont en allocations dynamiques, on alloue uniquement la mémoire qui sera nécéssaire aux tableaux afin de ne pas trop en consommer en accord avec les données du fichier d'entrée. 
 
@@ -212,7 +212,6 @@ On a ensuite pu calculer le champ des vitesses aux centres des volumes selon \la
  u = A \cos \left( \pi \left( {\frac{x}{L} - \frac{1}{2}} \right) \right)  \sin \left( \pi \left( \frac{y}{L} - \frac{1}{2}\right) \right) \\
  v = -A \sin \left( \pi \left( {\frac{x}{L} - \frac{1}{2}} \right) \right)  \cos \left( \pi \left( \frac{y}{L} - \frac{1}{2}\right) \right) \\
 \end{cases}
-
 \end{equation*}
 
  $A$ paramètre caractéristique de la vitesse maximale du gaz, ici choisi à 0,05 $m/s$.\\
@@ -255,7 +254,7 @@ Il s'agit donc d'un calcul qui s'effectue à chaque centre des faces et non au c
 \subsection{Calcul des Flux}
 
 
-Les flux advectifs et diffusifs dans le réacteur chimique se sont définis comme ceci :
+Les flux advectifs et diffusifs dans le réacteur chimique sont définis comme ceci :
 \begin{equation*}
 \begin{cases}
 \phi_{adv} = \overrightarrow{u}\times \rho C_p T\\
@@ -270,8 +269,8 @@ En intégrant alors l'équation \ref{eqderivpart}, on obtient :
 \frac{d}{dt} (Volume_{i,j} T_{i,j})= \int \overrightarrow{U}T.\overrightarrow{n} dS + \int (\alpha\overrigtharrow{\nabla} T).\overrightarrow{n} dS
 \]
 
-Cette intégrale laisse apparaître alors une distinction selon les sens des normales donc le sens de parcours de notre maillage pour les flux advectifs mais aussi pour les flux diffusifs.
-On va donc renommer les flux selon leur directions avec haut, bas, gauche et droite.
+Cette intégrale laisse apparaître une distinction selon les sens des normales qui influence le sens de parcours du maillage pour les flux advectifs mais aussi pour les flux diffusifs.
+On va renommer les flux selon leur directions avec haut, bas, gauche et droite.
 
 On obtient alors comme équation générale :
 \begin{align*}
@@ -279,6 +278,8 @@ On obtient alors comme équation générale :
 &+ \phi_{adv,droite,i,j}dy + \phi_{diff,haut,i,j}dx + \phi_{diff,bas,i,j}dx  \\
 &+ \phi_{diff,gauche,i,j}dy + \phi_{diff,droite,i,j}dy
 \end{align*}
+
+
 \subsubsection{Flux Advectifs}
 
 En notant que :
@@ -297,26 +298,27 @@ On obtient alors pour $\phi_{adv,x}$ :
 
 \begin{equation*}
 \begin{cases}
-	U_{i,j}T_{i,j} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \geq 0 \\
-U_{i+1,j}T_{i+1,j} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \leq 0 \\
+	U_{i,j}\times T_{i,j} \ si \ \overrrightarrow{U_{i,j}}     \overrightarrow{n} \geq 0 \\
+U_{i+1,j}\times T_{i+1,j} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \leq 0 \\
 \end{cases}
 \end{equation*}
 
 De même pour $\phi_{adv,y}$ :
+
 \begin{equation*}
 \begin{cases}
-	U_{i,j}T_{i,j} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \geq 0 \\
-U_{i,j+1}T_{i,j+1} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \leq 0 \\\end{cases}
+	U_{i,j}\times T_{i,j} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \geq 0 \\
+U_{i,j+1}\times T_{i,j+1} \ si \ \overrrightarrow{U_{i,j}}.\overrightarrow{n} \leq 0 \\\end{cases}
 \end{equation*}
 \subsubsection{Flux Diffusifs}
 
-A l'instar des flux advectifs, on obtient des résultats identiques sur les flux diffusifs, seuls l'expression change :
+A l'instar des flux advectifs, on obtient des résultats identiques sur les flux diffusifs, seule l'expression change :
 
 \begin{equation*}
 \left\{
  \begin{array}{c }
-  phi_{diff,x,i,j}  \\
- phi_{diff,y,i,j}  \\
+  \phi_{diff,x,i,j}  \\
+ \phi_{diff,y,i,j}  \\
   \end{array}
 \qquad
 \equiv
@@ -338,8 +340,8 @@ Les températures aux extrémités droites et gauches du réacteur notées respe
 
 \begin{equation*}
 \begin{cases}
-T_A(y)=(T_A - T_0)\e^{\frac{-y^2}{2\sigma_A^2}} +T_0\\
-T_B(y)= (T_B - T_0)\e^{\frac{-y^2}{2\sigma_B^2}} +T_0\\
+T_{A}(y)=(T_A - T_0)\e^{\frac{-y^2}{2\sigma_A^2}} +T_0\\
+T_{B}(y)= (T_B - T_0)\e^{\frac{-y^2}{2\sigma_B^2}} +T_0\\
 \end{cases}
 \end{equation*}
 
@@ -355,8 +357,7 @@ En réalité l'énoncé indique une interpolation des flux diffusifs à partir d
 On va appliquer cette hypothèse pour les deux flux ainsi, 
 
 \begin{equation*}
-	\begin{cases}
-		
+	\begin{cases}		
 	\phi_{adv,i,npty} = \phi_{adv,i,npty-1}\\
 	\phi_{adv,i,1} = \phi_{adv,i,2}\\
 	\phi_{diff,i,npty} = \phi_{diff,i,npty-1}\\
@@ -368,14 +369,14 @@ On va appliquer cette hypothèse pour les deux flux ainsi,
 Pour les flux advectifs, nous définissons les flux aux points sur l'extrémité gauche comme étant le produit de la température du profil gaussien et de la vitesse au point :
 
 \[
- \phi_{adv,1,j} =U_{1,j}T_{A,j}
+ \phi_{adv,1,j} =U_{1,j}\times T_{A,j}
 \]
 
 
 En ce qui concerne l'extrémité droite, nous considérons qu'il s'agit d'un flux sortant, c'est pourquoi nous calculons sa valeur à l'aide des vitesses et températures aux points précédents.
   
 \[
- \phi_{adv,nptx,j} =U_{nptx-1,j}T_{B,j}
+ \phi_{adv,nptx,j} =U_{nptx-1,j}\times T_{B,j}
 \]  
 
 
@@ -386,8 +387,8 @@ Pour les flux diffusifs, les deux extrémités prennent en compte les profils de
 
 \begin{equation*}
 	\begin{cases}
-		\phi_{diff,1,j} = -\alpha\frac{T_A - T(1,j)}{dx/2} dy\\
-		\phi_{diff,Nptx,j} = -\alpha\frac{T(nptx-1,j) -T_B }{dx/2} dy\\
+		\phi_{diff,1,j} = -\alpha\frac{T_A - T(1,j)}{dx/2} \times dy\\
+		\phi_{diff,Nptx,j} = -\alpha\frac{T(nptx-1,j) -T_B }{dx/2} \times dy\\
 	\end{cases}
 \end{equation*}
  
@@ -404,7 +405,27 @@ Le calcul en lui même va s'articuler autour de l'algorigramme suivant :
 \caption{Algorigramme du calcul}
 \end{figure}
 
-
+\subsection{Mise à jour de la température}
+
+Le coeur du calcul va être de mettre à jour la température à l'instant $n+1$ à partir de la température au temps $n$.
+
+
+\begin{multline}
+
+T_{i,j}^{n+1} = T_{i,j}^{n} 	+ \frac{\Delta t}{dx\times dy} \times ( \phi_{adv,y,(i,j)}-\phi_{adv,y,(i,j+1)}+\phi_{adv,x,(i,j)}-\phi_{adv,x,(i,j+1)}\\
+\phi_{diff,y,(i,j)}-\phi_{diff,y,(i,j+1)}+\phi_{diff,x,(i,j)}-\phi_{diff,x,(i,j+1)} )
+\end{multline}
+
+
+%
+%\times \\
+%+ 
+%+\phi_{diff,y,(i,j)}-\phi_{diff,y,(i,j+1)+\phi_{diff,x,(i,j)-\phi_{diff,x,(i,j+1)} )\\
+
+
+
+\clearpage
+
 
 
 \section{Validation}
@@ -413,36 +434,63 @@ Le calcul en lui même va s'articuler autour de l'algorigramme suivant :
 
 Voici ce qu'on obtient en le modélisant sur ParaView, on observe bien la symétrie des deux profils de vitesse.
 
-\begin{figure}[h!]
-\centering
-        \includegraphics[scale=0.4]{Champ_Vitesse_Maillage/Champ_Vitesse_u.png}
+
+
+\begin{figure}[h]
+    \begin{minipage}[c]{.46\linewidth}
+        \centering
+        \includegraphics[scale=0.3]{Champ_Vitesse_Maillage/Champ_Vitesse_u.png}
         \caption{Champ des vitesses sur $u$ pour un maillage (100,100)}
-
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-        \includegraphics[scale=0.4]{Champ_Vitesse_Maillage/Champ_Vitesse_v.png}
+    \end{minipage}
+    \hfill%
+    \begin{minipage}[c]{.46\linewidth}
+        \centering
+        \includegraphics[scale=0.3]{Champ_Vitesse_Maillage/Champ_Vitesse_v.png}
         \caption{Champ des vitesses sur $v$ pour un maillage (100,100)}
+    \end{minipage}
 \end{figure}
+
 
 
 \subsection{Advection Pure 1D}
 
-En fixant $u$ alternativement positive et négative et $v$ nulle et en prenant une température constante en entrée, on observe bien l'advection le phénomène d'advection pure.
+En fixant $u$ alternativement positive et négative et $v$ nulle et en prenant une température constante en entrée, on observe bien le phénomène d'advection pure.
 
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.3]{Advection_Pure_1D/AdvGauche.png}
-\caption{Température pour $u$ positive  (20,20), Ici on peut voir que le coefficient de diffusivité thermique n'est pas pris égal à 0}
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[scale=0.2]{Advection_Pure_1D/AdvGauche.png}
+%\caption{Température pour $u$ positive  (20,20)}
+%\end{figure}
 
+
+
+
+\begin{figure}[h]
+    \begin{minipage}[c]{.46\linewidth}
+        \centering
+        \includegraphics[scale=0.18]{Advection_Pure_1D/AdvGauche.png}
+        \caption{Température pour $u$ positive  (20,20)}
+    \end{minipage}
+    \hfill%
+    \begin{minipage}[c]{.46\linewidth}
+        \centering
+        \includegraphics[scale=0.18]{Advection_Pure_1D/AdvDroite.png}
+        \caption{Température pour $u$ négative (51,51)}
+    \end{minipage}
 \end{figure}
 
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.3]{Advection_Pure_1D/AdvDroite.png}
-\caption{Température pour $u$ négative (51,51)}
-\end{figure}
+
+
+Sur l'advection gauche on peut voir que le coefficient de diffusivité thermique n'est pas pris égal à 0.
+On observe bien pour différents $t$ que le profil de température avance à une vitesse régulière.
+
+
+\clearpage
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[scale=0.3]{Advection_Pure_1D/AdvDroite.png}
+%\caption{Température pour $u$ négative (51,51)}
+%\end{figure}
 
 
 \subsection{Advection 2D}
@@ -461,13 +509,31 @@ En rétablissant alors le profil des vitesses avec la formule citée plus haut e
 \caption{Température gaussienne en entrée et $u$ et $v$ issues de \ref{eqvitesses} sur maillage (51,51)}
 \end{figure}
 
+\subsection{Diffusion}
 
+\begin{figure}[h!]
+\bigcenter
+\includegraphics[scale=0.4]{Diffusion/Diffusion_saute.png}
+\caption{Diffusion qui saute un rang}
+\end{figure}
+
+\begin{figure}[h!]
+\bigcenter
+\includegraphics[scale=0.4]{Diffusion/Diffusion.png}
+\caption{Diffusion qui est valide uniquement à droite}
+\end{figure}
+
+
+Les résultats que nous obtenons pour le moment sont encourageants, il y  sans doute un problème sur les conditions limites que nous avons imposés à gauche, pourtant elles semblent correctes.
 
 \section{Exploitation}
 
+On considère déjà dans ce cas là $\alpha_A \neq \alpha_B$ en saisissant dans ces deux paramètres dans le fichier d'entrée.
 
 \section{Conclusion}
 
-
+Au travers de ce projet on a pu mettre en oeuvre la méthode des volumes finis appliqué à un cas physique qu'est le réacteur chimique.
+La principale problématique de ce projet à été de traduire numériquement les équations d'advection/diffusion.
+Nous sommes parvenus à achever l'advection 2D, néanmoins nous n'avons pas réussi à achever la diffusion bien que les résultats obtenus fut encourageant.
 
 \end{document}

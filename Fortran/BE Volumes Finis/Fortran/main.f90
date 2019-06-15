@@ -1,9 +1,10 @@
 PROGRAM main
-
-!TODO normalement on devrait allouer xcentre_vol,ycentre_vol,xcentre_faces_horiz,ycentre_faces_horiz en taille n-1*n-1
-!Comment afficher tout ça sans avoir d'erreur ?
-!TODO Calcul du pas de temps
-!TODO saisir en entrée CFL = 1 puis en calculer le dt avec les formules umin et tout ça
+  !*********************************************
+  !Bureau d'études Volumes finis
+  !AUTELLET Adrien & BERGE Quentin
+  !ENSEEIHT MF2E 1A
+  !Juin 2019
+  !*********************************************
 
 USE module_reacteur_chimique
 IMPLICIT NONE
@@ -11,8 +12,8 @@ INTEGER :: k
 
 pi = 4.d0*DATAN(1.d0)
 
-CALL read_data()
-!Normalement xcentre_vol et ycentre_vol sont de taille n-1, mais on les allocate à n pour ne pas se faire jeter quand on affiche tout en sortie
+CALL read_data() !Lecture fichier d'entrée
+!Allocation dynamique des tableaux
 ALLOCATE(xnoeuds(nptx,npty),ynoeuds(nptx,npty))
 ALLOCATE(xcentre_vol(nptx-1,npty-1),ycentre_vol(nptx-1,npty-1))
 ALLOCATE(xcentre_faces_horiz(nptx,npty),ycentre_faces_horiz(nptx,npty))
@@ -24,31 +25,28 @@ ALLOCATE(flux_adv_x(nptx,npty-1),flux_adv_y(nptx-1,npty),flux_diff_x(nptx,npty-1
 
 CALL maillage()
 CALL champ_vitesse()
-CALL champ_temp()
-!CALL calcul_dt()
-dt = 1.d-6
+CALL champ_temp()!Initialisation des températures
+CALL calcul_dt()
+!dt = 1.d-6
 WRITE(*,*) "Pas de Temps =", dt
-
 
 CALL VTSWriter(0,0,nptx,npty,xnoeuds,ynoeuds,Temp,ux_centres_vol,uy_centres_vol,'ini')
 
-!npttemps=int(tfinal/dt) !TODO rectifier ça parce que c'est de la merde
 npttemps = int(tfinal/dt +1)
 WRITE(*,*)"nombre de points temps =",npttemps
-!PRINT*,npttemps
 DO k=1,npttemps-1!
-  !CALL calcul_flux_advectif()
-  CALL calcul_flux_diff()
-  CALL maj_temp()
+  CALL calcul_flux_advectif()
+  !CALL calcul_flux_diff()
+  CALL maj_temp() !Mise à jour de la température à chaque instant
   CALL VTSWriter(k*dt,k,nptx,npty,xnoeuds,ynoeuds,Temp,ux_centres_vol,uy_centres_vol,"int")
 END DO
 
 CALL VTSWriter(tfinal,npttemps,nptx,npty,xnoeuds,ynoeuds,Temp,ux_centres_vol,uy_centres_vol,"end")
 
+!Déallocation des tableaux dynamiques
 DEALLOCATE(xnoeuds,ynoeuds,xcentre_vol,ycentre_vol,xcentre_faces_horiz,ycentre_faces_horiz,xcentre_faces_vertic,ycentre_faces_vertic)
 DEALLOCATE(Temp,TfaceAC,TfaceBD)
 DEALLOCATE(ux_centres_vol,ux_centres_faces,uy_centres_faces,uy_centres_vol)
 DEALLOCATE(flux_adv_y,flux_adv_x,flux_diff_x,flux_diff_y)
-
 
 END PROGRAM main
