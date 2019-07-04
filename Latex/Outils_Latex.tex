@@ -175,7 +175,7 @@ Juin 2019 % Publication year
 \end{sidewaysfigure}
 
 %************************************************************************
-%							Mettre une légende à un tableau
+%							Tableau Légendé
 %************************************************************************
 
 \begin{center}
@@ -204,6 +204,109 @@ Juin 2019 % Publication year
 \verb?Rapport?
 
 %************************************************************************
+%							 Listes Spéciales
+%************************************************************************
+ \begin{enumerate}[a)]
+
+\item[$\diamond$]
+\item[*]
+\item[$\bullet$]
+
+%************************************************************************
+%							 Délimiteur mathématiques
+%************************************************************************
+
+Dans un texte : $ $
+
+Pour une équation :
+\[
+
+\]
+
+ou \begin{equation}
+
+\end{equation}
+
+ou
+
+sans numérotation
+
+\begin{equation*}
+
+\end{equation*}
+
+%************************************************************************
+%							 Symboles mathématiques
+%************************************************************************
+
+\infty infini
+\times multiplication
+\%      symbole pourcentage
+\equiv  symbole équivalent
+\neq    différent de
+\geq    superieur ou égal à ou \geqslant
+\leq    inferieur ou égal à ou \leqslant
+\n choose p n combinaison p
+\in   appartient à
+\not in n'appartient pas à
+\forall pour tout
+\exists il existe
+\leftrightarrow double flèche
+\leftarrow ou \rightarrow
+\widehat{}   angles
+
+
+%************************************************************************
+%							 Vecteur
+%************************************************************************
+
+\usepackage{amsmath}
+
+  %Dans une parenthèse
+\newcommand*{\Coord}[3]{%
+  \ensuremath{\overrightarrow{#1}\,
+    \begin{pmatrix}
+      #2\\
+      #3
+    \end{pmatrix}}}
+
+    %Avec un truc droit
+
+    \newcommand*{\Coordp}[3]{%
+  \ensuremath{\overrightarrow{#1}\,
+    \left\lvert
+      \begin{matrix}
+        #2\\
+        #3
+      \end{matrix}
+    \right.% Ne pas oublier le délimiteur invisible.
+  }}
+
+
+%************************************************************************
+%							 Espaces dans les mathématiques
+%************************************************************************
+\!, \,, \;, \quad et \qquad
+
+%************************************************************************
+%							 Intervalles
+%************************************************************************
+\left[ ; \right]  Intervalle fermé
+\left]-\infty; \frac32\right] Intervalle semi fermé
+ \scr{S} = \left\{\left(-\frac12 ; 2\right)\right\} Ensemble
+ \scr{S} = \left{x\in\mathbb{R}|\frac1x=x\right\} :
+ %************************************************************************
+ %							 Ensembles mathématiques
+ %************************************************************************
+
+\mathbb{NZDQRCH}
+%************************************************************************
+%							 1er ou 2ème
+%************************************************************************
+
+1\textsuperscript{er}
+
+%************************************************************************
 %							Equations
 %************************************************************************
 \begin{align*}
@@ -218,15 +321,15 @@ portee = \frac{v_0}{g} \cos(\alpha) \sqrt{v_0 \sin(\alpha) +(v_0\sin(\alpha))^2 
 \end{equation*}
 
 %************************************************************************
-%							Intégrales
+%							Intégrales, Sommes, Produits,Limites
 %************************************************************************
 \int_{lower}^{upper}
 
-%************************************************************************
-%							Sommes
-%************************************************************************
 \sum_{lower}^{upper}
 
+\prod_{i=1}^n f(i)
+
+\lim_{n\to\infty} u_n=2 :
 %************************************************************************
 %							Vecteur
 %************************************************************************
@@ -291,6 +394,15 @@ portee = \frac{v_0}{g} \cos(\alpha) \sqrt{v_0 \sin(\alpha) +(v_0\sin(\alpha))^2 
  y(2,i+1) = y(2,i)  + dt \times y(4,i)\\
 \end{cases}
 \end{equation*}
+
+ou
+\left\{
+\begin{array}{rcl}
+  x+y+z&=&1\\
+y+2z&=&-2\\
+z&=&0
+\end{array}
+ \right.
 %************************************************************************
 %							Aligner des Equations
 %************************************************************************
@@ -320,7 +432,6 @@ portee = \frac{v_0}{g} \cos(\alpha) \sqrt{v_0 \sin(\alpha) +(v_0\sin(\alpha))^2 
 %							Dérivées partielles
 %************************************************************************
 \frac{\partial T}{\partial t}
-
 
 %************************************************************************
 %							Outils pour citer du code
