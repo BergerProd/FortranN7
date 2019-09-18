@@ -16,7 +16,7 @@ DATE_FULL=`date +%Y%m%d-%H%M%S`
 BACKUP_FILENAME="$PROJECT-$DATE_FULL.tar.gz"
 
 ### Création du répertoire distant ###
-sshpass -p $SSH_PASS $SSH_USER@$SSH_HOST:$REMOTE_DIR$ "mkdir -p  $BACKUP_DIR"
+ssh -p $SSH_PASS $SSH_USER@$SSH_HOST:$REMOTE_DIR$ "mkdir -p  $BACKUP_DIR"
 
 
 ### Création de la sauvegarde sur le serveur ###
