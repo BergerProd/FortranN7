@@ -6,31 +6,70 @@
 
 \documentclass[a4paper,oneside]{article}
 %Compilé avec MacTex
-\usepackage[french]{babel}
-\usepackage[utf8]{inputenc}
+
+%Langage
+\usepackage[french]{babel} 
+\usepackage[T1]{fontenc} 
+\usepackage[latin1]{inputenc} %pour les accents rentrés dans latex
+%\usepackage[utf8]{inputenc}
 \usepackage{hyperref} % références dans pdf
-\usepackage[tt]{titlepic}
-\usepackage{graphicx} % pour images
-\usepackage{rotating} % pour rotatebox
 \usepackage{lmodern}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{mathrsfs}
-\usepackage{sistyle}
-\usepackage{chngpage}
+
+%Géométrie
+\setlength{\parindent}{17pt}%Pour les indentations au début de paragraphe
+\setlength{\parskip}{7pt}%Pour espaces entre paragraphes
+\usepackage{rotating} % pour rotatebox
+\usepackage{geometry}
+\geometry{hmargin=2.5cm,vmargin=3.5cm}
+
+%Images
+\usepackage{graphicx} % pour images
+\usepackage[tt]{titlepic}%mettre une image sur une page de titre
 \usepackage{caption}
 \usepackage{epstopdf}
 \usepackage{gnuplottex}% pour faire du gnuplot directement dans le latex
-\usepackage[nottoc, notlof, notlot]{tocbibind} % pour que bibliographie soit comprise comme un chapitre ou section
-\usepackage{appendix} % pour les annexes
-\pagestyle{headings} % pour en têtes
+
+
+%Maths & Symboles
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
 \usepackage{mathenv}
+\usepackage{sistyle}
+\usepackage{ulem} %pour souligner 2 fois
 %\usepackage{SIunitx}
 %\usepackage{siunitx}%pour les unités SI
+
+%Code
+%\usepackage{listings}
+
+
+%En tête, Annexes, Bibliographie
+\usepackage{appendix} % pour les annexes
+\pagestyle{headings} % pour en têtes
+\usepackage[nottoc, notlof, notlot]{tocbibind} % pour que bibliographie soit comprise comme un chapitre ou section
+\usepackage{chngpage}
+%\usepackage{fancyhdr} %pour faire une entête personnalisée
+%\pagestyle{fancy}%pour faire une entête personnalisée
+%\usepackage{lastpage}
+
+%En tête perso
+\renewcommand{\headrulewidth}{0.5pt}
+\fancyhead[L]{Quentin Berg\'e\\ Valentin Lamberet}
+\fancyhead[R]{Milieux Poreux}
+%Pied de page perso
+%\renewcommand{\footrulewidth}{1pt}
+%\fancyfoot[C]{\textbf{page \thepage}} 
+%\fancyfoot[L]{truc}
+%\fancyfoot[R]{\leftmark}
+
+%Déclarations
 \DeclareTextSymbol{\degre}{OT1}{23} %pour le symbole degré
+
+
+%Bigcenter pour images
 \makeatletter % pour /bigcenter qui permet de s'affranchir des marges pour les images
 \newskip\@bigflushglue \@bigflushglue = -100pt plus 1fil
-
 \def\bigcenter{\trivlist \bigcentering\item\relax}
 \def\bigcentering{\let\\\@centercr\rightskip\@bigflushglue%
 \leftskip\@bigflushglue
@@ -38,10 +77,12 @@
 \def\endbigcenter{\endtrivlist}
 \makeatother
 
-\usepackage{listings}
+
+
 
 \begin{document}
 
+%Pour Code
 \lstset{language=Matlab,breaklines=true,keepspaces=true,                 % how far the line-numbers are from the code
   %numberstyle=\normal,numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
   %numbersep=5pt,   % the style that is used for the line-numbers
@@ -63,8 +104,35 @@
   {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
 }
 
+
+
+
+%% Definitions du chapitre pour simplifier la frappe
+\def\ua{\underline a}
+\def\un{\underline n}
+\def\uQ{\underline Q}
+\def\cD{{\cal D}}
+\def\cF{{\cal F}}
+\def\cV{{\cal V}}
+\def\dcD{\partial{\cal D}}
+\def\cC{{\cal C}}
+\def\dOmega{\partial{\Omega}}
+\def\inttt{\int\!\!\int\!\!\int}
+\def\dsdt{\frac{d}{d t}}
+\def\pdsdt{\frac{\partial}{\partial t}}
+\def\pdsdtc{\frac{\partial c}{\partial t}}
+\def\hmic{h_{\rm mic}}
+\def\hmac{h_{\rm mac}}
+\def\cFsurf{{\cal F}_{\rm surf}}
+\def\cFvol{{\cal F}_{\rm vol}}
+\def\div{{\rm div\,}}
+\def\ugrad{\underline{\rm grad}\,}
+\def\eint{e_{\rm int}}
+\def\cEint{{\cal E}_{\rm int}}
+\def\iiint{{\int\!\!\!\int\!\!\!\int}}
+\def\iint{{\int\!\!\!\int}}
 %************************************************************************
-%									TITRE
+%									GROS TITRE
 %************************************************************************
 
 
@@ -136,6 +204,16 @@ Juin 2019 % Publication year
 
 \end{document}
 
+%************************************************************************
+%									PETIT TITRE
+%************************************************************************
+
+\begin{center}
+\rule{8cm}{0.5pt}\\% % Thin horizontal rule
+	%\vspace{0.2\baselineskip} % Whitespace above the title
+\Large{TD1 Apprentis 2019}\\
+\rule{8cm}{0.5pt}%
+\end{center}
 
 %************************************************************************
 %							Juxtaposer 2 images
@@ -427,6 +505,7 @@ z&=&0
 %							Outils pour Equations
 %************************************************************************
 \left( et \right)
+\left[ et \right] pour les avoir en gros
 
 %************************************************************************
 %							Dérivées partielles
@@ -443,7 +522,8 @@ z&=&0
 %							Faire référence à un objet
 %************************************************************************
 
-\label{2} et \ref{2}
+\label{2} là ou est l'objet et \ref{2} ou on veut y faire référence ou \eqref{} si c'est une équation
+
 %************************************************************************
 %							Forcer page blanche
 %************************************************************************
@@ -481,16 +561,17 @@ z&=&0
  %************************************************************************
  \newpage
 \def\refname{Références Bibliographiques}
-\nocite{*}
+\nocite{*} %pour envoyer toutes les références sans avoir à les citer 
+%sinon il suffit de faire un \cite{refcourte} là où on veut avoir à citer la référence
 \bibliographystyle{plain}
 \bibliography{stage.bib}
 \newpage
 
 
 %************************************************************************
-%							Exemple d'une bibliographie
+%							Exemple d'une bibliographie : Dans un .bib
 %************************************************************************
-\newpage
+
 \usepackage{hyperref}
 
 @report{ref1,
