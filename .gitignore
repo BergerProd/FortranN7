@@ -1,3 +1,12 @@
+# Fichiers propres à MacOs
 *.DS_Store
+# Fichiers issus de compilations
 *.o
 *.mod
+# Archives
+*.zip
+# Inspirations
+Fortran/BE Volumes Finis/Inspi1
+Fortran/BE Volumes Finis/LAPORTE_MASTIO
+
+

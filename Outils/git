@@ -5,3 +5,20 @@ git reset HEAD^
 
 %Savoir ou on en est
 git status
+
+git commit -m pour message court
+ou git commit et entrée pour pouvoir faire un message long
+
+git push pour pousser sur dépot distant
+git pull pour récuperer du dépot distant(Attention peut occasionner un merge)
+git diff pour comparer avec un depot distant
+
+git checkout -b nom_de_la_branche création d'une nouvelle branche
+git checkout nom_de_la_branche passer sur telle ou telle branche
+
+Ici on peut se mettre sur une branche et mettre en argument la branche origine depuis laquelle on veut faire les operations
+ça modifiera la branche ou on est actuellement
+git merge fusionner avec le depot distant
+git rebase merge en prenant l'historique de la branche 
+
+
