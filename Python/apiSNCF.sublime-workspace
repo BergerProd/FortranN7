@@ -1,0 +1,242 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Re",
+				"REMOTE_DIR"
+			],
+			[
+				"S",
+				"SUBROUTINE"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Snippet: Bibtex b",
+				"Snippet: BibTeX Book"
+			],
+			[
+				"Snippet: Bibtex ",
+				"Snippet: BibTeX Manual"
+			],
+			[
+				"Snippet: Bibtex bo",
+				"Snippet: BibTeX Book"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 137.0,
+		"history":
+		[
+			"run",
+			"1+2",
+			"cd",
+			"Package Control: Install Package",
+			"Install Package"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/bergerprod/Desktop/opendata_ter_intercites_manuel_integration_pdf.json",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Python/seyne.json",
+		"/Users/bergerprod/Downloads/opendata_ter_intercites_manuel_integration_pdf.json",
+		"/private/tmp/tnt26827/mount/Extra/tnt.nfo",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Latex/Outils_Latex.tex",
+		"/Users/bergerprod/Downloads/Rocketman.2019.1080p.WEB-DL.H264.AC3-EVO[EtHD]/Rocketman.2019.1080p.WEB-DL.H264.AC3-EVO.nfo",
+		"/Users/bergerprod/Google Drive/N7/Milieux Poreux/TP/Rapport/Untitled.tex",
+		"/Users/bergerprod/Library/Application Support/Texpad/Templates/Rapport_Grand.tex",
+		"/Users/bergerprod/Google Drive/N7/Communication/Beamer/Beamer.tex",
+		"/Users/bergerprod/Downloads/Demarrage-Beamer/ExempleBeamer.tex",
+		"/Users/bergerprod/Downloads/Demarrage-LaTeX/ExempleLaTeX.tex",
+		"/Users/bergerprod/Google Drive/N7/Couche Limite/TP CL/Rapport/Untitled.tex",
+		"/Users/bergerprod/Google Drive/N7/Communication/LateX/bibliographie.bib",
+		"/Users/bergerprod/Google Drive/N7/Hydraulique/Hydraulique Charge/BE/Rapport/BEHydrauliqueChargeBERGE.tex",
+		"/Users/bergerprod/Downloads/mydata~1570562330723/json/chat_history.json",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Shell/Backup/backup-site.sh",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Shell/Backup/mysite.config",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Fortran/TP2/raccourcfortran.sh",
+		"/Users/bergerprod/Desktop/bash-backup-website-master/backup-site.sh",
+		"/Users/bergerprod/Desktop/newton.f90",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Fortran/BE Volumes Finis/Fortran/subroutine.f90",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Matlab/EDO/EDO&EDPBERGE/DMExo1.m",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Matlab/EDO/EDO&EDPBERGE/DMExo2.m",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Matlab/Stat/TestAdequation_BERGE_v1.m",
+		"/Users/bergerprod/Desktop/BE Volumes Finis/Fortran/subroutine.f90",
+		"/Users/bergerprod/Desktop/EDO/DMExo1.m",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Matlab/DmProba/TP Proba/Exercice1/Exercice1Uniforme.m",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Matlab/Proba/TP Proba/Exercice4/Bernouilli.m",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Matlab/Proba/TP Proba/Exercice3/Exercice3LoiExpo.m",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Matlab/Proba/TP Proba/Exercice2/Exercice2LoiGaussienne.m",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Matlab/Proba/TP Proba/Exercice1/Exercice1Uniforme.m",
+		"/Users/bergerprod/Google Drive/N7/Informatique & Calculs Scientifiqes/Informatique_N7/Matlab/Proba/ddpxbins.m",
+		"/Users/bergerprod/Downloads/config-2.json",
+		"/Users/bergerprod/Downloads/config.json",
+		"/Users/bergerprod/Google Drive/N7/Signaux & Systèmes/TD Machines/filtre_PB.m",
+		"/Users/bergerprod/Documents/N7/Informatique & Calculs Scientifiqes/Informatique/TP2 corrigé/Latex/tp2.tex",
+		"/Users/bergerprod/Downloads/template.tex",
+		"/Users/bergerprod/Google Drive/Cavité Laser/LaTeX/bibliotest.bib",
+		"/Users/bergerprod/Desktop/bibliotest.bib",
+		"/Users/bergerprod/Google Drive/Cavité Laser/LaTeX/biblizotero.bib",
+		"/Users/bergerprod/Google Drive/Cavité Laser/LaTeX/bibliographie.bib"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 102.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "apiSNCF.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 213.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
