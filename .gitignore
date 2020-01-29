@@ -5,6 +5,11 @@
 *.mod
 # Archives
 *.zip
+#Resultats
+*.out
+*.tex
+*.png
+*.toc
 # Inspirations
 Fortran/BE Volumes Finis/Inspi1
 Fortran/BE Volumes Finis/LAPORTE_MASTIO
