@@ -1,0 +1,86 @@
+#Compilateur
+FC=gfortran
+#Options de compilation fortran
+FFLAGS= -Wsurprising  -ffree-line-length-none  -Wall
+FFLAGSDEBUG=  -Wsurprising  -ffree-line-length-none  -Wall
+FFLAGSRELEASE=-ffree-line-length-none -Wall
+DEPENDFLAGS= -free
+LDFLAGS=
+#nom de l'executable
+EXENAME=coucou.exe
+#chemin relatif des dossiers
+SRCDIR=Fortran/
+OBJDIR=obj/
+#les sources sont les *.f90 comprises dans le dossier $(SRCDIR)
+#= pour des variables qui sont tout le temps réévaluées, := pour juste une fois
+SRC=$(wildcard $(SRCDIR)*.f90)
+#OBJ=$(wildcard $(OBJDIR)*.f90)
+#MANQUE creation des .o et .mod dans dossier obj
+#OBJ=$(subst .f90,.o,$(OBJ))
+#remplace les .f90 en .o de tous les .f90 de OBJDIR
+OBJ=$(subst .f90,.o,$(wildcard $(OBJDIR)*.f90)) 
+
+LINKER   = gfortran -o
+LFLAGS   = -Wall
+
+#$(patsubst src/%,build/%, $(wildcard src/*))
+
+#on substitue les extensions .f90 en .o pour les objets
+#OBJ=$(SRC:.f90=.o)
+
+#OBJ=$(subst .f90,.o,OBJ)
+
+#pour print
+#$(info "$(SRC)")
+$(info "$(OBJ)")
+
+#.SUFFIXES: .f90 .o
+
+all: $(EXENAME)
+
+#$(EXENAME): $(OBJ)
+#	$(FC) $(FFLAGS) -o $@ $(OBJS)
+
+$(EXENAME): obj
+    @$(LINKER) $(EXENAME) $(LFLAGS) $(OBJ)
+    @echo "Linking complete!"
+
+obj: $(SRC) $(INCLUDES)
+    @$(FC) $(FFLAGS) $(SRC)
+    @echo "Compilation complete!"
+
+#$(EXENAME): $(OBJ)
+#	@mkdir -p $(OBJDIR)
+#	@cp $(SRCDIR)/* $(OBJDIR)/
+#	$(FC) $(FFLAGS) -o $@ $(OBJ)
+
+#(OBJDIR)/%.o: %.f90
+#    $(FC) $(FFLAGS) -c $@ $<
+
+#(OBJDIR)/%.o: %.f90
+#	$(FC) -c $(FFLAGS) $< -o $@
+
+#.f90.o :
+#	$(FC) -c $(FFLAGS) $<
+
+#.f90.o :
+#	$(FC) -c $(FFLAGS) $< -o $@
+
+#%.o: %.f90
+#	$(CC) -o $@ -c $< $(FFLAGS)
+
+#%.o: %.f90
+#	$(FC) $@ -c $< $(FFLAGS)	
+
+#release:
+#	
+#debug:
+#OKKKKK
+clean:
+	rm -Rf $(OBJDIR)
+	rm -f *.exe
+
+depend :
+	makedepend -- $(DEPENDFLAGS) -- $(SRC)
+
+# DO NOT DELETE
