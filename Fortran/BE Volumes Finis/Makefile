@@ -31,7 +31,7 @@ OBJECTS     := $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SOURCES:.f90=.o))
 #
 LINKER   = gfortran
 # linking flags here
-LFLAGS   = -Wall -I. -lm
+LFLAGS   = -I. -lm
 
 #$(patsubst src/%,build/%, $(wildcard src/*))
 
