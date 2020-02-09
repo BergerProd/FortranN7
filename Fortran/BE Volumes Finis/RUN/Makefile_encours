@@ -7,47 +7,72 @@ FFLAGSRELEASE=-ffree-line-length-none -Wall
 DEPENDFLAGS= -free
 LDFLAGS=
 #nom de l'executable
-EXENAME=coucou.exe
+EXEDIR=RUN
+EXENAME=hello.bin
 #chemin relatif des dossiers
 SRCDIR=Fortran/
-OBJDIR=obj/
+OBJDIR=obj
 #les sources sont les *.f90 comprises dans le dossier $(SRCDIR)
 #= pour des variables qui sont tout le temps réévaluées, := pour juste une fois
+
 SRC=$(wildcard $(SRCDIR)*.f90)
+#SOURCES     := $(shell find $(SRCDIR) -type f -name *.f90)
+#OBJECTS     := $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SOURCES:.f90=.o))
+
 #OBJ=$(wildcard $(OBJDIR)*.f90)
 #MANQUE creation des .o et .mod dans dossier obj
-#OBJ=$(subst .f90,.o,$(OBJ))
+#OBJ=$(subst .f90,.o,$(SRC))
 #remplace les .f90 en .o de tous les .f90 de OBJDIR
-OBJ=$(subst .f90,.o,$(wildcard $(OBJDIR)*.f90)) 
+#OBJ=$(subst .f90,.o,$(wildcard $(OBJDIR)*.f90)) 
+#OBJECTS=$(SRC:$(SRCDIR)/%.f90=$(OBJDIR)/%.o)
+#OBJECTS:= $(patsubst $(SRCDIR)/%,$(OBJDIR)/%,$(SRC:.f90=.o))
 
-LINKER   = gfortran -o
-LFLAGS   = -Wall
+
+#
+LINKER   = gfortran
+# linking flags here
+LFLAGS   = -I. -lm
 
 #$(patsubst src/%,build/%, $(wildcard src/*))
 
 #on substitue les extensions .f90 en .o pour les objets
 #OBJ=$(SRC:.f90=.o)
 
-#OBJ=$(subst .f90,.o,OBJ)
+OBJ=$(subst .f90,.o,$(SRC))
 
 #pour print
 #$(info "$(SRC)")
 $(info "$(OBJ)")
+$(info "$(OBJECTS)")
+$(info "$(SRC)")
+$(info "$(SOURCES)")
+
+#@$(CC) $(CFLAGS) $(INCDEP) -MM $(SRCDIR)/$*.$(SRCEXT) > $(BUILDDIR)/$*.$(DEPEXT)
+
 
 #.SUFFIXES: .f90 .o
 
-all: $(EXENAME)
+all: resources $(EXENAME)
 
-#$(EXENAME): $(OBJ)
-#	$(FC) $(FFLAGS) -o $@ $(OBJS)
+resources : 
+	@mkdir -p $(OBJDIR)
 
-$(EXENAME): obj
-    @$(LINKER) $(EXENAME) $(LFLAGS) $(OBJ)
-    @echo "Linking complete!"
+$(EXENAME): $(OBJECTS)
+	$(LINKER) -o $(EXENAME) $(FFLAGS) -I$(OBJECTS) $(LFLAGS) 
+#-o $(FFLAGS)
+#    $(f90comp) -o execname $(switch) $(objects)
 
-obj: $(SRC) $(INCLUDES)
-    @$(FC) $(FFLAGS) $(SRC)
-    @echo "Compilation complete!"
+
+$(OBJECTS): $(SOURCES)
+	$(FC) -c  $(FFLAGS) $<
+
+#$(EXENAME): obj
+#    @$(LINKER) $(EXENAME) $(LFLAGS) $(OBJ)
+#    @echo "Linking complete!"
+
+#obj: $(SRC) $(INCLUDES)
+#    @$(FC) $(FFLAGS) $(SRC)
+#    @echo "Compilation complete!"
 
 #$(EXENAME): $(OBJ)
 #	@mkdir -p $(OBJDIR)
@@ -81,6 +106,6 @@ clean:
 	rm -f *.exe
 
 depend :
-	makedepend -- $(DEPENDFLAGS) -- $(SRC)
+	makedepend -- $(DEPENDFLAGS) -- $(SOURCES)
 
 # DO NOT DELETE

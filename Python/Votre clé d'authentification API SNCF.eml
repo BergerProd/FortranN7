@@ -1,0 +1,96 @@
+Delivered-To: quentin.berge13@gmail.com
+Received: by 2002:a02:a4a:0:0:0:0:0 with SMTP id 71csp532490jaw;
+        Mon, 13 Jan 2020 07:14:25 -0800 (PST)
+X-Google-Smtp-Source: APXvYqySd7jEdTCS6oWr2nkXxpd/JOr1sNWK9AF0t061SQWHoqc0beasOw6L/jFFLCru4fISQbCt
+X-Received: by 2002:a1c:7918:: with SMTP id l24mr21994261wme.125.1578928465227;
+        Mon, 13 Jan 2020 07:14:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1578928465; cv=none;
+        d=google.com; s=arc-20160816;
+        b=CAPOM7FXEQ4Hyt6YsZUvhEVlVjtKxsmDqeu9rz+y1+FZqmlzlCmZ5qDcWudXNichj3
+         Bx6KDZNtHHq5EA6ulgNHA1t9Zdmk44irGJvATMtpdbNsfRLtZWEvk35ERQ+Ou2HeDHYi
+         Neq535/q5UeCZEg2ZHAmTyqS3jDMHzFaYfqTjRfmqqt5+xs/4NBeEKkIufUeDoHQxaDt
+         S0eMKTjB8MbcD7yDHS8zUF80cbBHCUVfg9C28Hz+9WTvdKomqNQE955FaAPNeh1cm5Vx
+         1GEgyWj6Uo1tmi7YAf1QHpTs0ObA+zDRrHyheTKZzDsxHvo+RoxNV2zyxhcPWyxyLKt2
+         +Yvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:to:from:subject:date
+         :message-id;
+        bh=mT6iXBKVf8h8dVLApdQwm/n0OAwzbwxGiYZf69l/ng0=;
+        b=hm9Av5zbyuKpt3dtU5qHLa1YIo0UOKKcoyCcCItC3vEccERV68x5nqsHcpUZpOxpln
+         xIPqDMzKfOtxajfAw/1IURnplrE8y0ZOT587nLlJCaRT+C+1jHrTTz159hjE7Acszqtz
+         7Tb92Ta09qe77dSFMELd03G/H8cNoSNCH4G3pkqd6KwFZGl4ReHwUn2AiHNuS+zGhRKb
+         tm03NSZmUMpnxBkJ9663lhuATgBn+MeX2G29y0gUgcutB5wsnqkyic1I87W0yavkW4HX
+         0mtByve+jdFI0nGIqxR+tv6HZgQacmj7PPZa7DLm0SkQg2zEEHglRFf5s3lfTFsl/T0t
+         +HbQ==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=neutral (google.com: 81.93.181.210 is neither permitted nor denied by best guess record for domain of no-reply@api-sncf.com) smtp.mailfrom=no-reply@api-sncf.com
+Return-Path: <no-reply@api-sncf.com>
+Received: from smtp-relay.canaltp.fr (vip-ntt-gw.ctp.prod.canaltp.fr. [81.93.181.210])
+        by mx.google.com with ESMTPS id v14si10246154wrb.442.2020.01.13.07.14.24
+        for <quentin.berge13@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 13 Jan 2020 07:14:25 -0800 (PST)
+Received-SPF: neutral (google.com: 81.93.181.210 is neither permitted nor denied by best guess record for domain of no-reply@api-sncf.com) client-ip=81.93.181.210;
+Authentication-Results: mx.google.com;
+       spf=neutral (google.com: 81.93.181.210 is neither permitted nor denied by best guess record for domain of no-reply@api-sncf.com) smtp.mailfrom=no-reply@api-sncf.com
+Received: from canaltp.fr (unknown [10.93.32.1])
+	by smtp-relay.canaltp.fr (Postfix) with ESMTP id 7F63B12C7
+	for <quentin.berge13@gmail.com>; Mon, 13 Jan 2020 16:14:24 +0100 (CET)
+Received: from att-ws.prod.canaltp.fr (localhost [IPv6:::1])
+	by canaltp.fr (Postfix) with ESMTP id 733E75AF
+	for <quentin.berge13@gmail.com>; Mon, 13 Jan 2020 16:14:24 +0100 (CET)
+Message-ID: <82daa0c00f0a1a5a0c7e9435b22d1ca4@att-ws.prod.canaltp.fr>
+Date: Mon, 13 Jan 2020 16:14:24 +0100
+Subject: Votre =?utf-8?Q?cl=C3=A9?= d'authentification API SNCF
+From: no-reply@api-sncf.com
+To: quentin.berge13@gmail.com
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour Quentin,<br/><br/>
+Merci de vous =C3=AAtre inscrit =C3=A0 l=
+=E2=80=99API SNCF. Voici votre cl=C3=A9 d=E2=80=99authentification :<br/><b=
+r/>
+19a0622c-2005-4460-8a1a-acc2019f4136<br/><br/>
+
+<strong>Comment v=
+ous authentifier =C3=A0 l'API ?</strong><br/>
+Acc=C3=A9dez =C3=A0 l'API :=
+ https://api.sncf.com/v1 <br/>
+Username : copiez puis collez votre cl=
+=C3=A9 <br/>
+Password : laissez le champ vide <br/> <br/>
+ou copiez vot=
+re cl=C3=A9 directement dans l'URL. <br/><br/>
+
+<strong>Comment utilise=
+r l=E2=80=99API ?</strong><br/><br/>
+<strong>Quelques exemples :</strong>=
+<br/><br/>
+
+Le d=C3=A9tail des modes de transport couvert par l=
+=E2=80=99API <br/>
+GET https://api.sncf.com/v1/coverage/sncf/commercial_m=
+odes <br/><br/>
+
+Itin=C3=A9raires entre Paris et Lyon <br/>
+GET https=
+://api.sncf.com/v1/coverage/sncf/journeys?from=3Dadmin:fr:75056&to=3Dadmin:=
+fr:69123&datetime=3D20200113T161424 <br/><br/>
+
+Prochains d=C3=A9parts =
+=C3=A0 Montparnasse <br/>
+GET https://api.sncf.com/v1/coverage/sncf/stop_=
+areas/stop_area:OCE:SA:87391003/departures?datetime=3D20200113T161424 <br/>=
+<br/>
+
+<ul>
+    <li><a href=3D"//data.sncf.com/api/fr/documentation">=
+Documentation</a></li>
+    <li><a href=3D"//data.sncf.com/api/fr/help">Su=
+pport</a></li>
+</ul>
+
+L'=C3=A9quipe API SNCF <br/>
+
