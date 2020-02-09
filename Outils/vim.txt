@@ -1,0 +1,14 @@
+
+
+!*********
+Vim
+!********
+
+Insert sous mac fn+i
+puis echap
+:q quitter sans ecrire
+:wq sauvegarder et ecrire
+:q! forcer quitter
+
+
+

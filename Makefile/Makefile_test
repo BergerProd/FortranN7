@@ -1,0 +1,37 @@
+PRODUCT:=rollem.exe 
+BINDIR:=RUN 
+INCDIR:=inc 
+SRCDIR:=Fortran
+OBJDIR:=obj
+
+CXX:=gfortran
+LINKER:=gfortran
+INCDIRS:=-I$(INCDIR) 
+CXXFLAGS := -Wsurprising -ffree-line-length-none -Wall
+ 
+SRCFILES:=$(wildcard $(SRCDIR)/*.f90) 
+#OBJFILES:=$(SRCFILES:$(SRCDIR)/%.f90=$(OBJDIR)/%.o)
+DEPFILES:=$(patsubst $(SRCDIR)/%,$(OBJDIR)/%.d,$(SRCFILES)) 
+
+OBJFILES=$(SRCFILES:.f90=.o)
+$(info "$(OBJFILES)")
+.SUFFIXES: .o .f90
+
+all : $(PRODUCT)
+
+$(PRODUCT): $(OBJFILES) 
+	$(LINKER) $(CXXFLAGS) -o $@ $(OBJFILES)
+
+.o:.f90# ajouter les modules supplémentaires sur cette ligne
+	$(FC)  -c $(CXXFLAGS)  $< 
+
+
+#$(OBJFILES):$(SRCFILES)
+#	$(CXX) $(CXXFLAGS) $(INCDIRS) -c $< -o $@ 
+
+clean:
+	rm -Rf $(OBJDIR)
+	rm -f *.exe
+
+depend :
+	makedepend -- $(DEPENDFLAGS) -- $(SRCFILES)
