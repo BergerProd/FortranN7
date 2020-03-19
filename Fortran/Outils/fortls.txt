@@ -1,1 +1,3 @@
 Mettre à jour fortls : pip install --upgrade fortran-language-server
+
+python3 -m pip install --upgrade fortran-language-server
