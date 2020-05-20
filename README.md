@@ -15,3 +15,6 @@ Tous les codes sont commentés en Français
 ## [Shell](https://github.com/BergerProd/Informatique_N7/tree/master/Shell/TP1%20shell)
 + TP1 : Introduction à l'utilisation du terminal
 
+## Logs to debug with Docker & VS Code
+https://github.com/microsoft/vscode/issues/27471
+https://rulonder.github.io/2016/06/15/fortran-debug-with-docker/
