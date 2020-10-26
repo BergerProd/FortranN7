@@ -19,6 +19,8 @@
 \usepackage{rotating} % pour rotatebox
 \usepackage{geometry}
 \geometry{hmargin=2.5cm,vmargin=3.5cm}
+\usepackage{pifont}%liste à puce
+
 
 %Images
 \usepackage{graphicx} % pour images
@@ -38,6 +40,10 @@
 \usepackage{flexisym}
 %\usepackage{SIunitx}
 %\usepackage{siunitx}%pour les unités SI
+
+%Puces des items
+\usepackage{enumitem}
+\usepackage{xcolor}
 
 %Code
 %\usepackage{listings}
@@ -319,15 +325,18 @@ sans numérotation
 \infty infini
 \times multiplication
 \%      symbole pourcentage
-\equiv  symbole équivalent
+\equiv  symbole 3 egales
 \neq    différent de
 \geq    superieur ou égal à ou \geqslant
-\leq    inferieur ou égal à ou \leqslant
+\leq   inferieur ou égal à ou \leqslant
+\simeq environ égal
+\approx environ égal
 \n choose p n combinaison p
 \in   appartient à
 \not in n'appartient pas à
 \forall pour tout
 \exists il existe
+\Leftrightarrow double flèche épaisse
 \leftrightarrow double flèche
 \leftarrow ou \rightarrow
 \widehat{}   angles
@@ -360,6 +369,58 @@ sans numérotation
     \right.% Ne pas oublier le délimiteur invisible.
   }}
 
+%************************************************************************
+%							 Vecteur entre parenthèses
+%************************************************************************
+
+$$\overrightarrow{W_2}=
+\begin{pmatrix}
+-sin(\beta_2)||\overrightarrow{W_2||} ~\overrightarrow{e_r}\\
+-cos(\beta_2)||\overrightarrow{W_2}||~\overrightarrow{e_{\theta}}
+\end{pmatrix}
+$$
+
+
+%************************************************************************
+%							 Plusieurs Vecteurs détaillés
+%************************************************************************
+
+$\overrightarrow{U} 
+\left\{
+    \begin{array}{ll}
+        \ U_r = 0\\
+        \ U_{\theta} \\
+        \ U_z = 0
+    \end{array}
+\right.
+$
+\hspace{4cm}
+$\overrightarrow{V} 
+\left\{
+    \begin{array}{ll}
+        \ V_r\\
+        \ V_{\theta} \\
+        \ V_z = O
+    \end{array}
+\right.
+$
+\hspace{4cm}
+$\overrightarrow{W} 
+\left\{
+    \begin{array}{ll}
+        \ W_r\\
+        \ W_{\theta} \\
+        \ W_z = O
+    \end{array}
+\right.
+$
+
+%************************************************************************
+%							 Accolade dessous
+%************************************************************************
+
+\underbrace{{hello}}_{=0 ~\text{car $Vp=0$ à la paroi}} = 0$$ 
+
 
 %************************************************************************
 %							 Espaces dans les mathématiques
@@ -385,18 +446,28 @@ sans numérotation
 1\textsuperscript{er}
 
 %************************************************************************
-%							Equations
+%							Equations align�es sur le �gal 
 %************************************************************************
 \begin{align*}
 x(t) &= v_0\cos(\alpha)t \\
 z(t) &= v_0\sin(\alpha)t - \frac{gt^2}{2} + h\\
 \end{align*}
 
-OU
+%************************************************************************
+%							Equations non num�rot�e 
+%************************************************************************
+
 
 \begin{equation*}
 portee = \frac{v_0}{g} \cos(\alpha) \sqrt{v_0 \sin(\alpha) +(v_0\sin(\alpha))^2 + 2gh}
 \end{equation*}
+
+%************************************************************************
+%							Equations juxtapos�e
+%************************************************************************
+\begin{align}
+x = y && a = b
+\end{align}
 
 %************************************************************************
 %							Intégrales, Sommes, Produits,Limites
@@ -404,6 +475,7 @@ portee = \frac{v_0}{g} \cos(\alpha) \sqrt{v_0 \sin(\alpha) +(v_0\sin(\alpha))^2 
 \int_{lower}^{upper}
 
 \sum_{lower}^{upper}
+ \sum\limits_{j=1}^{k}
 
 \prod_{i=1}^n f(i)
 
@@ -415,7 +487,7 @@ portee = \frac{v_0}{g} \cos(\alpha) \sqrt{v_0 \sin(\alpha) +(v_0\sin(\alpha))^2 
 \overrightarrow{U}
 
 %************************************************************************
-%							Grandes Accollades
+%							Grandes Accollades (pareil pour parenthèses)
 %************************************************************************
 \left\{
 \right\}
