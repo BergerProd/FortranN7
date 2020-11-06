@@ -20,6 +20,7 @@ gamma=sqrt(f/(2*K0));
 %%%%%%%%%%%%%%%%%%%%%%%
 % Initialisation
 k=zeros(1,nptz);
+k_bis=zeros(1,nptz);
 znoeuds=zeros(1,nptz);
 l=zeros(1,nptz);
 zcentre=zeros(1,nptz-1);
@@ -63,8 +64,17 @@ end
 for i=1:nptz-1
     k(i)=(l(i)^2)*sqrt(((u_l_z(i+1)-u_l_z(i))/(znoeuds(i+1)-znoeuds(i)))^2 +((v_l_z(i+1)-v_l_z(i))/(znoeuds(i+1)-znoeuds(i)))^2);
 end 
+
+k_bis=l(1:nptz-1).^2 .*sqrt( (diff(u_l_z)./diff(znoeuds)).^2+ (diff(v_l_z)./diff(znoeuds)).^2);
 K0_vect=3*ones(1000,1);
         
+
+A=diff(u_l_z)./diff(znoeuds);
+A=A.*k(1:nptz-1);
+A=diff(A)./diff(znoeuds(1:nptz-1));
+
+
+
 
 
 
@@ -107,13 +117,23 @@ title('Evolution des profils')
 grid on
 hold off
 
+%u(z),v(z)
+figure(4)
+hold on
+plot(u_l_z,v_l_z)
+ylabel('$z$','Interpreter','Latex')
+xlabel('$u$,$v$','Interpreter','Latex')
+xlim([0 12])
+title('Evolution des profils')
+grid on
+hold off
 
 
 path = pwd ;   % mention your path 
 myfolder = 'graphe' ;   % new folder name 
 folder = mkdir([path,filesep,myfolder]) ;
 path  = [path,filesep,myfolder] ;
-for i = 1:1
+for i = 1:4
     figure(i);
     temp=[path,filesep,'fig',num2str(i),'.png'];
     saveas(gcf,temp);
