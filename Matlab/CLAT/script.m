@@ -8,20 +8,23 @@ dt=1e-6; %s
 z0=1; %m
 L=L-z0;
 ug=10; %m/s
-%%% Conditions Limites
-u(1)=-ug;
-u(nptz)=0;
-v(1)=0;
-v(nptz)=0;
-f=1e-4; %s
+%%% Conditions Limites : cf fonction
 %%% Parametres
 Gy=9.81; %m/s^2
 rho=1;
 K0=3;
 kappa=0.41;
+f=1e-4; %s
 lambda = 2.7*1e-4*ug/f;
 gamma=sqrt(f/(2*K0));
 %%%%%%%%%%%%%%%%%%%%%%%
+% Initialisation
+k=zeros(1,nptz);
+znoeuds=zeros(1,nptz);
+l=zeros(1,nptz);
+zcentre=zeros(1,nptz-1);
+u_l_z=zeros(1,nptz);
+v_l_z=zeros(1,nptz);
 
 %% MAILLAGE
 %Pas dx et dy
@@ -55,18 +58,15 @@ for i=2:nptz-1
     v_l_z(i)=ug*exp(-gamma*znoeuds(i))*sin(gamma*znoeuds(i));
 end    
 
-u_l_z(1)=u(1);
-v_l_z(1)=0;
-u_l_z(nptz)=0;
-v_l_z(nptz)=0;
+[u_l_z,v_l_z]=CL(u_l_z,v_l_z,nptz,ug);
 
+for i=1:nptz-1
+    k(i)=(l(i)^2)*sqrt(((u_l_z(i+1)-u_l_z(i))/(znoeuds(i+1)-znoeuds(i)))^2 +((v_l_z(i+1)-v_l_z(i))/(znoeuds(i+1)-znoeuds(i)))^2);
+end 
+K0_vect=3*ones(1000,1);
         
 
-%% Schema Espace
 
-
-
-%% Schema Temporel
 
 
 %% Sortie graphique
@@ -89,10 +89,23 @@ plot(v_l_z,znoeuds)
 ylabel('$z$','Interpreter','Latex')
 xlabel('$u$,$v$','Interpreter','Latex')
 xlim([-2 inf])
+legend('u','v')
 title('Evolution des profils')
 grid on
 hold off
 
+%k
+figure(3)
+hold on
+plot(k,znoeuds)
+xlim([0 15])
+plot(K0_vect,znoeuds)
+ylabel('$z$','Interpreter','Latex')
+xlabel('$k$','Interpreter','Latex')
+legend('k','k0')
+title('Evolution des profils')
+grid on
+hold off
 
 
 
@@ -100,8 +113,18 @@ path = pwd ;   % mention your path
 myfolder = 'graphe' ;   % new folder name 
 folder = mkdir([path,filesep,myfolder]) ;
 path  = [path,filesep,myfolder] ;
-for k = 1:1
-    figure(k);
-    temp=[path,filesep,'fig',num2str(k),'.png'];
+for i = 1:1
+    figure(i);
+    temp=[path,filesep,'fig',num2str(i),'.png'];
     saveas(gcf,temp);
+end
+
+%function [u,v] = euler(u,v,dt)
+
+%Conditions limites
+function [u,v] = CL(u,v,nptz,ug)
+u(1)=-ug;
+u(nptz)=0;
+v(1)=0;
+v(nptz)=0;
 end
