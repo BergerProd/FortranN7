@@ -4,7 +4,7 @@
 nptz=1000;
 L=1000; %m = H
 dt=1e-4; %s
-tfinal=15;
+tfinal=10;
 %%% Conditions Initiales
 z0=1; %m
 L=L-z0;
@@ -175,17 +175,18 @@ title('u fonction de v')
 grid on
 hold off
 
+%unable to trace fig(6) too much info, maybe down nptz 
 %u_t(z),v_t(z)
-figure(6)
-hold on
-plot(u_t,znoeuds)
-plot(v_t,znoeuds)
-ylabel('$z$','Interpreter','Latex')
-xlabel('$u$,$v$','Interpreter','Latex')
-legend('u','v')
-title('Evolution des profils')
-grid on
-hold off
+%figure(6)
+%hold on
+%plot(u_t,znoeuds)
+%plot(v_t,znoeuds)
+%ylabel('$z$','Interpreter','Latex')
+%xlabel('$u$,$v$','Interpreter','Latex')
+%legend('u','v')
+%title('Evolution des profils')
+%grid on
+%hold off
 
 
 
@@ -193,7 +194,7 @@ path = pwd ;   % mention your path
 myfolder = 'graphe' ;   % new folder name 
 folder = mkdir([path,filesep,myfolder]) ;
 path  = [path,filesep,myfolder] ;
-for i = 1:6
+for i = 1:5
     figure(i);
     temp=[path,filesep,'fig',num2str(i),'.png'];
     saveas(gcf,temp);
