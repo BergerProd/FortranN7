@@ -76,7 +76,7 @@ k_bis=l(1:nptz-1).^2 .*sqrt( (diff(u_l)./diff(znoeuds)).^2+ (diff(v_l)./diff(zno
 dtbis=(dz^2)/(max(k));
 %Si dt saisi trop important, message d'erreur
 if (dt>dtbis)
-    disp('dt saisi = ',dt,'dt requis',dtbis);
+    fprintf('dt saisi = %.4f, dt requis = %.4f \n',dt,dtbis')
     error('dt > dtbis');
 end
 %-------------------------------
