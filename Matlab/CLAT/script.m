@@ -2,9 +2,9 @@
 % Parametres Entree
 %-------------------------------
 %%% Maillage temporel et spatial
-nptz=200;
+nptz=100;
 L=1000; %m = H
-dt=0.2; %s
+dt=0.15; %s
 tfinal=3600; %s
 %%% Conditions Initiales
 z0=1; %debut du domaine : m
@@ -52,13 +52,13 @@ for i=1:nptz
 end
 %-------------------------------
 %determination u_l, v_l
-for i=2:nptz-1
+for i=1:nptz
     u_l(i)=ug*(1-exp(-gamma*znoeuds(i))*cos(gamma*znoeuds(i)));
     v_l(i)=ug*exp(-gamma*znoeuds(i))*sin(gamma*znoeuds(i));
 end
 
 % appel a fonction CL
-[u_l,v_l]=CL(u_l,v_l,nptz,ug);
+%[u_l,v_l]=CL(u_l,v_l,nptz,ug);
 
 %-------------------------------
 % determination k (boucle ou diff) : donnent des resultats identiques
