@@ -1,26 +1,30 @@
+% Quentin BERGE
+% Simulation Ekman
 %-------------------------------
-% Parametres Entree
+% Donnees Entree
 %-------------------------------
+%%% Parametres simulation numerique
+sauv_graphe = true; % parametre 
 %%% Maillage temporel et spatial
 nptz=100;
-L=1000; %m = H
-dt=0.15; %s
-tfinal=3600; %s
-%%% Conditions Initiales
-z0=1; %debut du domaine : m
-L=L-z0;
-ug=10; %vitesse : m/s
+dt=1; %s
+tfinal=1000; %s
 %%% Conditions Limites : cf fonction a la fin
-%%% Parametres
+%%% Parametres physiques
+z0=1; %debut du domaine : m
+ug=10; %vitesse : m/s
+L=1000; %m = H
 rho=1; %masse volumique air supposee constante
 K0=3; %
 kappa=0.41; %kappa du modele de longueur de melange
 f=1e-4; %s
+% Variables
+L=L-z0;
 Gy=rho*ug*f;
 lambda = 2.7*1e-4*ug/f;
-gamma=sqrt(f/(2*K0)); %parametre
+gamma=sqrt(f/(2*K0));
 npastemps=(tfinal-0)/dt; %definition du pas de temps
-%-----------------------
+%-------------------------------
 % Initialisation des vecteurs
 %-------------------------------
 k=zeros(1,nptz);
@@ -58,7 +62,7 @@ for i=1:nptz
 end
 
 % appel a fonction CL
-%[u_l,v_l]=CL(u_l,v_l,nptz,ug);
+[u_l,v_l]=CL(u_l,v_l,nptz,ug);
 
 %-------------------------------
 % determination k (boucle ou diff) : donnent des resultats identiques
@@ -67,7 +71,7 @@ for i=1:nptz-1
 end
 k_bis=l(1:nptz-1).^2 .*sqrt( (diff(u_l)./diff(znoeuds)).^2+ (diff(v_l)./diff(znoeuds)).^2);
 
-%diff est une fonction integrée a matlab qui pour un vecteur u renvoi la valeur de la différence de u(i+1)-u(i), elle se substitue donc a la notation lourde
+% diff est une fonction integrée a matlab qui pour un vecteur u renvoi la valeur de la différence de u(i+1)-u(i), elle se substitue donc a la notation lourde
 % diff(u) pour un vecteur de taille n renvoit une taille n-1, donc adaptation pour écrire dans le vecteur k_bis qui devra pour tracer être de la même taille que t
 
 %-------------------------------
@@ -108,9 +112,10 @@ for t=1:npastemps-1 %boucle en temps
     u_t(t+1,2:nptz-1)=u_t(t,2:nptz-1)+dt*(d2u+f.*v_t(t,2:nptz-1));
     v_t(t+1,2:nptz-1)=v_t(t,2:nptz-1)+dt*(d2v-f.*u_t(t,2:nptz-1)+Gy);
 
-    [u_t(t,:),v_t(t,:)]=CL(u_t(t,:),v_t(t,:),nptz,ug);%remplit 1 et nptz
+    [u_t(t+1,:),v_t(t+1,:)]=CL(u_t(t+1,:),v_t(t+1,:),nptz,ug);%remplit 1 et nptz
 
 end
+
 %-------------------------------
 %% Sortie graphique
 %-------------------------------
@@ -173,23 +178,23 @@ hold off
 
 %unable to trace fig(6) too much info, maybe down nptz
 %u_t(z),v_t(z)
-figure(6)
-hold on
-plot(u_t,znoeuds)
-plot(v_t,znoeuds)
-ylabel('$z$','Interpreter','Latex')
-xlabel('$u$,$v$','Interpreter','Latex')
-legend('u','v')
-title('Evolution des profils transitoire pour differents temps')
-grid on
-hold off
+% figure(6)
+% hold on
+% plot(u_t,znoeuds)
+% plot(v_t,znoeuds)
+% ylabel('$z$','Interpreter','Latex')
+% xlabel('$u$,$v$','Interpreter','Latex')
+% legend('u','v')
+% title('Evolution des profils transitoire pour differents temps')
+% grid on
+% hold off
 
 %plot differents pas de temps
 figure(7)
 hold on
 plot(u_l,znoeuds,'m')
 plot(v_l,znoeuds,'k')
-for i=1:2000:npastemps
+for i=1:floor(npastemps/12):npastemps
     plot(u_t(i,:),znoeuds,'g')
     plot(v_t(i,:),znoeuds,'r')
 end
@@ -202,15 +207,18 @@ hold off
 %-------------------------------
 %Sauvegarde des figures
 %-------------------------------
-path = pwd ;   % mention your path
-myfolder = 'graphe' ;   % new folder name
-folder = mkdir([path,filesep,myfolder]) ;
-path  = [path,filesep,myfolder] ;
-for i = 1:7
-    figure(i);
-    temp=[path,filesep,'fig',num2str(i),'.png'];
-    saveas(gcf,temp);
+if (sauv_graphe == true)
+    path = pwd ;   % mention your path
+    myfolder = 'graphe' ;   % new folder name
+    folder = mkdir([path,filesep,myfolder]) ;
+    path  = [path,filesep,myfolder] ;
+    for i = 1:7
+        figure(i);
+        temp=[path,filesep,'fig',num2str(i),'.png'];
+        saveas(gcf,temp);
+    end
 end
+
 
 %Conditions limites
 function [u,v] = CL(u,v,nptz,ug)
