@@ -17,4 +17,6 @@ Fortran/BE Volumes Finis/LAPORTE_MASTIO
 .vscode
 N7.code-workspace
 *.asv
+*.aux
+*.toc
 
